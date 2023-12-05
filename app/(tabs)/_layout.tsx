@@ -3,6 +3,7 @@ import { Link, Tabs } from "expo-router";
 import { Pressable, useColorScheme } from "react-native";
 
 import Colors from "../../constants/Colors";
+import { PinIcon } from "lucide-react-native";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -57,6 +58,16 @@ export default function TabLayout() {
                     title: "Tab Two",
                     tabBarIcon: ({ color }) => (
                         <TabBarIcon name="code" color={color} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="three"
+                options={{
+                    title: "Tab Three",
+                    tabBarIcon: ({ color }) => (
+                        <PinIcon name="code" color={color} />
+                        //<TabBarIcon name="" color={color} />
                     ),
                 }}
             />
