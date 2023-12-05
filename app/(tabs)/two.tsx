@@ -2,19 +2,26 @@ import { StyleSheet } from "react-native";
 
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
+import InteractiveMap from "../../components/InteractiveMap";
 
 export default function TabTwoScreen() {
-    return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Tab Two</Text>
-            <View
-                style={styles.separator}
-                lightColor="#eee"
-                darkColor="rgba(255,255,255,0.1)"
-            />
-            <EditScreenInfo path="app/(tabs)/two.tsx" />
+    const initialRegion = {
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      };
+    
+      const markers = [
+        { id: 1, coordinate: { latitude: 37.78825, longitude: -122.4324 }, title: 'Marker 1' },
+        // Add more markers as needed
+      ];
+    
+      return (
+        <View style={{ flex: 1 }}>
+          <InteractiveMap initialRegion={initialRegion} markers={markers} />
         </View>
-    );
+      );
 }
 
 const styles = StyleSheet.create({
