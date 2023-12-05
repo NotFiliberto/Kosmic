@@ -12,7 +12,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ initialRegion, markers 
 
 
   //const ImageOverlayUri = 'image.png'
-  const ImageOverlayUri = require('../assets/images/image.png');
+  const ImageOverlayUri = require('../assets/images/image2.bmp');
   const imgObj: ImageURISource = {uri:ImageOverlayUri}
  /*const imgProp: ImageSourcePropType = {uri: ImageOverlayUri}
   const img = <Image
