@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     title: {
-        fontSize: 20,
+        fontSize: 200,
         fontWeight: "bold",
     },
     separator: {
