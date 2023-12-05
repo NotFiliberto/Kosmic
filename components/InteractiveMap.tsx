@@ -39,8 +39,8 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ initialRegion, markers 
         <Overlay
           image={ImageOverlayUri}
           bounds={[
-            [initialRegion.latitude - 0.01, initialRegion.longitude - 0.01],
-            [initialRegion.latitude + 0.01, initialRegion.longitude + 0.01],
+            [initialRegion.latitude - 0.001, initialRegion.longitude - 0.001],
+            [initialRegion.latitude + 0.001, initialRegion.longitude + 0.001],
           ]}
           opacity={0.5} // Set opacity as needed (0 to 1)
         />
