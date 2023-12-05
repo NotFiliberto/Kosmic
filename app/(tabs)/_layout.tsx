@@ -3,17 +3,7 @@ import { Link, Tabs } from "expo-router";
 import { Pressable, useColorScheme } from "react-native";
 
 import Colors from "../../constants/Colors";
-import { PinIcon } from "lucide-react-native";
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-    name: React.ComponentProps<typeof FontAwesome>["name"];
-    color: string;
-}) {
-    return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import { HomeIcon, NewspaperIcon, PinIcon } from "lucide-react-native";
 
 export default function TabLayout() {
     const colorScheme = useColorScheme();
@@ -24,7 +14,7 @@ export default function TabLayout() {
                 tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
             }}
         >
-            <Tabs.Screen
+            {/* <Tabs.Screen
                 name="index"
                 options={{
                     title: "Tab One",
@@ -51,23 +41,44 @@ export default function TabLayout() {
                         </Link>
                     ),
                 }}
-            />
+            /> */}
+
             <Tabs.Screen
-                name="two"
+                name="saved"
                 options={{
-                    title: "Tab Two",
+                    title: "Salvati",
                     tabBarIcon: ({ color }) => (
-                        <TabBarIcon name="code" color={color} />
+                        <PinIcon
+                            size={28}
+                            style={{ marginBottom: -3 }}
+                            color={color}
+                        />
                     ),
                 }}
             />
             <Tabs.Screen
-                name="three"
+                name="index"
                 options={{
-                    title: "Tab Three",
+                    title: "Home",
                     tabBarIcon: ({ color }) => (
-                        <PinIcon name="code" color={color} />
-                        //<TabBarIcon name="" color={color} />
+                        <HomeIcon
+                            size={28}
+                            style={{ marginBottom: -3 }}
+                            color={color}
+                        />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="events"
+                options={{
+                    title: "Eventi",
+                    tabBarIcon: ({ color }) => (
+                        <NewspaperIcon
+                            size={28}
+                            style={{ marginBottom: -3 }}
+                            color={color}
+                        />
                     ),
                 }}
             />
