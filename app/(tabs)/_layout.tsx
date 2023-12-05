@@ -5,6 +5,13 @@ import { Pressable, useColorScheme } from "react-native";
 import Colors from "../../constants/Colors";
 
 /**
+ * imports for TabBarIcon names
+ */
+import { AntDesign } from '@expo/vector-icons'; // Pin
+import { MaterialIcons } from '@expo/vector-icons'; // Events
+import { Entypo } from '@expo/vector-icons'; // Home
+
+/**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 function TabBarIcon(props: {
@@ -26,9 +33,9 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="index"
                 options={{
-                    title: "Tab One",
+                    title: "Salvati",
                     tabBarIcon: ({ color }) => (
-                        <TabBarIcon name="code" color={color} />
+                        <AntDesign name="pushpin" size={24} color="black" />
                     ),
                     headerRight: () => (
                         <Link href="/modal" asChild>
@@ -54,12 +61,58 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="two"
                 options={{
-                    title: "Tab Two",
+                    title: "Home",
                     tabBarIcon: ({ color }) => (
-                        <TabBarIcon name="code" color={color} />
+                        <Entypo name="home" size={24} color="black" />
+                    ),
+                    headerRight: () => (
+                        <Link href="/modal" asChild>
+                            <Pressable>
+                                {({ pressed }) => (
+                                    <FontAwesome
+                                        name="info-circle"
+                                        size={25}
+                                        color={
+                                            Colors[colorScheme ?? "light"].text
+                                        }
+                                        style={{
+                                            marginRight: 15,
+                                            opacity: pressed ? 0.5 : 1,
+                                        }}
+                                    />
+                                )}
+                            </Pressable>
+                        </Link>
                     ),
                 }}
             />
+            <Tabs.Screen name="three" 
+            options={{
+                title: "Eventi",
+                tabBarIcon: ({ color }) => (
+                    <MaterialIcons name="event-note" size={24} color="black" />
+                ),
+                headerRight: () => (
+                    <Link href="/modal" asChild>
+                        <Pressable>
+                            {({ pressed }) => (
+                                <FontAwesome
+                                    name="info-circle"
+                                    size={25}
+                                    color={
+                                        Colors[colorScheme ?? "light"].text
+                                    }
+                                    style={{
+                                        marginRight: 15,
+                                        opacity: pressed ? 0.5 : 1,
+                                    }}
+                                />
+                            )}
+                        </Pressable>
+                    </Link>
+                ),
+            }}/>
         </Tabs>
+
     );
 }
