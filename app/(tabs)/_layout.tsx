@@ -1,8 +1,7 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
-import { Pressable, useColorScheme } from "react-native";
+import { Pressable, Text, useColorScheme } from "react-native";
 
-import Colors from "../../constants/Colors";
 import { HomeIcon, NewspaperIcon, PinIcon } from "lucide-react-native";
 
 export default function TabLayout() {
@@ -11,7 +10,35 @@ export default function TabLayout() {
     return (
         <Tabs
             screenOptions={{
-                tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+                tabBarActiveTintColor: "#fff",
+                tabBarInactiveTintColor: "#fff",
+                tabBarStyle: {
+                    backgroundColor: "#0f172a",
+                    height: 76,
+                    borderRadius: 16,
+                    marginHorizontal: 20,
+                    marginBottom: 20,
+                    paddingVertical: 16,
+                },
+
+                tabBarLabel({ focused, children }) {
+                    return (
+                        <Text
+                            style={{
+                                fontSize: 14,
+                                fontWeight: "bold",
+                                paddingTop: 4,
+                                paddingBottom: 16,
+                                color: "#fff",
+                                textDecorationLine: focused
+                                    ? "underline"
+                                    : "none",
+                            }}
+                        >
+                            {children}
+                        </Text>
+                    );
+                },
             }}
         >
             {/* <Tabs.Screen
@@ -48,11 +75,7 @@ export default function TabLayout() {
                 options={{
                     title: "Salvati",
                     tabBarIcon: ({ color }) => (
-                        <PinIcon
-                            size={28}
-                            style={{ marginBottom: -3 }}
-                            color={color}
-                        />
+                        <PinIcon size={24} color={color} />
                     ),
                 }}
             />
@@ -61,11 +84,7 @@ export default function TabLayout() {
                 options={{
                     title: "Home",
                     tabBarIcon: ({ color }) => (
-                        <HomeIcon
-                            size={28}
-                            style={{ marginBottom: -3 }}
-                            color={color}
-                        />
+                        <HomeIcon size={24} color={color} />
                     ),
                 }}
             />
@@ -74,12 +93,19 @@ export default function TabLayout() {
                 options={{
                     title: "Eventi",
                     tabBarIcon: ({ color }) => (
-                        <NewspaperIcon
-                            size={28}
-                            style={{ marginBottom: -3 }}
-                            color={color}
-                        />
+                        <NewspaperIcon size={24} color={color} />
                     ),
+                }}
+            />
+
+            <Tabs.Screen
+                name="map"
+                options={{
+                    title: "Eventi",
+                    tabBarIcon: ({ color }) => (
+                        <NewspaperIcon size={24} color={color} />
+                    ),
+                    href: null,
                 }}
             />
         </Tabs>
