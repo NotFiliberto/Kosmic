@@ -2,7 +2,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
 import { Pressable, Text, useColorScheme } from "react-native";
 
-import { HomeIcon, NewspaperIcon, PinIcon } from "lucide-react-native";
+import { HomeIcon, MapIcon, NewspaperIcon, PinIcon } from "lucide-react-native";
 
 export default function TabLayout() {
     const colorScheme = useColorScheme();
@@ -98,14 +98,14 @@ export default function TabLayout() {
                 }}
             />
 
+            {/* //TODO: TESTING, set this to default screen */}
             <Tabs.Screen
                 name="map"
                 options={{
-                    title: "Eventi",
+                    title: "Mappa",
                     tabBarIcon: ({ color }) => (
-                        <NewspaperIcon size={24} color={color} />
+                        <MapIcon size={24} color={color} />
                     ),
-                    href: null,
                 }}
             />
         </Tabs>
