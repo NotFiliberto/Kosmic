@@ -6,8 +6,8 @@ import InteractiveMap from "../../components/InteractiveMap";
 
 export default function TabTwoScreen() {
     const initialRegion = {
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: 45,
+        longitude: 11,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       };
