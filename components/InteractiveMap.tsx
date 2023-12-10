@@ -1,22 +1,28 @@
 import { View, Dimensions, Image, ImageURISource, ImageSourcePropType } from "react-native";
-import MapView, { Marker, LatLng, Region, MapOverlay, Overlay, Heatmap} from "react-native-maps";
+import MapView, { Marker, LatLng, Region, MapOverlay, Overlay, Heatmap, MapMarker, MarkerPressEvent} from "react-native-maps";
 import { StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { fetchAndParseCSV } from './FetchParseCsv';
 import punti from '../assets/data/valori_atlante_veneto.json'
 import { wPoint } from "../assets/data/types";
 
+
 const points = punti as wPoint[]
 
-  
+
+export type MarkerData = {
+  marker: MapMarker
+}
 
 interface InteractiveMapProps {
   initialRegion: Region;
   markers: { id: number; coordinate: LatLng; title: string }[];
+  onMarkerPress: (event: MarkerPressEvent) => void;
+  onMapPress: (event: any) => void;
+
 }
 
-const InteractiveMap: React.FC<InteractiveMapProps> = ({ initialRegion, markers }) => {
-  
+const InteractiveMap: React.FC<InteractiveMapProps> = ({ initialRegion, markers, onMarkerPress, onMapPress }) => {
   
   
   type WeightedLatLng = {
@@ -30,8 +36,8 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ initialRegion, markers 
   const minWeight: number = Math.min(...weights);
   const maxWeight: number = Math.max(...weights);
 
-  console.log('Minimum Weight:', minWeight);
-  console.log('Maximum Weight:', maxWeight);
+  //console.log('Minimum Weight:', minWeight);
+  //console.log('Maximum Weight:', maxWeight);
 
   const adj_points: WeightedLatLng[]  = points.map(p => ({latitude: p.Y,
                                                           longitude: p.X, 
@@ -49,8 +55,12 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ initialRegion, markers 
              'rgb(200, 0, 0)',
              'rgb(200, 200, 200)'], // Da trasparente a blu
     startPoints: [0, 0.05, 0.15, 0.3, 0.6, 0.8],
-    colorMapSize: 256,
+    colorMapSize: 25,
+    gradientSmoothing: 0,
   }
+
+  
+
   return (
     <View style={styles.container}>
       <MapView
@@ -59,6 +69,8 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ initialRegion, markers 
         showsUserLocation
         showsMyLocationButton
         showsCompass
+        onMarkerPress={onMarkerPress}
+        onPress={onMapPress}
       >
         {markers.map((marker) => (
           <Marker
@@ -78,7 +90,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ initialRegion, markers 
           opacity={0.5} // Set opacity as needed (0 to 1)
         />
         <Heatmap points={adj_points}
-                        opacity={0.6}
+                        opacity={0.5}
                         radius={20}
                         gradient={heatmapGradient}
                          /*maxIntensity={}
