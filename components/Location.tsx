@@ -1,7 +1,9 @@
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Text, View,  } from './Themed'
 import { useState } from 'react'
-import { PinIcon } from 'lucide-react-native';
+import { PinIcon, PinOff } from 'lucide-react-native';
+
+
 
 
 type LocationProps = {
@@ -32,6 +34,8 @@ export default function Location( props: LocationProps ){
     }
 
 
+
+
     return (
         <View 
         style={ styles.icon } 
@@ -51,7 +55,10 @@ export default function Location( props: LocationProps ){
             {/* <Text 
             style={ styles.icon }
             >{ pinned ? '' : '!'}Pinned</Text> */}
-            <PinIcon style={ styles.icon } size={24} color={ pinned ? '#f2003c' : '#eee'} />
+            { pinned ? 
+                <PinIcon style={ styles.icon } size={24} color={'#f2003c'} /> 
+                : 
+                <PinOff  style={ styles.icon } size={24} color={'#f2003c'}/> }
             </TouchableOpacity>
         </View>
     )
