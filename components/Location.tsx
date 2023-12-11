@@ -26,15 +26,12 @@ export default function Location( props: LocationProps ){
     var colorValue
 
     if( value < 16 ){
-        colorValue = '#f2003c'
+        colorValue = 'red' // '#f2003c'
     } else if( value >= 16 && value <= 20){
-        colorValue = '#ff8f00'
+        colorValue = '#ff8f00' 
     } else {
-        colorValue = '#32cd32'
+        colorValue = 'green' // '#32cd32'
     }
-
-
-
 
     return (
         <View 
@@ -50,7 +47,13 @@ export default function Location( props: LocationProps ){
             style={ styles.place }
             >{ name }</Text>
             <Text 
-            style={ { color: colorValue } }
+            style={ 
+                { 
+                    fontSize: 16,
+                    fontWeight: '600',
+                    color: colorValue
+                }
+            }
             >{ truncateNumber(value * 100) / 100 }</Text>
             {/* <Text 
             style={ styles.icon }
@@ -67,35 +70,34 @@ export default function Location( props: LocationProps ){
 
 const styles = StyleSheet.create({
     item: {
-        flex: 1,
-        margin: 30,
+        /* flex: 1,
+        margin: 30, */
     },
     body: {
         flexDirection: 'row',
-        borderColor: '#eee',
+        borderColor: 'black', // light: #eee, dark: rgba(255,255,255,0.1)
         borderWidth: 4,
         borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: 20,
-        /* //margin: 10, // bad, 
-        //use: 
-        // ItemSeparatorComponent={() => 
+        /* //margin: 10, // is bad, use
+        ItemSeparatorComponent={() => 
         <View style={{height: 20}} />} 
          instead inside the flatList props
         */
     },
     place: {
-        /* backgroundColor: 'blue', 
-        color: 'red'*/
+        fontSize: 16,
+        fontWeight: '600', // Semibold: 600
     },
     value: {
-        /* backgroundColor: 'yellow', 
-        color: 'green'*/
+        /* fontSize: 16,
+        fontWeight: 'bold',
+        color: 'red' */
     },
     icon: {
-        /* backgroundColor: 'red',
-        color: 'black' */
+        
     }
 
 });
