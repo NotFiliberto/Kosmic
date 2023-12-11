@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { Text, useColorScheme } from "react-native";
+import { Pressable, Text, useColorScheme } from "react-native";
 
 import { HomeIcon, MapIcon, NewspaperIcon, PinIcon } from "lucide-react-native";
 
@@ -7,40 +7,40 @@ export default function TabLayout() {
     const colorScheme = useColorScheme();
 
     return (
-        <Tabs
-            screenOptions={{
-                tabBarActiveTintColor: "#fff",
-                tabBarInactiveTintColor: "#fff",
-                tabBarStyle: {
-                    backgroundColor: "#0f172a",
-                    height: 76,
-                    borderRadius: 16,
-                    marginHorizontal: 20,
-                    marginBottom: 20,
-                    paddingVertical: 16,
-                },
+        <Pressable style={{ flex: 1 }} disabled>
+            <Tabs
+                screenOptions={{
+                    tabBarActiveTintColor: "#fff",
+                    tabBarInactiveTintColor: "#fff",
+                    tabBarStyle: {
+                        backgroundColor: "#0f172a",
+                        height: 76,
+                        borderRadius: 16,
+                        margin: 20,
+                        paddingVertical: 16,
+                    },
 
-                tabBarLabel({ focused, children }) {
-                    return (
-                        <Text
-                            style={{
-                                fontSize: 14,
-                                fontWeight: "bold",
-                                paddingTop: 4,
-                                paddingBottom: 16,
-                                color: "#fff",
-                                textDecorationLine: focused
-                                    ? "underline"
-                                    : "none",
-                            }}
-                        >
-                            {children}
-                        </Text>
-                    );
-                },
-            }}
-        >
-            {/* <Tabs.Screen
+                    tabBarLabel({ focused, children }) {
+                        return (
+                            <Text
+                                style={{
+                                    fontSize: 14,
+                                    fontWeight: "bold",
+                                    paddingTop: 4,
+                                    paddingBottom: 16,
+                                    color: "#fff",
+                                    textDecorationLine: focused
+                                        ? "underline"
+                                        : "none",
+                                }}
+                            >
+                                {children}
+                            </Text>
+                        );
+                    },
+                }}
+            >
+                {/* <Tabs.Screen
                 name="index"
                 options={{
                     title: "Tab One",
@@ -69,48 +69,49 @@ export default function TabLayout() {
                 }}
             /> */}
 
-            <Tabs.Screen
-                name="saved"
-                options={{
-                    title: "Salvati",
-                    tabBarIcon: ({ color }) => (
-                        <PinIcon size={24} color={color} />
-                    ),
-                }}
-            />
-            <Tabs.Screen
-                name="index"
-                options={{
-                    title: "Home",
-                    tabBarIcon: ({ color }) => (
-                        <HomeIcon size={24} color={color} />
-                    ),
-                }}
-            />
-            <Tabs.Screen
-                name="events"
-                options={{
-                    title: "Eventi",
-                    headerTitleStyle: {
-                        fontSize: 31,
-                        fontWeight: "600", //semibold
-                    },
-                    tabBarIcon: ({ color }) => (
-                        <NewspaperIcon size={24} color={color} />
-                    ),
-                }}
-            />
+                <Tabs.Screen
+                    name="saved"
+                    options={{
+                        title: "Salvati",
+                        tabBarIcon: ({ color }) => (
+                            <PinIcon size={24} color={color} />
+                        ),
+                    }}
+                />
+                <Tabs.Screen
+                    name="index"
+                    options={{
+                        title: "Home",
+                        tabBarIcon: ({ color }) => (
+                            <HomeIcon size={24} color={color} />
+                        ),
+                    }}
+                />
+                <Tabs.Screen
+                    name="events"
+                    options={{
+                        title: "Eventi",
+                        headerTitleStyle: {
+                            fontSize: 31,
+                            fontWeight: "600", //semibold
+                        },
+                        tabBarIcon: ({ color }) => (
+                            <NewspaperIcon size={24} color={color} />
+                        ),
+                    }}
+                />
 
-            {/* //TODO: TESTING, set this to default screen */}
-            <Tabs.Screen
-                name="map"
-                options={{
-                    title: "Mappa",
-                    tabBarIcon: ({ color }) => (
-                        <MapIcon size={24} color={color} />
-                    ),
-                }}
-            />
-        </Tabs>
+                {/* //TODO: TESTING, set this to default screen */}
+                <Tabs.Screen
+                    name="map"
+                    options={{
+                        title: "Mappa",
+                        tabBarIcon: ({ color }) => (
+                            <MapIcon size={24} color={color} />
+                        ),
+                    }}
+                />
+            </Tabs>
+        </Pressable>
     );
 }

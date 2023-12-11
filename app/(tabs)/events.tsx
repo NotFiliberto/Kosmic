@@ -16,7 +16,7 @@ export default function TabTwoScreen() {
                     <EventCard
                         name={event.name}
                         text={event.text}
-                        date={new Date()}
+                        date={new Date(event.date)}
                         url=""
                     />
                 </View>
