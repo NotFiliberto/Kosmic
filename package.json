@@ -32,7 +32,12 @@
     "react-native-maps": "1.7.1",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
+<<<<<<< HEAD
     "react-native-web": "~0.19.6"
+=======
+    "react-native-web": "~0.19.6",
+    "rn-sliding-up-panel": "^2.4.6"
+>>>>>>> 21a6b785df2c1876530a25f69b612c0230dcdcf6
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
