@@ -23,6 +23,8 @@ import React, { useEffect, useState } from "react";
 import { fetchAndParseCSV } from "./FetchParseCsv";
 import punti from "../assets/data/valori_atlante_veneto.json";
 import { wPoint } from "../assets/data/types";
+import MapPanel from "../components/MapPanel";
+
 
 const points = punti as wPoint[];
 
@@ -126,6 +128,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                          heatmapMode={"POINTS_DENSITY"}*/
                 />
             </MapView>
+            {markers[0]!=undefined?<MapPanel marker={markers[0].coordinate}/>:null}
         </View>
     );
 };

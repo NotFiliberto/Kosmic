@@ -22,8 +22,8 @@ export default function MapScreen() {
     const initialRegion = {
         latitude: 46,
         longitude: 12,
-        latitudeDelta: 0.122,
-        longitudeDelta: 0.121,
+        latitudeDelta: 3,
+        longitudeDelta: 1,
     };
 
     /* var markers = [
@@ -58,6 +58,7 @@ export default function MapScreen() {
 
     function onMapPress(): void {
         setSelectedMarker(undefined);
+        setMarkers([]);
         console.log("deselected");
     }
 
