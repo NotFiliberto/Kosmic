@@ -1,6 +1,7 @@
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Text, View,  } from './Themed'
 import { useState } from 'react'
+import { PinIcon } from 'lucide-react-native';
 
 
 type LocationProps = {
@@ -20,6 +21,17 @@ export default function Location( props: LocationProps ){
     //const [value, setValue] = useState(0)
     const value = props.value
 
+    var colorValue
+
+    if( value < 16 ){
+        colorValue = '#f2003c'
+    } else if( value >= 16 && value <= 20){
+        colorValue = '#ff8f00'
+    } else {
+        colorValue = '#32cd32'
+    }
+
+
     return (
         <View 
         style={ styles.icon } 
@@ -34,11 +46,12 @@ export default function Location( props: LocationProps ){
             style={ styles.place }
             >{ name }</Text>
             <Text 
-            style={ styles.value }
+            style={ { color: colorValue } }
             >{ truncateNumber(value * 100) / 100 }</Text>
-            <Text 
+            {/* <Text 
             style={ styles.icon }
-            >{ pinned ? '' : '!'}Pinned</Text>
+            >{ pinned ? '' : '!'}Pinned</Text> */}
+            <PinIcon style={ styles.icon } size={24} color={ pinned ? '#f2003c' : '#eee'} />
             </TouchableOpacity>
         </View>
     )
@@ -52,7 +65,7 @@ const styles = StyleSheet.create({
     },
     body: {
         flexDirection: 'row',
-        // borderColor: '#eee',
+        borderColor: '#eee',
         borderWidth: 4,
         borderRadius: 15,
         alignItems: 'center',
@@ -66,12 +79,12 @@ const styles = StyleSheet.create({
         */
     },
     place: {
-        /* backgroundColor: 'blue',
-        color: 'red' */
+        /* backgroundColor: 'blue', 
+        color: 'red'*/
     },
     value: {
-        /* backgroundColor: 'yellow',
-        color: 'green' */
+        /* backgroundColor: 'yellow', 
+        color: 'green'*/
     },
     icon: {
         /* backgroundColor: 'red',

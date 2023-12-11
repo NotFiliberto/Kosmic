@@ -1,10 +1,10 @@
-import { StyleSheet } from "react-native";
+import { RefreshControl, StyleSheet, ScrollView } from "react-native";
 
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
 import Location from "../../components/Location";
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { FlatList } from "react-native-gesture-handler";
 
 type CardProps = {
@@ -29,13 +29,41 @@ export default function TabTwoScreen() {
         { key: '1', name: "Vittorio Veneto", 
           value: 21.08, pinned: false },
         { key: '2', name: "Mestre", 
-          value: 19.71, pinned: false },
+          value: 19.71, pinned: true },
         { key: '3', name: "45.3661, 11.6649", 
           value: 15.18, pinned: false },
     ])
 
+    const [refreshing, setRefreshing] = React.useState(false)
+
+    const onRefreshSaved = React.useCallback(
+        ()=>{
+            setRefreshing(true)
+            const newVal = Math.floor(Math.random() * (25 - 10) + 10)
+            const pinNew = Math.floor(Math.random() * 2)  == 1
+            setTimeout( () => {
+                Places.push( { 
+                    key: (Places.length + 1).toString(),
+                    name: 'Place n° ' + (Places.length + 1).toString(), 
+                    value: newVal, 
+                    pinned:  pinNew ? true : false
+                })
+            setRefreshing(false)
+            }, 1000)
+        }, []
+    );
+
     return (
-        <View style={styles.container}>
+        <View
+        style={styles.container} 
+        >
+            <RefreshControl
+                style={{ flex: 1,}}
+                refreshing={refreshing}
+                onRefresh={onRefreshSaved}
+                colors={ ['#FF002B', '#0066FF', '#00FF11'] }
+                >
+
             <Text style={styles.title}>Luoghi salvati</Text>
             <View
                 style={styles.separator}
@@ -53,10 +81,22 @@ export default function TabTwoScreen() {
                 ></Location>
             )}
             ItemSeparatorComponent={() => <View style={{height: 20}} />}
+            /* refreshControl={
+                <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefreshSaved}
+                colors={ ['#FF002B', '#0066FF', '#00FF11'] }
+                >
+                </RefreshControl>
+            }*/
+ 
             >
             </FlatList>
-            <Card name="test" />
-            <EditScreenInfo path="app/(tabs)/three.tsx" />
+
+            </RefreshControl>
+            
+           {/*  <Card name="test" /> */}
+            {/* <EditScreenInfo path="app/(tabs)/three.tsx" /> */}
         </View>
     );
 }
