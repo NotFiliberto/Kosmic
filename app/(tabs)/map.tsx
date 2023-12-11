@@ -1,44 +1,102 @@
 import { StyleSheet } from "react-native";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
-import MapView, { Marker, LatLng, Region, MapOverlay, Overlay, Heatmap, MapMarker, MarkerPressEvent, Point} from "react-native-maps";
-import InteractiveMap, {MarkerData} from "../../components/InteractiveMap";
+import MapView, {
+    Marker,
+    LatLng,
+    Region,
+    MapOverlay,
+    Overlay,
+    Heatmap,
+    MapMarker,
+    MarkerPressEvent,
+    Point,
+    LongPressEvent,
+} from "react-native-maps";
+import InteractiveMap, { MarkerData } from "../../components/InteractiveMap";
 import MapPanel from "../../components/MapPanel";
+import { Key } from "lucide-react-native";
 
-export default function TabTwoScreen() {
+export default function MapScreen() {
     const initialRegion = {
-        latitude: 45,
-        longitude: 11,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      };
-    
-      const markers = [
-        { id: 1, coordinate: { latitude: 37.78825, longitude: -122.4324 }, title: 'Marker 1' },
+        latitude: 46,
+        longitude: 12,
+        latitudeDelta: 3,
+        longitudeDelta: 1,
+    };
+
+    /* var markers = [
+        {
+            id: 1,
+            coordinate: { latitude: 45, longitude: 12 },
+            title: "Marker 1",
+        },
         // Add more markers as needed
-      ];
+    ]; */
 
-      const [selectedMarker, setSelectedMarker] = useState<Point | undefined>(undefined);
+    const [markers, setMarkers] = useState<
+        {
+            id: number;
+            coordinate: { latitude: number; longitude: number };
+            title: string;
+        }[]
+    >([]);
 
-      function onMarkerPress(event: MarkerPressEvent): void {
-        setSelectedMarker(event.nativeEvent.position)
-        console.log(event.nativeEvent.position)
-      }
-    
-      function onMapPress(): void {
+    const [selectedMarker, setSelectedMarker] = useState<LatLng | undefined>(
+        undefined
+    );
+
+    /* useEffect(() => {
+        console.log(selectedMarker);
+    }, [selectedMarker]); */
+
+    function onMarkerPress(event: MarkerPressEvent): void {
+        setSelectedMarker(event.nativeEvent.coordinate);
+        //console.log(event.nativeEvent.coordinate)
+    }
+
+    function onMapPress(): void {
         setSelectedMarker(undefined);
-        console.log("deselected")        
-      }
-      
-    
-    
-      return (
+        setMarkers([]);
+        console.log("deselected");
+    }
+
+    function onLongPress(event: LongPressEvent): void {
+        var lat = event.nativeEvent.coordinate.latitude;
+        var lng = event.nativeEvent.coordinate.longitude;
+        /* markers.pop();
+        markers.push({
+            id: 1,
+            coordinate: { latitude: lat, longitude: lng },
+            title: "My Marker",
+        }); */
+
+        setMarkers([
+            {
+                id: 1,
+                coordinate: { latitude: lat, longitude: lng },
+                title: "My Marker",
+            },
+        ]);
+        setSelectedMarker(event.nativeEvent.coordinate);
+        //console.log(selectedMarker)
+    }
+
+    console.log("map: ");
+    console.log(markers);
+
+    return (
         <View style={{ flex: 1 }}>
-          <InteractiveMap initialRegion={initialRegion} markers={markers} onMarkerPress={onMarkerPress} onMapPress={onMapPress}/>
-          
+            <InteractiveMap
+                initialRegion={initialRegion}
+                markers={markers}
+                onMarkerPress={onMarkerPress}
+                onMapPress={onMapPress}
+                onLongPress={onLongPress}
+            />
         </View>
-      );
+    );
 }
 
 const styles = StyleSheet.create({
@@ -58,6 +116,5 @@ const styles = StyleSheet.create({
     },
 });
 function setSelectedMarker(marker: MarkerData) {
-  throw new Error("Function not implemented.");
+    throw new Error("Function not implemented.");
 }
-
