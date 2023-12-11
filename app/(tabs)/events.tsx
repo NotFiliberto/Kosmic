@@ -1,51 +1,34 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-import EditScreenInfo from "../../components/EditScreenInfo";
-import { Text, View } from "../../components/Themed";
+import EventCard from "../../components/common/EventCard";
+import { ScrollView } from "react-native-gesture-handler";
 
-type CardProps = {
-    name: string;
-    qta?: number;
-};
+import eventList from "../../assets/data/eventi.json";
+import { Event } from "@/lib/types";
 
-const Card = function ({ name, qta }: CardProps) {
-    return (
-        <>
-            <Text>
-                {name} - {qta}
-            </Text>
-        </>
-    );
-};
+const events = eventList as unknown as Event[];
 
 export default function TabTwoScreen() {
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Eventi</Text>
-            <View
-                style={styles.separator}
-                lightColor="#eee"
-                darkColor="rgba(255,255,255,0.1)"
-            />
-            <Card name="test" />
-            <EditScreenInfo path="app/(tabs)/three.tsx" />
-        </View>
+        <ScrollView style={styles.container}>
+            {events.map((event, index) => (
+                <View style={{ marginBottom: 20 }} key={index}>
+                    <EventCard
+                        name={event.name}
+                        text={event.text}
+                        date={new Date()}
+                        url=""
+                    />
+                </View>
+            ))}
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: "bold",
-    },
-    separator: {
-        marginVertical: 30,
-        height: 1,
-        width: "80%",
+        padding: 20,
+        gap: 20,
     },
 });

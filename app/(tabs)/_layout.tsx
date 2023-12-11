@@ -1,4 +1,3 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
 import { Pressable, Text, useColorScheme } from "react-native";
 
@@ -92,6 +91,10 @@ export default function TabLayout() {
                 name="events"
                 options={{
                     title: "Eventi",
+                    headerTitleStyle: {
+                        fontSize: 31,
+                        fontWeight: "600", //semibold
+                    },
                     tabBarIcon: ({ color }) => (
                         <NewspaperIcon size={24} color={color} />
                     ),
