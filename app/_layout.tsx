@@ -50,9 +50,9 @@ function RootLayoutNav() {
     const colorScheme = useColorScheme();
 
     return (
-        <ThemeProvider
+        /* <ThemeProvider
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
+        > */
             <Stack>
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen
@@ -60,6 +60,6 @@ function RootLayoutNav() {
                     options={{ presentation: "modal" }}
                 />
             </Stack>
-        </ThemeProvider>
+        /* </ThemeProvider> */
     );
 }
