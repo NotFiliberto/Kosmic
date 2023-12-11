@@ -7,6 +7,7 @@ import eventList from "../../assets/data/eventi.json";
 import { Event } from "@/lib/types";
 
 const events = eventList as unknown as Event[];
+//test
 
 export default function TabTwoScreen() {
     return (
@@ -16,7 +17,7 @@ export default function TabTwoScreen() {
                     <EventCard
                         name={event.name}
                         text={event.text}
-                        date={new Date()}
+                        date={new Date(event.date)}
                         url=""
                     />
                 </View>
@@ -30,5 +31,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         gap: 20,
+        backgroundColor: "#fff",
     },
 });
