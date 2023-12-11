@@ -7,6 +7,7 @@ import eventList from "../../assets/data/eventi.json";
 import { Event } from "@/lib/types";
 
 const events = eventList as unknown as Event[];
+//test
 
 export default function TabTwoScreen() {
     return (
