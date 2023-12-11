@@ -1,5 +1,5 @@
-import { Link, Tabs } from "expo-router";
-import { Pressable, Text, useColorScheme } from "react-native";
+import { Tabs } from "expo-router";
+import { Text, useColorScheme } from "react-native";
 
 import { HomeIcon, MapIcon, NewspaperIcon, PinIcon } from "lucide-react-native";
 
