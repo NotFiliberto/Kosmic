@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
 import MapView, {
@@ -19,13 +19,20 @@ import MapPanel from "../../components/MapPanel";
 import { Key } from "lucide-react-native";
 
 export default function MapScreen() {
-    const initialRegion = {
+    var initialRegion = {
         latitude: 46,
         longitude: 12,
         latitudeDelta: 3,
         longitudeDelta: 1,
     };
 
+    const mapRef = useRef();
+    const [region, setRegion] = useState<Region>({
+       latitude: 46,
+       longitude: 12,
+       latitudeDelta: 3,
+       longitudeDelta: 1,
+     });
     /* var markers = [
         {
             id: 1,
@@ -42,6 +49,7 @@ export default function MapScreen() {
             title: string;
         }[]
     >([]);
+
 
     const [selectedMarker, setSelectedMarker] = useState<LatLng | undefined>(
         undefined
@@ -80,11 +88,21 @@ export default function MapScreen() {
             },
         ]);
         setSelectedMarker(event.nativeEvent.coordinate);
+
+        setRegion({
+          latitude: lat,
+          longitude: lng,
+          latitudeDelta: 3,
+          longitudeDelta: 1
+        })
+
+        mapRef.current?.animateToRegion(region)
+        
         //console.log(selectedMarker)
     }
 
     console.log("map: ");
-    console.log(markers);
+    console.log(initialRegion);
 
     return (
         <View style={{ flex: 1 }}>
@@ -94,6 +112,7 @@ export default function MapScreen() {
                 onMarkerPress={onMarkerPress}
                 onMapPress={onMapPress}
                 onLongPress={onLongPress}
+                mapRef={mapRef}
             />
         </View>
     );
