@@ -1,9 +1,10 @@
 import { ArrowRight } from "lucide-react-native";
 import { Text, View } from "react-native";
 import { EventCardProps } from "../../lib/types";
+import { A } from "@expo/html-elements";
 
 export default (props: EventCardProps) => {
-    const { name, date, text } = props;
+    const { name, date, text, url } = props;
 
     return (
         <View
@@ -51,7 +52,9 @@ export default (props: EventCardProps) => {
                 >
                     {text}
                 </Text>
-                <ArrowRight color="black" size={24} />
+                <A href={url == "" ? "/" : url}>
+                    <ArrowRight color="black" size={24} />
+                </A>
             </View>
         </View>
     );
