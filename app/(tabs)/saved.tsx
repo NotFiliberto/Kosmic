@@ -49,7 +49,7 @@ export default function TabTwoScreen() {
                     pinned:  pinNew ? true : false
                 })
             setRefreshing(false)
-            }, 1000)
+            }, 1500)
         }, []
     );
 
@@ -81,21 +81,13 @@ export default function TabTwoScreen() {
                 ></Location>
             )}
             ItemSeparatorComponent={() => <View style={{height: 20}} />}
-            /* refreshControl={
-                <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefreshSaved}
-                colors={ ['#FF002B', '#0066FF', '#00FF11'] }
-                >
-                </RefreshControl>
-            }*/
  
             >
             </FlatList>
 
             </RefreshControl>
             
-           {/*  <Card name="test" /> */}
+            {/* <Card name="test" /> */}
             {/* <EditScreenInfo path="app/(tabs)/three.tsx" /> */}
         </View>
     );
