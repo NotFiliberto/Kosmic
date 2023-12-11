@@ -1,5 +1,5 @@
-import { View, Dimensions, Image, ImageURISource, ImageSourcePropType } from "react-native";
-import MapView, { Marker, LatLng, Region, MapOverlay, Overlay, Heatmap, MapMarker, MarkerPressEvent} from "react-native-maps";
+import { Text, View, Dimensions, Image, ImageURISource, ImageSourcePropType } from "react-native";
+import MapView, { Marker, LatLng, Region, MapOverlay, Overlay, Heatmap, MapMarker, MarkerPressEvent, MapPressEvent, LongPressEvent} from "react-native-maps";
 import { StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { fetchAndParseCSV } from './FetchParseCsv';
@@ -18,12 +18,12 @@ interface InteractiveMapProps {
   initialRegion: Region;
   markers: { id: number; coordinate: LatLng; title: string }[];
   onMarkerPress: (event: MarkerPressEvent) => void;
-  onMapPress: (event: any) => void;
+  onMapPress: (event: MapPressEvent) => void;
+  onLongPress: (event: LongPressEvent) => void;
 
 }
 
-const InteractiveMap: React.FC<InteractiveMapProps> = ({ initialRegion, markers, onMarkerPress, onMapPress }) => {
-  
+const InteractiveMap: React.FC<InteractiveMapProps> = ({ initialRegion, markers, onMarkerPress, onMapPress, onLongPress }) => {
   
   type WeightedLatLng = {
     latitude: number;
@@ -58,11 +58,11 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ initialRegion, markers,
     colorMapSize: 25,
     gradientSmoothing: 0,
   }
-
-  
-
+  console.log("interactiveMap: ")
+  console.log(markers)
   return (
     <View style={styles.container}>
+      <Text>{markers[0].coordinate.latitude}</Text>
       <MapView
         style={styles.map}
         initialRegion={initialRegion}
@@ -71,7 +71,15 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({ initialRegion, markers,
         showsCompass
         onMarkerPress={onMarkerPress}
         onPress={onMapPress}
+        onLongPress={onLongPress}
       >
+
+        <Marker
+          key={markers[0].id}
+          coordinate={markers[0].coordinate}
+          title={"Hello"}
+        />
+
         {markers.map((marker) => (
           <Marker
             key={marker.id}
