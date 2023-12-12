@@ -18,12 +18,10 @@ export default function EventScreen() {
     }>({ event: undefined, show: false });
 
     const handleEventOnPress = (event: Event) => {
-        console.log(event);
         setEventModal({ event: event, show: true });
     };
 
     const handleModalOnClose = () => {
-        console.log("closing event modal...");
         const { show, ...rest } = eventModal;
         setEventModal({ ...rest, show: false });
     };
