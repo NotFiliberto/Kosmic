@@ -10,6 +10,7 @@ import {
     StatusBar,
     useColorScheme,
     StyleSheet,
+    View,
 } from "react-native";
 
 export {
@@ -53,7 +54,7 @@ function RootLayoutNav() {
     const colorScheme = useColorScheme();
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <ThemeProvider
                 //value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
                 value={DefaultTheme}
@@ -66,15 +67,18 @@ function RootLayoutNav() {
                 </Stack>
                 <TabsBar />
             </ThemeProvider>
-        </SafeAreaView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: StatusBar.currentHeight,
+        //marginTop: StatusBar.currentHeight,
         position: "relative",
         width: "100%",
+        backgroundColor: "red",
+        /* borderColor: "red",
+        borderWidth: 2, */
     },
 });

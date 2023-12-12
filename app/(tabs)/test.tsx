@@ -1,10 +1,10 @@
 import { Link, Stack } from "expo-router";
-import { Text, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 
 export default function Page() {
     return (
-        <View>
+        <SafeAreaView style={{ backgroundColor: "#fff", paddingTop: 100 }}>
             <Text>test</Text>
-        </View>
+        </SafeAreaView>
     );
 }
