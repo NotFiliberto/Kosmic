@@ -1,12 +1,12 @@
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import EventCard from "../../components/common/EventCard";
 import { ScrollView } from "react-native-gesture-handler";
 
 import eventList from "../../assets/data/eventi.json";
-import { Event } from "@/lib/types";
 import EventModal from "../../components/common/EventModal";
 import { useState } from "react";
+import { Event } from "@lib/types";
 
 //test
 const events = eventList as unknown as Event[];
@@ -48,6 +48,12 @@ export default function EventsScreen() {
                     />
                 </Pressable>
             ))}
+
+            <View
+                style={{
+                    marginBottom: 120,
+                }}
+            />
         </ScrollView>
     );
 }
