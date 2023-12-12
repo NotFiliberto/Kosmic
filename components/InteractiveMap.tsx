@@ -19,7 +19,7 @@ import MapView, {
     LongPressEvent,
 } from "react-native-maps";
 import { StyleSheet } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { fetchAndParseCSV } from "./FetchParseCsv";
 import punti from "../assets/data/valori_atlante_veneto.json";
 import { wPoint } from "../assets/data/types";
@@ -38,7 +38,7 @@ interface InteractiveMapProps {
     onMarkerPress: (event: MarkerPressEvent) => void;
     onMapPress: (event: MapPressEvent) => void;
     onLongPress: (event: LongPressEvent) => void;
-    mapRef: React.RefObject<MapView >
+    ref: React.RefObject<MapView>
 }
 
 const InteractiveMap: React.FC<InteractiveMapProps> = ({
@@ -47,7 +47,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     onMarkerPress,
     onMapPress,
     onLongPress,
-    mapRef
+    ref
 }) => {
     type WeightedLatLng = {
         latitude: number;
@@ -84,13 +84,16 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
         colorMapSize: 25,
         gradientSmoothing: 0,
     };
+
+
+
     console.log("interactiveMap: ");
     console.log(initialRegion);
     
     return (
         <View style={styles.container}>
             <MapView
-                ref={mapRef}
+                ref={ref}
                 style={styles.map}
                 initialRegion={initialRegion}
                 showsUserLocation={true}

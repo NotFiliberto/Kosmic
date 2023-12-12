@@ -26,7 +26,6 @@ export default function MapScreen() {
         longitudeDelta: 1,
     };
 
-    const mapRef = useRef();
     const [region, setRegion] = useState<Region>({
        latitude: 46,
        longitude: 12,
@@ -54,6 +53,8 @@ export default function MapScreen() {
     const [selectedMarker, setSelectedMarker] = useState<LatLng | undefined>(
         undefined
     );
+    
+    const mapRef = useRef<MapView>(null);
 
     /* useEffect(() => {
         console.log(selectedMarker);
@@ -112,7 +113,7 @@ export default function MapScreen() {
                 onMarkerPress={onMarkerPress}
                 onMapPress={onMapPress}
                 onLongPress={onLongPress}
-                mapRef={mapRef}
+                ref={mapRef}
             />
         </View>
     );
