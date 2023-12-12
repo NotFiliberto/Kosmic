@@ -113,7 +113,7 @@ export default function MapScreen() {
                 onMarkerPress={onMarkerPress}
                 onMapPress={onMapPress}
                 onLongPress={onLongPress}
-                ref={mapRef}
+                mapRef={mapRef}
             />
         </View>
     );
