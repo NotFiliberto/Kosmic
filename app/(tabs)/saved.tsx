@@ -1,90 +1,74 @@
-import { RefreshControl, StyleSheet, ScrollView, Pressable, Alert } from "react-native";
+import {
+	RefreshControl,
+	StyleSheet,
+	ScrollView,
+	Pressable,
+	Alert,
+	GestureResponderEvent,
+} from "react-native";
 
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
 import Location from "../../components/Location";
 
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import { FlatList } from "react-native-gesture-handler";
 
-type CardProps = {
-    name: string;
-    qta?: number;
-};
+const savedPlacesFromLocalDB = [
+	{ id: "1", name: "Vittorio Veneto", value: 21.08, pinned: false },
+	{ id: "2", name: "Mestre", value: 19.71, pinned: true },
+	{ id: "3", name: "45.3661, 11.6649", value: 15.18, pinned: true },
+	{ id: "3", name: "45.3661, 11.6649", value: 15.18, pinned: true },
+	{ id: "3", name: "45.3661, 11.6649", value: 15.18, pinned: true },
+	{ id: "3", name: "45.3661, 11.6649", value: 15.18, pinned: true },
+];
 
 export default function TabTwoScreen() {
 
-    // Data for FlatList
-    const [Places, setPlaces] = useState([
-        { key: 1, name: "Vittorio Veneto", 
-          value: 21.08, pinned: true },
-        { key: 2, name: "Mestre", 
-          value: 19.71, pinned: true },
-        { key: 3, name: "45.3661, 11.6649", 
-          value: 15.18, pinned: true },
-    ] )
-    
-    // Delete handler: take in accounts that data keys start from 1 to n and access is from 0 to n-1
-    const deleteListItem = (index: number) => {
-        Alert.alert('Delete', "Are you sure?", [
-            {
-                text: 'Cancel',
-                onPress: () => {
-                    console.log('Cancel operation confirmed')
-                },
-                style: 'cancel'
-            },
-            {
-                text: 'Confirm',
-                onPress: () => {
-                    console.log('Okay, deleting  index', index)
-                    setPlaces( ( prevState ) => {
-                        console.log("State before:\n", prevState)
-                        const removed = prevState.splice(index - 1, 1)
-                        console.log("State after:\n", prevState)
-                        return [...prevState]
-                    });
-                },
-            },
-        ]);
-    }
 
 
-    // set refresh value
+export default function TabTwoScreen ()
+{
+
+    /* // set refresh value
     const [refreshing, setRefreshing] = React.useState(false)
     // handle refresh List
     const onRefreshSaved = React.useCallback(
         ()=>{
             setRefreshing(true)
             const newVal = Math.floor(Math.random() * (25 - 10) + 10)
-            
-            // Per testare il toggle del pin
-            Places.forEach( (i) => { 
-                console.log( i ) 
-                /* if ( i.pinned == false )
-                {
-                    //deleteListItem(i.key)
-                } */
-                console.log("\n")
-            }) 
             console.log("\n\n\n")
 
+            // console.log("\n\n\n")
+
             setTimeout( () => {
+                // opzionale per i test
+                //push( 
+                    {
+                        key: (Places.length + 1),
+                        name: 'Place ' + (Places.length + 1).toString(),
+                        value: Math.floor(Math.random()  *  25 + (25 - 10)),
+                        pinned: true,
+                    }
+                )
                 setRefreshing(false)
-            }, 1500 )
-            
-            // opzionale per i test
-            Places.push( 
-                {
-                    key: (Places.length + 1),
-                    name: 'Place ' + (Places.length + 1).toString(),
-                    value: newVal,
-                    pinned: true,
-                }
-            )
+            }, 1500)
 
         }, []
+    ); */
+
+// Data for FlatList
+    const [ places, setPlaces ] = useState<typeof savedPlacesFromLocalDB>(
+        savedPlacesFromLocalDB
     );
+    const handleOnPressAdd = (event: GestureResponderEvent) => {
+		console.log("add location");
+		//set state su places (setPlaces)
+	};
+	const handleTogglePin = (locationId: string) => {
+		//set state su places (setPlaces)
+		console.log({ locationId });
+	};
 
     return (
         <View
@@ -103,9 +87,9 @@ export default function TabTwoScreen() {
                     <Text style={styles.title}>Luoghi salvati</Text>
                     <Pressable 
                     style={ styles.button } 
-                    onPress={ onRefreshSaved }
+                    onPress={ handleOnPressAdd }
                     >
-                        <Text style={styles.textButton}>Clicca qui</Text>
+                        <Text style={styles.textButton}>Add</Text>
                     </Pressable>
                 </View>
                 { /* Separator*/ }
@@ -117,31 +101,31 @@ export default function TabTwoScreen() {
                 { /* FlatList of Location(s) */ }
                 <FlatList
                 keyExtractor={(item, index) => index.toString() }
-                data={Places}
-                extraData={Places} // ultra importante per vedere quando i dati cambiano
+                data={places}
+                extraData={places} // ultra importante per vedere quando i dati cambiano
                 contentContainerStyle={
                     { 
-                        /* alignContent: 'center',*/
-                        justifyContent: 'center',
-                        padding: 20, // padding resolves the problem
-                        // spacing above and bottom
-                        //marginVertical: 10, // margin creates the problem
+                        alignContent: 'center',
+                        marginTop: 20,
                     }
                 }
-                    renderItem={ ( { item } ) =>
-                    {
-                        // test here
-                        return (
-                            <Location
-                                name={ item.name }
-                                pinned={ item.pinned } 
-                                value={ item.value }
-                                onTogglePinned={ ( props ) =>
-                                {
-                                    item.pinned = props.pinned == true ? false : true
-                                    deleteListItem( item.key )
-                                    //item.key= 
-                                }}  
+                renderItem={ ( { item } ) => {
+
+                    if( item.pinned == false ){
+                        //deleteListItem(item.key - 1)
+
+                        console.log("\nI love this\n")
+                    }
+
+                    return (
+                        <Location
+                            k={ item.key }
+                            name={ item.name }
+                            pinned={ item.pinned }
+                            value={ item.value }
+                            onTogglePinned={ handleTogglePin }
+                    
+              
                     ></Location>
                     ) } 
                 }
@@ -151,34 +135,37 @@ export default function TabTwoScreen() {
                 </FlatList>
 
             </RefreshControl>
+            
+            {/* <Card name="test" /> */}
+            {/* <EditScreenInfo path="app/(tabs)/three.tsx" /> */}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        /* alignItems: "center",
+	container: {
+		flex: 1,
+		/* alignItems: "center",
         justifyContent: "center", */
-        padding: 20,
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: "bold",
-        textAlign: 'center'
-    },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        /* borderColor: 'orange',
+		padding: 20,
+	},
+	title: {
+		fontSize: 20,
+		fontWeight: "bold",
+		textAlign: "center",
+	},
+	header: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		/* borderColor: 'orange',
         borderWidth: 4, */
         padding: 20,
 
     },
     button: {
-        /* backgroundColor: 'blue',
-        borderColor: 'grey', */
+        backgroundColor: 'blue',
+        borderColor: 'grey',
         borderWidth: 4,
         borderRadius: 15,
         justifyContent: 'center',
@@ -193,7 +180,7 @@ const styles = StyleSheet.create({
     },
     separator: {
         marginVertical: 30,
-        height: 3,
+        height: 1,
         width: "80%",
         //color: 'white'
     },
