@@ -9,10 +9,9 @@ import { RefreshControl } from 'react-native-gesture-handler';
 
 type LocationProps = {
     name: string,
-    pinned: boolean,
     value: number,
-    k: number,
-    onTogglePinned: (key: number, value: boolean) => void,
+    pinned: boolean,
+    onTogglePinned: ( prop: { name: string, value: number, pinned: boolean }) => void,
 }
 
 function truncateNumber( num: number ) {
@@ -21,7 +20,6 @@ function truncateNumber( num: number ) {
 
 export default function Location( props: LocationProps ){
 
-    const k = props.k
     const name = props.name
     const [pinned, setPinned] = useState(props.pinned)
     //const [value, setValue] = useState(0)
@@ -33,13 +31,13 @@ export default function Location( props: LocationProps ){
     if( value < 16 ){
         colorValue = 'red' // '#f2003c'
     } else if( value >= 16 && value <= 20){
-        colorValue = '#ffda00' 
+        colorValue = '#ffc40c' // yellow
     } else {
         colorValue = 'green' // '#32cd32'
     }
 
     return (
-        <View  
+        <View
         lightColor='#eee'
         darkColor="rgba(255,255,255,0.1)"
         >
@@ -62,11 +60,10 @@ export default function Location( props: LocationProps ){
                 >{ truncateNumber(value * 100) / 100 }</Text>
                 { /* Pressable Icon, toggles places to make them pinned or unpinned */}
                 <TouchableOpacity
-                style={styles.item}
-                activeOpacity={0} //
+                activeOpacity={1} //
                 onPress={ () => { 
-                    pinned === true ? setPinned(false): setPinned(true) 
-                    onToggle( k, pinned )
+                    //pinned === true ? setPinned(false): setPinned(true) 
+                    onToggle( props )
                 } } 
                 
                 >
@@ -86,29 +83,33 @@ export default function Location( props: LocationProps ){
 
 const styles = StyleSheet.create({
     item: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        
+        //flex: 1,
+        //alignItems: 'center',
+       /*  flexDirection: 'column',
+        justifyContent: 'space-between',
+        borderWidth: 2, */
+        //padding: 10,
     },
     body: {
-        flex: 1,
+        //flex: 1,
         flexDirection: 'row',
-        borderColor: 'white', // light: #eee, dark: rgba(255,255,255,0.1)
+        // borderColor: 'white', // light: #eee, dark: rgba(255,255,255,0.1)
         borderWidth: 4,
         borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: 20,
+        //marginVertical: 30,
     },
     place: {
         fontSize: 16,
         fontWeight: '600', // Semibold: 600
     },
     value: {
-        
+        //flex: 1,
     },
     icon: {
-        
+        //flex: 1,
     }
 
 });
