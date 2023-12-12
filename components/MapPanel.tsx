@@ -1,19 +1,20 @@
 import React, { useRef, useState } from 'react';
 import { 
-  Platform, StatusBar, Animated,
+  Text, Platform, StatusBar, Animated,
   ScrollView, StyleSheet, useWindowDimensions,
   View
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import { MarkerData } from './InteractiveMap';
+import { LatLng } from 'react-native-maps';
 //import MarkerDisplay from './MarkerDisplay';
 //import PanelHandle from './PanelHandle';
 
 const ios = Platform.OS === 'ios';
 
 interface IMapPanelProps {
-  marker: MarkerData | null
+  marker: LatLng | undefined
 }
 
 const MapPanel: React.FunctionComponent<IMapPanelProps> = ({ marker }) => {
@@ -45,6 +46,7 @@ const MapPanel: React.FunctionComponent<IMapPanelProps> = ({ marker }) => {
     >
       <View style={styles.panelContent}>
         <ScrollView scrollEnabled={false}>
+          <Text>Hello World</Text>
         </ScrollView>
       </View>
     </SlidingUpPanel>
