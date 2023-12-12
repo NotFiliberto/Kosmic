@@ -91,8 +91,8 @@ export default function MapScreen() {
         setSelectedMarker(event.nativeEvent.coordinate);
 
         setRegion({
-          latitude: lat,
-          longitude: lng,
+          latitude: event.nativeEvent.coordinate.latitude,
+          longitude: event.nativeEvent.coordinate.longitude,
           latitudeDelta: 3,
           longitudeDelta: 1
         })
@@ -103,7 +103,7 @@ export default function MapScreen() {
     }
 
     console.log("map: ");
-    console.log(initialRegion);
+    console.log(region);
 
     return (
         <View style={{ flex: 1 }}>

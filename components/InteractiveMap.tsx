@@ -88,7 +88,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 
 
     console.log("interactiveMap: ");
-    console.log(initialRegion);
+    //console.log(markers[0].coordinate);
     
     return (
         <View style={styles.container}>
