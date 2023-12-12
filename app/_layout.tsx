@@ -1,9 +1,16 @@
+import TabsBar from "@components/TabsBar";
+import TabBar from "@components/TabsBar";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { SafeAreaView, Text, View, useColorScheme } from "react-native";
+import {
+    SafeAreaView,
+    StatusBar,
+    useColorScheme,
+    StyleSheet,
+} from "react-native";
 
 export {
     // Catch any errors thrown by the Layout component.
@@ -46,21 +53,28 @@ function RootLayoutNav() {
     const colorScheme = useColorScheme();
 
     return (
-        <ThemeProvider
-            //value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-            value={DefaultTheme}
-        >
-            <Stack
-                screenOptions={{
-                    contentStyle: { backgroundColor: "#0f172a !important" },
-                }}
+        <SafeAreaView style={styles.container}>
+            <ThemeProvider
+                //value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+                value={DefaultTheme}
             >
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen
-                    name="modal"
-                    options={{ presentation: "modal" }}
-                />
-            </Stack>
-        </ThemeProvider>
+                <Stack>
+                    <Stack.Screen
+                        name="(tabs)"
+                        options={{ headerShown: false }}
+                    />
+                </Stack>
+                <TabsBar />
+            </ThemeProvider>
+        </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: StatusBar.currentHeight,
+        position: "relative",
+        width: "100%",
+    },
+});
