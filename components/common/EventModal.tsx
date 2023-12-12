@@ -21,6 +21,8 @@ export default function EventModal(props: EventModalProps) {
 
     if (!event || event == undefined) return null;
 
+    event.date = new Date(event.date);
+
     return (
         <ReactNativeModal
             animationIn="slideInUp"
@@ -38,6 +40,22 @@ export default function EventModal(props: EventModalProps) {
                 </View>
                 <ScrollView>
                     <View style={styles.contentContainer}>
+                        <Text style={{ paddingVertical: 8 }}>
+                            <Text style={{ fontWeight: "600" }}>
+                                Data evento:{" "}
+                            </Text>
+
+                            <Text>
+                                {event.date.toLocaleString("it-IT", {
+                                    dateStyle: "full",
+                                    month: "long",
+                                    day: "numeric",
+                                    year: "numeric",
+                                })}
+                            </Text>
+                        </Text>
+
+                        <Text style={{ fontWeight: "600" }}>Descrizione:</Text>
                         <Text style={styles.eventText}>{event.text}</Text>
                     </View>
                 </ScrollView>
