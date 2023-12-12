@@ -11,7 +11,7 @@ import { useState } from "react";
 //test
 const events = eventList as unknown as Event[];
 
-export default function EventScreen() {
+export default function EventsScreen() {
     const [eventModal, setEventModal] = useState<{
         event: Event | undefined;
         show: boolean;
