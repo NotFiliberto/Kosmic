@@ -36,29 +36,20 @@ const MapPanel: React.FunctionComponent<IMapPanelProps> = ({ marker }) => {
   const [panelPositionVal] = useState(new Animated.Value(draggableRange.bottom));
 
   return (
-    <SlidingUpPanel
-      ref={panelRef}
-      animatedValue={panelPositionVal}
-      draggableRange={draggableRange}
-      snappingPoints={snappingPoints}
-      backdropOpacity={0}
-      showBackdrop={false}
-      height={deviceHeight}
-    >
-      <View style={styles.panelContent}>
-          <MapLocationModal
-                  isVisible
-                  locationName="Vittorio veneto"
-                  mapsURL="https://google.com"
-                  coords={{ x: 21312.232, y: 23432.123 }}
-                  pollutionRate={21.08}
-                  weatherURL="https://google.com"
-                  togglePin={() => {
-                      console.log("handle toggle pin from modal");
-                  }}
-              />
-      </View>
-    </SlidingUpPanel>
+    <View>
+      <MapLocationModal
+                    isVisible
+                    locationName="Vittorio veneto"
+                    mapsURL="https://google.com"
+                    coords={{ x: 21312.232, y: 23432.123 }}
+                    pollutionRate={21.08}
+                    weatherURL="https://google.com"
+                    togglePin={() => {
+                        console.log("handle toggle pin from modal");
+                    }}
+        />
+    </View>
+    
   );
 };
 
