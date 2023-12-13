@@ -25,7 +25,6 @@ import punti from "../assets/data/valori_atlante_veneto.json";
 import { wPoint } from "../assets/data/types";
 import MapPanel from "../components/MapPanel";
 
-
 const points = punti as wPoint[];
 
 export type MarkerData = {
@@ -38,7 +37,7 @@ interface InteractiveMapProps {
     onMarkerPress: (event: MarkerPressEvent) => void;
     onMapPress: (event: MapPressEvent) => void;
     onLongPress: (event: LongPressEvent) => void;
-    mapRef: React.RefObject<MapView> | undefined
+    mapRef: React.RefObject<MapView> | undefined;
 }
 
 const InteractiveMap: React.FC<InteractiveMapProps> = ({
@@ -47,7 +46,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     onMarkerPress,
     onMapPress,
     onLongPress,
-    mapRef
+    mapRef,
 }) => {
     type WeightedLatLng = {
         latitude: number;
@@ -85,11 +84,9 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
         gradientSmoothing: 0,
     };
 
-
-
     console.log("interactiveMap: ");
     console.log(initialRegion);
-    
+
     return (
         <View style={styles.container}>
             <MapView
@@ -102,6 +99,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                 onMarkerPress={onMarkerPress}
                 onPress={onMapPress}
                 onLongPress={onLongPress}
+                provider="google"
             >
                 {markers.map((marker) => (
                     <Marker
@@ -135,7 +133,9 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                          heatmapMode={"POINTS_DENSITY"}*/
                 />
             </MapView>
-            {markers[0]!=undefined?<MapPanel marker={markers[0].coordinate}/>:null}
+            {markers[0] != undefined ? (
+                <MapPanel marker={markers[0].coordinate} />
+            ) : null}
         </View>
     );
 };
