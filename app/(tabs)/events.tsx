@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 import EventCard from "../../components/common/EventCard";
 import { ScrollView } from "react-native-gesture-handler";
@@ -27,34 +27,38 @@ export default function EventsScreen() {
     };
 
     return (
-        <ScrollView style={styles.container}>
-            <EventModal
-                isVisible={eventModal.show}
-                event={eventModal.event}
-                onClose={handleModalOnClose}
-            />
+        <SafeAreaView
+            style={{ height: "100%", backgroundColor: "#fff", paddingTop: 100 }}
+        >
+            <ScrollView style={styles.container}>
+                <EventModal
+                    isVisible={eventModal.show}
+                    event={eventModal.event}
+                    onClose={handleModalOnClose}
+                />
 
-            {events.map((event, index) => (
-                <Pressable
-                    style={{ marginBottom: 20 }}
-                    key={index}
-                    onPress={() => handleEventOnPress(event)}
-                >
-                    <EventCard
-                        name={event.name}
-                        text={event.text}
-                        date={new Date(event.date)}
-                        url=""
-                    />
-                </Pressable>
-            ))}
+                {events.map((event, index) => (
+                    <Pressable
+                        style={{ marginBottom: 20 }}
+                        key={index}
+                        onPress={() => handleEventOnPress(event)}
+                    >
+                        <EventCard
+                            name={event.name}
+                            text={event.text}
+                            date={new Date(event.date)}
+                            url=""
+                        />
+                    </Pressable>
+                ))}
 
-            <View
-                style={{
-                    marginBottom: 120,
-                }}
-            />
-        </ScrollView>
+                <View
+                    style={{
+                        marginBottom: 120,
+                    }}
+                />
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
