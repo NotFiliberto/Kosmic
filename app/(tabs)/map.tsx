@@ -91,19 +91,21 @@ export default function MapScreen() {
         setSelectedMarker(event.nativeEvent.coordinate);
 
         setRegion({
-          latitude: event.nativeEvent.coordinate.latitude,
-          longitude: event.nativeEvent.coordinate.longitude,
+          latitude: lat,
+          longitude: lng,
           latitudeDelta: 3,
           longitudeDelta: 1
         })
+        console.log(lat)
+        console.log(region);
 
         mapRef.current?.animateToRegion(region)
-        
+        mapRef.current?.render()
         //console.log(selectedMarker)
     }
 
     console.log("map: ");
-    console.log(region);
+    //console.log(region);
 
     return (
         <View style={{ flex: 1 }}>
@@ -114,6 +116,7 @@ export default function MapScreen() {
                 onMapPress={onMapPress}
                 onLongPress={onLongPress}
                 mapRef={mapRef}
+                region={region}
             />
         </View>
     );

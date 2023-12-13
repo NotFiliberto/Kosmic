@@ -39,6 +39,7 @@ interface InteractiveMapProps {
     onMapPress: (event: MapPressEvent) => void;
     onLongPress: (event: LongPressEvent) => void;
     mapRef: React.RefObject<MapView> | undefined
+    region: Region
 }
 
 const InteractiveMap: React.FC<InteractiveMapProps> = ({
@@ -47,7 +48,8 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     onMarkerPress,
     onMapPress,
     onLongPress,
-    mapRef
+    mapRef,
+    region
 }) => {
     type WeightedLatLng = {
         latitude: number;
