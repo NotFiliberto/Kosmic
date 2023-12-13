@@ -96,14 +96,16 @@ export default function MapScreen() {
           latitudeDelta: 3,
           longitudeDelta: 1
         })
+        console.log(lat)
+        console.log(region);
 
         mapRef.current?.animateToRegion(region)
-        
+        mapRef.current?.render()
         //console.log(selectedMarker)
     }
 
     console.log("map: ");
-    console.log(initialRegion);
+    //console.log(region);
 
     return (
         <View style={{ flex: 1 }}>
@@ -114,6 +116,7 @@ export default function MapScreen() {
                 onMapPress={onMapPress}
                 onLongPress={onLongPress}
                 mapRef={mapRef}
+                region={region}
             />
         </View>
     );
