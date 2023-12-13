@@ -1,10 +1,10 @@
 import {
-	RefreshControl,
-	StyleSheet,
-	ScrollView,
-	Pressable,
-	Alert,
-	GestureResponderEvent,
+    RefreshControl,
+    StyleSheet,
+    ScrollView,
+    Pressable,
+    Alert,
+    GestureResponderEvent,
 } from "react-native";
 
 import EditScreenInfo from "../../components/EditScreenInfo";
@@ -17,14 +17,17 @@ import React, { useState } from "react";
 export default function TabTwoScreen ()
 {
 
-    // List data
+    // List data: id's must be unic at the beginning
     const savedPlacesFromLocalDB = [
         { id: "1", name: "Vittorio Veneto", value: 21.08, pinned: true },
         { id: "2", name: "Mestre", value: 19.71, pinned: true },
-        { id: "3", name: "45.3661, 11.6649", value: 15.18, pinned: true }
-	/* { id: "3", name: "45.3661, 11.6649", value: 15.18, pinned: true },
-	{ id: "3", name: "45.3661, 11.6649", value: 15.18, pinned: true },
-	{ id: "3", name: "45.3661, 11.6649", value: 6.18, pinned: true } */
+        { id: "3", name: "45.3661, 11.6649", value: 15.18, pinned: true },
+        { id: "4", name: "Silea", value: 21.08, pinned: true },
+        { id: "5", name: "Treviso", value: 19.71, pinned: true },
+        { id: "6", name: "Omae", value: 15.18, pinned: true },
+        { id: "7", name: "Top", value: 21.08, pinned: true },
+        { id: "8", name: "Idk", value: 19.71, pinned: true },
+        { id: "9", name: "45.3661, 11.6649", value: 15.18, pinned: true }
     ] 
 
     // Data for ScrollView and State usage
@@ -32,87 +35,45 @@ export default function TabTwoScreen ()
         savedPlacesFromLocalDB
     );
 
-    const [unic, setUnic] = React.useState(3)  
+    const [unic, setUnic] = React.useState(places.length + 1)  
 
-    // Delete handler
-    const deleteListItem = ( index: number ) =>
-    {
-        Alert.alert( 'Delete', "Are you sure?", [
-            {
-                text: 'Confirm',
-                onPress: () => {
-                    console.log( 'Okay, deleting  index', index )
-                    handleDeleteItem(index)
-                },
-            },
-        ] );
-    }
-
-    // Update pin when false added -> maybe not needed
-    const updatePinnedAllOrCondition = ( flag: boolean, conditionTrue: boolean, conditionFalse: boolean ) => {
-        places.forEach( ( i ) =>
-        {
-            if ( i )
-            {
-                if (i &&  conditionTrue && i.pinned == false )
-                    i.pinned = true
-                /* if( conditionTrue )
-                    i.pinned = true */
-                if ( i && !conditionFalse && !conditionTrue )
-                {
-                    i.pinned = flag
-                }
-            }
-        })
+    // Update any prop setting a specified value in a specified position in the List
+    const updateListItem = (index: number, nameProp: string, value: any | undefined) => {
+        // strategy: copy -> make changes: [index].prop = newValye -> set([...copy])
+        const copy = places
+        copy[ index ] = { ...copy[ index ], [ nameProp ]: value } // Remember that props names are seen as a list here
+        // remember its'a list -> []
+        setPlaces([...copy])
     };
 
-    // Use full type: list: ( { id: string; name: string; value: number; pinned: boolean } | undefined )[]
-    const updatePinnedListItem = ( id: string | undefined, pinned: boolean) =>
+    // Pushes a specified item { props: values} to the List if it's not undefined type
+    const addListItem = ( item: {
+        id: string; name: string; value: number; pinned: boolean } ) =>
     {
-        places.forEach( ( i ) =>
-        {
-            if ( i && i?.id == id )
-            {
-                i.pinned = pinned
-            }
-        })
+        // strategy: copy -> changes on Current if needed -> set
+        const copy = places
+        copy.push( item )
+        setPlaces( [ ...copy ] ) // remember it's a list
     }
         
     // Handles add place button
     const handleOnPressAdd = ( event: GestureResponderEvent ) =>
     {
         setUnic( unic + 1 )
-        const copy = places
-        // remember this is an array! You need []
-        setPlaces([...copy, {
-                id: (unic).toString(),
-                name: 'Place ' + (unic).toString() + ' (3.33, ' + (Math.floor(Math.random() * 100 + places.length * 2.30)).toString() + ')',
-                value: Math.random() * 30 + (40 - 10), 
-                pinned: true,
-        } ] )
-        
-        console.log(places)
-        console.log('Button pressed! Unic: ', unic);
-		
+        addListItem( {
+            id: unic.toString(),
+            name: 'Place ' + ( unic ).toString() + ' (3.33, ' + ( Math.floor( Math.random() * 100 + places.length * 2.30 ) ).toString() + ')',
+            value: Math.random() * 30 + ( 25 - 10 ),
+            pinned: true
+        } )
     };
-
-    // Deletes the item from the list at the specified index
-    const handleDeleteItem = (index: number) =>
-    {
-        const copy = places
-        copy.splice(index, 1)
-        setPlaces( [ ...copy ])
-    }
 
     // Finds the position in data of an item through its specified ID
     const findPositionItem = ( id: string | undefined) => {
-        for ( let i = 0; i < places.length;  i++)
-        {
-            if ( places && places[i] )
-            {
+        for ( let i = 0; i < places.length;  i++){
+            if ( places && places[i] ){
                 const current = places[ i ]
-                if ( current.id == id )
-                {
+                if ( current.id == id ){
                     return i;
                 }
             }
@@ -120,48 +81,35 @@ export default function TabTwoScreen ()
         return 0;
     }
 
-    // handles when Pin icon gets toggled
-    const handleTogglePin = ( item: { id: string; name: string; value: number; pinned: boolean } | undefined ) =>
-    {
-        // Each tap has means changes in the data
-        updatePinnedListItem( item?.id, item?.pinned == true )
-        updatePinnedAllOrCondition( true, true, false )
-        for ( let i = 0; i < places.length; i++ )
-        {
-            console.log( "Luoghi prima:", places[ i ], "\n" )
-        }
-        // Assume that id's are unic so you have to search their new position first
-        const position = findPositionItem( item?.id )
-        console.log( "Selected place name: ", item?.name, " data list position: ", position) 
-        deleteListItem( position )
-         for ( let i = 0; i < places.length; i++ )
-        {
-            console.log( "Luoghi dopo:", places[ i ], "\n" )
-        }
+    const getCurrentPinned = ( index: number ) =>{
+        const copy = places
+        return copy[index].pinned
     }
-    
 
+    // handles when Pin icon gets toggled
+    const handleTogglePin = ( id: string ) => {
+        // solution to handle pintoggle (use icon handler where there is the click handler)
+        const position = findPositionItem( id );
+        const currentPinned = getCurrentPinned( position )
+        updateListItem(position, 'pinned', !currentPinned)
+        
+};
+    
     return (
-        <View
+        <ScrollView
             style={ styles.container } 
         >
-           {/*  <RefreshControl
-                //style={{ flex: 1,}}
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                colors={ ['#FF002B', '#0066FF', '#00FF11'] }
-            > */}
-
-                { /* Header with button */ }
-                <View style={styles.header}>
-                    <Text style={styles.title}>I miei luoghi</Text>
-                    <Pressable 
-                        style={ styles.button } 
-                        onPress={ handleOnPressAdd }
-                    >
-                        <Text style={styles.textButton}>Add</Text>
-                    </Pressable>
-            </View>
+            <Text style={styles.title}>I miei luoghi</Text>
+            { /* Header with button */ }
+            {/* <View style={styles.header}>
+                <Text style={styles.title}>I miei luoghi</Text>
+                <Pressable 
+                    style={ styles.button } 
+                    onPress={ handleOnPressAdd }
+                >
+                    <Text style={styles.textButton}>Add</Text>
+                </Pressable>
+            </View> */}
             
             { /* ScrollView of Location(s) */ }
             <ScrollView style={ styles.list } >
@@ -170,10 +118,8 @@ export default function TabTwoScreen ()
                     places.map( ( place, index ) =>
                     {
                         return (   
-                            <View style={ {
-                                flex: 1,
-                                justifyContent: 'space-between'
-                            } } key={ index }>
+                            <View style={ styles.item }
+                                key={ index }>
                                 {
                                     place && (
                                         <Location
@@ -187,74 +133,51 @@ export default function TabTwoScreen ()
                             </View>
                         )}
                     ) }
-                </ScrollView>
+            </ScrollView>
             
-            {/* <Card name="test" /> */}
-            {/* <EditScreenInfo path="app/(tabs)/three.tsx" /> */}
-        {/*</RefreshControl> */}
-            
-        </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		/* alignItems: "center",
-        justifyContent: "center", 
-        backgroundColor: 'red',*/
+    container: {
+        flex: 1,
         paddingHorizontal: 20,
-        //marginVertical: 10,
-        paddingBottom: 10,
-	},
+        marginBottom: 0,
+    },
     header: {
-        //flex: 1, // we leave it static because otherwise conflicts with list ScrollView
-		flexDirection: "row",
-		alignItems: 'flex-start', // y
-		justifyContent: 'space-between', // x
-        /* borderColor: 'orange', */
-         borderWidth: 4,
-        //marginBottom: 0,
+        flexDirection: "row",
+        alignItems: 'flex-start', 
         paddingRight: 10,
-        marginBottom: 10,
+        marginBottom: 0,
     },
     title: {
-        //flex: 1,
-		fontSize: 30,
+        width: '70%',
+        fontSize: 31,
         fontWeight: "bold",
-        //fontStyle: 'italic',
-        //textAlign: "center"
-	},
+        fontFamily: 'Roboto',
+        marginBottom: 10,
+        borderWidth: 2,
+    },
     button: {
-        //flex: 0.5,
-        /* width: '30%',
-        height: '50%', */
-        /* backgroundColor: 'blue',
-        borderColor: 'grey', */
+        flex: 0.5,
         borderWidth: 4,
         borderRadius: 15,
-        justifyContent: 'space-evenly',
-        //alignItems: 'center',
-        //padding: 20,
-        /* marginHorizontal: 20,
-        marginVertical: 40, */
-
     },
     textButton: {
-        //flex: 1,
-        //borderWidth: 2,
+        flex: 1,
         fontSize: 25,
         fontWeight: '600',
         fontStyle: 'italic',
         textAlign: 'center',
-        marginVertical: 10,
-        marginHorizontal: 8,
     },
     list: {
-        flex: 1,
+        width: '100%',
+        borderColor: 'yellow',
         borderWidth: 4,
-        //marginVertical: 20, // has no effect
-        marginTop: 10,
-        marginBottom: 0,
+
+    },
+    item: {
+        flex: 1,
     }
 });
