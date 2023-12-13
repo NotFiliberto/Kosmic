@@ -3,20 +3,23 @@ import { Text, View } from "./Themed";
 import { useState } from "react";
 import { PinIcon, PinOff } from "lucide-react-native";
 import { RefreshControl } from "react-native-gesture-handler";
+import React from "react";
 
 type LocationProps = {
 	id: string;
 	name: string;
 	pinned: boolean;
 	value: number;
-	onTogglePinned: (locationId: string) => void;
+	onTogglePinned: (item: { id: string; name: string; value: number; pinned: boolean } | undefined) => void;
 };
 
 function truncateNumber(num: number) {
 	return Math[num < 0 ? "ceil" : "floor"](num);
 }
 
-export default function Location(props: LocationProps) {
+export default function Location ( props: LocationProps )
+{
+	const id = props.id
 	const name = props.name;
 	const [pinned, setPinned] = useState(props.pinned);
 	//const [value, setValue] = useState(0)
@@ -34,14 +37,15 @@ export default function Location(props: LocationProps) {
 	}
 
 	return (
-		<View lightColor="#eee" darkColor="rgba(255,255,255,0.1)">
+		<View style={ styles.item } lightColor="#eee" darkColor="rgba(255,255,255,0.1)">
 			{/* Item body */}
 			<View style={styles.body}>
 				{/* Saved place name */}
 				<Text style={styles.place}>{name}</Text>
 				{/* Pollution rate */}
 				<Text
-					style={{
+                    style={ {
+                        flex: 1,
 						fontSize: 16,
 						fontWeight: "600",
 						color: colorValue,
@@ -51,11 +55,15 @@ export default function Location(props: LocationProps) {
 				</Text>
 				{/* Pressable Icon, toggles places to make them pinned or unpinned */}
 				<TouchableOpacity
-					style={styles.item}
-					activeOpacity={0} //
-					onPress={() => props.onTogglePinned(props.id)}
+					activeOpacity={1} //
+                    onPress={ () =>
+                    {
+						setPinned( !pinned )
+						console.log("\n\n\nprop pinned: ", !pinned, " : id=", props.id,"")
+                        props.onTogglePinned( { id: id, name: name, value: value, pinned: !pinned } )
+                    }}
 				>
-					{pinned ? (
+					{pinned == true ? (
 						<PinIcon
 							style={styles.icon}
 							size={24}
@@ -74,25 +82,31 @@ export default function Location(props: LocationProps) {
 	);
 }
 
-const styles = StyleSheet.create({
-	item: {
-		alignItems: "center",
-		justifyContent: "center",
-	},
+const styles = StyleSheet.create( {
+    item: {
+        flex: 1,
+        //marginTop: 10, // becomes 20 -> 10 under + 10 above  between 2 items
+    },
 	body: {
 		flex: 1,
 		flexDirection: "row",
-		borderColor: "white", // light: #eee, dark: rgba(255,255,255,0.1)
+		//borderColor: "white", // light: #eee, dark: rgba(255,255,255,0.1)
 		borderWidth: 4,
 		borderRadius: 15,
 		alignItems: "center",
 		justifyContent: "space-between",
-		padding: 20,
+        padding: 20,
+        //marginBottom: 20,
 	},
-	place: {
+    place: {
+        flex: 2,
 		fontSize: 16,
 		fontWeight: "600", // Semibold: 600
 	},
-	value: {},
-	icon: {},
+    value: {
+        // inside the code
+    },
+    icon: {
+        flex: 1
+    },
 });
