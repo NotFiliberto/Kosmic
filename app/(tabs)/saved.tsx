@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontFamily: 'Roboto',
         marginBottom: 10,
-        borderWidth: 2,
+        //borderWidth: 2,
     },
     button: {
         flex: 0.5,
@@ -173,8 +173,8 @@ const styles = StyleSheet.create({
     },
     list: {
         width: '100%',
-        borderColor: 'yellow',
-        borderWidth: 4,
+        /* borderColor: 'yellow',
+        borderWidth: 4, */
 
     },
     item: {
