@@ -24,6 +24,7 @@ import { fetchAndParseCSV } from "./FetchParseCsv";
 import punti from "../assets/data/valori_atlante_veneto.json";
 import { wPoint } from "../assets/data/types";
 import MapPanel from "../components/MapPanel";
+import MapLocationModal from "./common/MapLocationModal";
 
 const points = punti as wPoint[];
 
@@ -136,7 +137,17 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                 />
             </MapView>
             {markers[0] != undefined ? (
-                <MapPanel marker={markers[0].coordinate} />
+                <MapLocationModal
+                    isVisible
+                    locationName="Vittorio veneto"
+                    mapsURL="https://google.com"
+                    coords={markers[0].coordinate}
+                    pollutionRate={21.08}
+                    weatherURL="https://google.com"
+                    togglePin={() => {
+                        console.log("handle toggle pin from modal");
+                    }}
+        />
             ) : null}
         </View>
     );

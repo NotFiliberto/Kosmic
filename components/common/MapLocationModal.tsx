@@ -1,17 +1,17 @@
 import { Pressable, StyleSheet } from "react-native";
 import { Text, View } from "../../components/Themed";
 import { CloudSunIcon, MapIcon, PinIcon } from "lucide-react-native";
-import { Point } from "react-native-maps";
+import { LatLng, Point } from "react-native-maps";
 import { A } from "@expo/html-elements";
 
 export type MapLocationModalProps = {
     isVisible: boolean;
     locationName: string;
     pollutionRate: number;
-    coords: Point;
+    coords: LatLng;
     mapsURL: string;
     weatherURL: string;
-    togglePin: (coords: Point) => void;
+    togglePin: (coords: LatLng) => void;
 };
 
 export default function MapLocationModal({
@@ -36,8 +36,8 @@ export default function MapLocationModal({
                 <View style={styles.locationInfo}>
                     <Text style={styles.locationName}>{locationName}</Text>
                     <View style={styles.locationCoordinates}>
-                        <Text>{coords.x}</Text>
-                        <Text>{coords.y}</Text>
+                        <Text>{coords.latitude}</Text>
+                        <Text>{coords.longitude}</Text>
                     </View>
                 </View>
                 <View style={styles.pollutionTextInfo}>
