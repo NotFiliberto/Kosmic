@@ -36,11 +36,12 @@ export default function Location ( props: LocationProps )
 			<Text style={ styles.place }>{ name }</Text>
 			{/* Pollution rate */ }
 			<Text
-				style={ {
+				style={ { // value style
 					flex: 1,
 					fontSize: 16,
 					fontWeight: "600",
 					color: colorValue,
+					marginHorizontal: 10,
 				} }
 			>{truncateNumber(value * 100) / 100}</Text>
 			{/* Pressable Icon, toggles places to make them pinned or unpinned */}
@@ -70,11 +71,14 @@ const styles = StyleSheet.create( {
 		flex: 2,
 		fontSize: 16,
 		fontWeight: "600", // Semi-bold
+		marginHorizontal: 10,
+		//padding: 2,
 	},
 	value: {
 		// inside the code
 	},
 	icon: {
-		flex: 1
+		flex: 1,
+		marginHorizontal: 10,
 	},
 });

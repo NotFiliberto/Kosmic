@@ -19,7 +19,7 @@ export default function TabTwoScreen ()
 
     // List data: id's must be unic at the beginning
     const savedPlacesFromLocalDB = [
-        { id: "1", name: "Vittorio Veneto", value: 21.08, pinned: true },
+        { id: "1", name: "Vittorio Venetofbiwbfiwbefbwiefbcwibcwicbiwcbiwcbiwcbwibcwbciwbciwbibieifbebfeibciebciebciebceicbeibcei", value: 21928392392839283293829.0898392892839238292, pinned: true },
         { id: "2", name: "Mestre", value: 19.71, pinned: true },
         { id: "3", name: "45.3661, 11.6649", value: 15.18, pinned: true },
         { id: "4", name: "Silea", value: 21.08, pinned: true },
@@ -96,9 +96,7 @@ export default function TabTwoScreen ()
 };
     
     return (
-        <ScrollView
-            style={ styles.container } 
-        >
+        <View style={ styles.container } lightColor="#eee" darkColor="rgba(255,255,255,0.1)" >
             <Text style={styles.title}>I miei luoghi</Text>
             { /* Header with button */ }
             {/* <View style={styles.header}>
@@ -134,15 +132,14 @@ export default function TabTwoScreen ()
                         )}
                     ) }
             </ScrollView>
-            
-        </ScrollView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 20,
+        //marginHorizontal: 20,
         marginBottom: 0,
     },
     header: {
@@ -157,6 +154,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontFamily: 'Roboto',
         marginBottom: 10,
+        paddingHorizontal: 20,
         //borderWidth: 2,
     },
     button: {
@@ -173,9 +171,9 @@ const styles = StyleSheet.create({
     },
     list: {
         width: '100%',
+        paddingHorizontal: 20,
         /* borderColor: 'yellow',
         borderWidth: 4, */
-
     },
     item: {
         flex: 1,
