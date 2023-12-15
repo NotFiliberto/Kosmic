@@ -1,0 +1,44 @@
+[
+    {
+        "id": 0,
+        "name": "Eclissi",
+        "date": "2023-9-10T17:22:25.848Z",
+        "text": " Un'eclissi solare si verifica quando la Luna passa tra la Terra e il Sole, oscurando parzialmente o completamente la luce solare per un osservatore sulla Terra. Un'eclissi lunare si verifica quando la Terra si trova tra il Sole e la Luna, proiettando l'ombra della Terra sulla Luna.",
+        "url": ""
+    },
+    {
+        "id": 1,
+        "name": "Piogge Meteoriche",
+        "date": "2023-12-10T23:22:25.848Z",
+        "text": "Le piogge meteoriche si verificano quando la Terra attraversa i detriti lasciati da una cometa o da un asteroide. Le particelle di polvere e detriti si incendiano nell'atmosfera, creando brevi lampi di luce noti come stelle cadenti.",
+        "url": ""
+    },
+    {
+        "id": 2,
+        "name": "Congiunzioni Planetarie",
+        "date": "2023-12-10T23:22:25.848Z",
+        "text": "Una congiunzione planetaria si verifica quando due o più pianeti appaiono allineati lungo la sfera celeste, vista dalla Terra. Questo allineamento può verificarsi lungo la stessa linea di vista o approssimativamente lungo la stessa linea retta nel cielo. Le congiunzioni planetarie sono eventi interessanti che offrono spettacoli astronomici visibili a occhio nudo o con l'ausilio di un telescopio.",
+        "url": ""
+    },
+    {
+        "id": 3,
+        "name": "Comete",
+        "date": "2023-12-10T23:22:25.848Z",
+        "text": " Le comete sono corpi celesti composti principalmente da ghiaccio, polveri e gas. Quando una cometa si avvicina al Sole, il calore provoca la vaporizzazione di questi materiali, creando una chioma luminosa e, talvolta, una coda visibile dalla Terra.",
+        "url": ""
+    },
+    {
+        "id": 4,
+        "name": "Aurora Boreale/Australe",
+        "date": "2023-12-10T23:22:25.848Z",
+        "text": "Le aurore sono fenomeni luminosi che si verificano nelle regioni polari a causa dell'interazione tra particelle cariche provenienti dal vento solare e la magnetosfera terrestre. Le aurore boreali si verificano nell'emisfero settentrionale, mentre le aurore australi si verificano nell'emisfero meridionale.",
+        "url": ""
+    },
+    {
+        "id": 5,
+        "name": "Fasi Lunari",
+        "date": "2023-9-10T17:22:25.848Z",
+        "text": "Le fasi lunari sono i diversi aspetti visibili della Luna dalla Terra a causa della variazione nella posizione relativa tra Sole, Terra e Luna. Le fasi includono la Luna nuova, crescente, piena e calante.",
+        "url": ""
+    }
+]
