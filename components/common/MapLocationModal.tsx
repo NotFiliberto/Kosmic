@@ -8,6 +8,8 @@ export type MapLocationModalProps = {
 	isVisible: boolean;
 	locationName: string;
 	pollutionRate: number | undefined;
+	comment: string;
+	commentColor: string;
 	coords: LatLng;
 	mapsURL: string;
 	weatherURL: string;
@@ -20,6 +22,8 @@ export default function MapLocationModal({
 	coords,
 	locationName,
 	pollutionRate,
+	comment,
+	commentColor,
 	mapsURL,
 	weatherURL,
 	togglePin,
@@ -37,16 +41,26 @@ export default function MapLocationModal({
 				<View style={styles.locationInfo}>
 					<Text style={styles.locationName}>{locationName}</Text>
 					<View style={styles.locationCoordinates}>
-						<Text>{coords.latitude}</Text>
-						<Text>{coords.longitude}</Text>
+						<Text>{coords.latitude.toFixed(2)}</Text>
+						<Text>{coords.longitude.toFixed(2)}</Text>
 					</View>
 				</View>
 				<View style={styles.pollutionTextInfo}>
-					<Text style={styles.lightPollutionRate}>
+					<Text
+						style={{
+							...styles.lightPollutionRate,
+							color: commentColor,
+						}}
+					>
 						{pollutionRate}
 					</Text>
-					<Text style={styles.lightPollutionValue}>
-						{"<valutazione>"}
+					<Text
+						style={{
+							...styles.lightPollutionValue,
+							color: commentColor,
+						}}
+					>
+						{comment}
 					</Text>
 				</View>
 			</View>
@@ -84,7 +98,7 @@ const styles = StyleSheet.create({
 	},
 	locationName: {
 		fontSize: 20,
-		lineHeight: 20,
+		//lineHeight: 20,
 		fontWeight: "600" /* 
 		borderColor: "red",
 		borderWidth: 2, */,
@@ -97,7 +111,7 @@ const styles = StyleSheet.create({
 	lightPollutionRate: {
 		fontSize: 39,
 		fontWeight: "600",
-		lineHeight: 39,
+		//lineHeight: 39,
 		color: "#166534",
 	},
 	lightPollutionValue: {

@@ -55,18 +55,18 @@ export default function TabsBar() {
 			<TabBarItem
 				icon={<HomeIcon size={24} color="#fff" />}
 				title="Home"
-				href="/"
+				href="/(tabs)/"
 			/>
 			<TabBarItem
 				icon={<NewspaperIcon size={24} color="#fff" />}
 				title="Eventi"
 				href="/(tabs)/events"
 			/>
-			<TabBarItem
+			{/* <TabBarItem
 				icon={<MapIcon size={24} color="#fff" />}
 				title="Map"
 				href="/(tabs)/map"
-			/>
+			/> */}
 			{/* <TabBarItem
 				icon={<TestTube size={24} color="#fff" />}
 				title="test"
