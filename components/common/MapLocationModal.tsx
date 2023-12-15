@@ -29,8 +29,7 @@ export default function MapLocationModal({
 	togglePin,
 }: MapLocationModalProps) {
 	if (!isVisible) return null;
-	
-	
+
 	return (
 		<View style={styles.container}>
 			<View
@@ -47,10 +46,20 @@ export default function MapLocationModal({
 					</View>
 				</View>
 				<View style={styles.pollutionTextInfo}>
-					<Text style={{...styles.lightPollutionRate, color: commentColor}}>
+					<Text
+						style={{
+							...styles.lightPollutionRate,
+							color: commentColor,
+						}}
+					>
 						{pollutionRate}
 					</Text>
-					<Text style={{...styles.lightPollutionValue, color: commentColor}}>
+					<Text
+						style={{
+							...styles.lightPollutionValue,
+							color: commentColor,
+						}}
+					>
 						{comment}
 					</Text>
 				</View>
@@ -89,7 +98,7 @@ const styles = StyleSheet.create({
 	},
 	locationName: {
 		fontSize: 20,
-		lineHeight: 20,
+		//lineHeight: 20,
 		fontWeight: "600" /* 
 		borderColor: "red",
 		borderWidth: 2, */,
@@ -102,7 +111,7 @@ const styles = StyleSheet.create({
 	lightPollutionRate: {
 		fontSize: 39,
 		fontWeight: "600",
-		lineHeight: 39,
+		//lineHeight: 39,
 		color: "#166534",
 	},
 	lightPollutionValue: {
