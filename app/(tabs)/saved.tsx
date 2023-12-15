@@ -1,33 +1,27 @@
 import {
-    RefreshControl,
     StyleSheet,
     ScrollView,
     SafeAreaView,
-    Pressable,
-    Alert,
-    GestureResponderEvent,
 } from "react-native";
 
-import EditScreenInfo from "../../components/EditScreenInfo";
-import { Text, View } from "../../components/Themed";
+import { View } from "../../components/Themed";
 import Location from "../../components/Location";
 
 import React, { useState } from "react";
 
 // List data: id's must be unic at the beginning
     const savedPlacesFromLocalDB = [
-        { id: "1", name: "Vittorio Venetofbiwbfiwbefbwiefbcwibcwicbiwcbiwcbiwcbwibcwbciwbciwbibieifbebfeibciebciebciebceicbeibcei", value: 21928392392839283293829.0898392892839238292, pinned: true },
-        { id: "2", name: "Mestre", value: 19.71, pinned: true },
-        { id: "3", name: "45.3661, 11.6649", value: 15.18, pinned: true },
+        { id: "1", name: "NomeMoltoLungoNomeMoltoLungoNomeMoltoLungoNomeMoltoLungoNomeMoltoLungoNomeMoltoLungoNomeMoltoLungoNomeMoltoLungoNomeMoltoLungo", value: 30.0898392892839238292, pinned: true },
+        { id: "2", name: "Vittorio Veneto", value: 19.71, pinned: true },
+        { id: "3", name: "Padova", value: 15.18, pinned: true },
         { id: "4", name: "Silea", value: 21.08, pinned: true },
         { id: "5", name: "Treviso", value: 19.71, pinned: true },
-        { id: "6", name: "Omae", value: 15.18, pinned: true },
-        { id: "7", name: "Top", value: 21.08, pinned: true },
-        { id: "8", name: "Idk", value: 19.71, pinned: true },
-        { id: "9", name: "Tokyo", value: 15.18, pinned: true },
-        { id: "10", name: "Shinobi", value: 21.08, pinned: true },
-        { id: "11", name: "Lisbona", value: 19.71, pinned: true },
-        { id: "12", name: "Kanata", value: 15.18, pinned: true }
+        { id: "6", name: "Asseggiano", value: 15.18, pinned: true },
+        { id: "7", name: "Belluno", value: 21.08, pinned: true },
+        { id: "8", name: "Pieve di Soligo", value: 19.71, pinned: true },
+        { id: "9", name: "Mestre", value: 15.18, pinned: true },
+        { id: "10", name: "Montebelluna", value: 15.18, pinned: true },
+        { id: "11", name: "Villorba", value: 21.08, pinned: true },
     ] 
 
 export default function LocationScreen ()
