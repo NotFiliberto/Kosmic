@@ -24,10 +24,10 @@ import React, { useState } from "react";
         { id: "6", name: "Omae", value: 15.18, pinned: true },
         { id: "7", name: "Top", value: 21.08, pinned: true },
         { id: "8", name: "Idk", value: 19.71, pinned: true },
-        { id: "9", name: "45.3661, 11.6649", value: 15.18, pinned: true },
-        { id: "7", name: "Top", value: 21.08, pinned: true },
-        { id: "8", name: "Idk", value: 19.71, pinned: true },
-        { id: "9", name: "45.3661, 11.6649", value: 15.18, pinned: true }
+        { id: "9", name: "Tokyo", value: 15.18, pinned: true },
+        { id: "10", name: "Shinobi", value: 21.08, pinned: true },
+        { id: "11", name: "Lisbona", value: 19.71, pinned: true },
+        { id: "12", name: "Kanata", value: 15.18, pinned: true }
     ] 
 
 export default function LocationScreen ()
