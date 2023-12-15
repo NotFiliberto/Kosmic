@@ -141,7 +141,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 			{markers[0] != undefined ? (
 				<MapLocationModal
 					isVisible
-					locationName="Vittorio veneto"
+					locationName="Indice: "
 					mapsURL="https://google.com"
 					coords={markers[0].coordinate}
 					pollutionRate={pollRate}
