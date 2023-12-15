@@ -1,1 +1,0 @@
-export type wPoint = {X: number, Y: number, Brightness: number, Valore: number }
