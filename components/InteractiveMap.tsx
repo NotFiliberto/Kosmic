@@ -44,7 +44,6 @@ interface InteractiveMapProps {
 	pollRate: number;
 }
 
-
 const InteractiveMap: React.FC<InteractiveMapProps> = ({
 	initialRegion,
 	markers,
@@ -92,35 +91,34 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 		gradientSmoothing: 0,
 	};
 
-    function getRating(score: number) : string {
-        var ret="Pessima";
+	function getRating(score: number): string {
+		var ret = "Pessima";
 
-        if(score>23.5) return "Ottima"
-        if(score>22.5) return "Alta"
-        if(score>21.5) return "Buona"
-        if(score>20.5) return "Mediocre"
-        if(score>19.5) return "Bassa"
-        return ret;
-    }
+		if (score > 23.5) return "Ottima";
+		if (score > 22.5) return "Alta";
+		if (score > 21.5) return "Buona";
+		if (score > 20.5) return "Mediocre";
+		if (score > 19.5) return "Bassa";
+		return ret;
+	}
 
-    function getColorFromRating(value: number) : string {
-        var colorValue=""
-        if (value < 20.5) {
-            colorValue = "red"; // '#f2003c'
-          } else if (value <= 21.5) {
-            colorValue = "#ffda00";
-          } else {
-            colorValue = "green"; // '#32cd32'
-          }
+	function getColorFromRating(value: number): string {
+		var colorValue = "";
+		if (value < 20.5) {
+			colorValue = "red"; // '#f2003c'
+		} else if (value <= 21.5) {
+			colorValue = "#ffda00";
+		} else {
+			colorValue = "green"; // '#32cd32'
+		}
 
-        return colorValue;
-    }
+		return colorValue;
+	}
 
-    const rating = getRating(pollRate)
-    //const prettyName = prettyLocationName(selectedMarker?.title)
-    const prettyScore = Number(pollRate.toFixed(1))
-    const ratingColor=getColorFromRating(pollRate)
-
+	const rating = getRating(pollRate);
+	//const prettyName = prettyLocationName(selectedMarker?.title)
+	const prettyScore = Number(pollRate.toFixed(1));
+	const ratingColor = getColorFromRating(pollRate);
 
 	//console.log("interactiveMap: ");
 	//console.log(initialRegion);
@@ -183,11 +181,11 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 				<MapLocationModal
 					isVisible
 					locationName={selectedMarker.title}
-					mapsURL="https://google.com"
+					mapsURL={`https://maps.google.com/?q=${selectedMarker.coordinate.latitude}>,${selectedMarker.coordinate.longitude}`}
 					coords={markers[markers.length - 1].coordinate}
 					pollutionRate={prettyScore}
-                    comment={rating}
-                    commentColor={ratingColor}
+					comment={rating}
+					commentColor={ratingColor}
 					weatherURL="https://3bmeteo.com"
 					togglePin={() => {
 						console.log("handle toggle pin from modal");
