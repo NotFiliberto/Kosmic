@@ -53,9 +53,9 @@ export default function Location(props: LocationProps) {
 				}}
 			>
 				{pinned ? (
-					<PinIcon style={styles.icon} size={24} color={"#f2003c"} />
-				) : (
 					<PinOff style={styles.icon} size={24} color={"#f2003c"} />
+				) : (
+					<PinIcon style={styles.icon} size={24} color={"#f2003c"} />
 				)}
 			</Pressable>
 		</View>
