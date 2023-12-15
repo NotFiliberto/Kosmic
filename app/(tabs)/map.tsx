@@ -3,12 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
 import punti from "../../assets/data/valori_atlante_veneto.json";
-import { wPoint } from "../../assets/data/types";
 
 const points = punti as wPoint[];
 
 import MapView, {
-	Marker,
 	LatLng,
 	Region,
 	MapOverlay,
@@ -22,6 +20,7 @@ import MapView, {
 import InteractiveMap, { MarkerData } from "../../components/InteractiveMap";
 import MapPanel from "../../components/MapPanel";
 import { Key } from "lucide-react-native";
+import { wMarker, wPoint } from "@lib/types";
 
 export default function MapScreen() {
 	var initialRegion = {
@@ -46,15 +45,9 @@ export default function MapScreen() {
         // Add more markers as needed
     ]; */
 
-	const [markers, setMarkers] = useState<
-		{
-			id: number;
-			coordinate: { latitude: number; longitude: number };
-			title: string;
-		}[]
-	>([]);
+	const [markers, setMarkers] = useState<wMarker[]>([]);
 
-	const [selectedMarker, setSelectedMarker] = useState<MapMarker | undefined>(
+	const [selectedMarker, setSelectedMarker] = useState<wMarker | undefined>(
 		undefined
 	);
 
@@ -104,6 +97,12 @@ export default function MapScreen() {
 			latitudeDelta: 3,
 			longitudeDelta: 1,
 		};
+
+		var newSelectedMarker: wMarker = {
+			id: markers.length,
+			coordinate: { latitude: lat, longitude: lng },
+			title: "test title",
+		};
 		/* markers.pop();
         markers.push({
             id: 1,
@@ -113,14 +112,8 @@ export default function MapScreen() {
 
 		console.log("event: ", { event });
 
-		setMarkers([
-			{
-				id: 1,
-				coordinate: { latitude: lat, longitude: lng },
-				title: "My Marker",
-			},
-		]);
-		//setSelectedMarker(event.nativeEvent.coordinate);
+		setMarkers([...markers, newSelectedMarker]);
+		setSelectedMarker(newSelectedMarker);
 
 		setRegion(newRegion);
 
@@ -141,6 +134,7 @@ export default function MapScreen() {
 			<InteractiveMap
 				initialRegion={initialRegion}
 				markers={markers}
+				selectedMarker={selectedMarker}
 				onMarkerPress={onMarkerPress}
 				onMapPress={onMapPress}
 				onLongPress={onLongPress}

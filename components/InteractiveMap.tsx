@@ -22,9 +22,9 @@ import { StyleSheet } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { fetchAndParseCSV } from "./FetchParseCsv";
 import punti from "../assets/data/valori_atlante_veneto.json";
-import { wPoint } from "../assets/data/types";
 import MapPanel from "../components/MapPanel";
 import MapLocationModal from "./common/MapLocationModal";
+import { wMarker, wPoint } from "@lib/types";
 
 const points = punti as wPoint[];
 
@@ -35,6 +35,7 @@ export type MarkerData = {
 interface InteractiveMapProps {
 	initialRegion: Region;
 	markers: { id: number; coordinate: LatLng; title: string }[];
+	selectedMarker: wMarker | undefined;
 	onMarkerPress: (event: MarkerPressEvent) => void;
 	onMapPress: (event: MapPressEvent) => void;
 	onLongPress: (event: LongPressEvent) => void;
@@ -52,6 +53,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 	mapRef,
 	region,
 	pollRate,
+	selectedMarker,
 }) => {
 	type WeightedLatLng = {
 		latitude: number;
@@ -106,13 +108,21 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 				onLongPress={onLongPress}
 				provider="google"
 			>
-				{markers.map((marker) => (
+				{/* {markers.map((marker) => (
 					<Marker
 						key={marker.id}
 						coordinate={marker.coordinate}
 						title={marker.title}
 					/>
-				))}
+				))} */}
+
+				{selectedMarker && (
+					<Marker
+						key={selectedMarker.id}
+						coordinate={selectedMarker.coordinate}
+						title={selectedMarker.title}
+					/>
+				)}
 
 				<Overlay
 					image={ImageOverlayUri}
@@ -138,12 +148,12 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                          heatmapMode={"POINTS_DENSITY"}*/
 				/>
 			</MapView>
-			{markers[0] != undefined ? (
+			{markers.length > 0 ? (
 				<MapLocationModal
 					isVisible
 					locationName="Indice: "
 					mapsURL="https://google.com"
-					coords={markers[0].coordinate}
+					coords={markers[markers.length - 1].coordinate}
 					pollutionRate={pollRate}
 					weatherURL="https://3bmeteo.com"
 					togglePin={() => {
