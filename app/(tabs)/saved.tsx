@@ -62,9 +62,8 @@ export default function LocationScreen ()
         // solution to handle pintoggle (use icon handler where there is the click handler)
         const position = findPositionItem( id );
         const currentPinned = getCurrentPinned( position )
-        updateListItem(position, 'pinned', !currentPinned)
-        
-};
+        updateListItem( position, 'pinned', !currentPinned )
+    };
     
     return (
         <SafeAreaView
@@ -74,7 +73,7 @@ export default function LocationScreen ()
             {
                 places.map( ( place, index ) =>
                 {
-                    return (   
+                    return (   place.pinned && 
                         <View style={ styles.item }
                             key={ index }>
                             {
