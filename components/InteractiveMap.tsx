@@ -74,8 +74,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 		weight: (p.Brightness - minWeight) / (maxWeight - minWeight),
 	}));
 
-	const ImageOverlayUri = require("../assets/images/image.png");
-	const imgObj: ImageURISource = { uri: ImageOverlayUri };
+
 
 	const heatmapGradient = {
 		colors: [
@@ -153,20 +152,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 					/>
 				)}
 
-				<Overlay
-					image={ImageOverlayUri}
-					bounds={[
-						[
-							initialRegion.latitude - 0.001,
-							initialRegion.longitude - 0.001,
-						],
-						[
-							initialRegion.latitude + 0.001,
-							initialRegion.longitude + 0.001,
-						],
-					]}
-					opacity={0.5} // Set opacity as needed (0 to 1)
-				/>
 				<Heatmap
 					points={adj_points}
 					opacity={0.5}
