@@ -50,13 +50,13 @@ export default function TabsBar() {
 				title="Salvati"
 				href="/(tabs)/saved"
 			/>
-			{/* TODO: use map screen
+			{/* TODO: use map screen */}
 
-            <TabBarItem
-                icon={<HomeIcon size={24} color="#fff" />}
-                title="Home"
-                href="/"
-            /> */}
+			<TabBarItem
+				icon={<HomeIcon size={24} color="#fff" />}
+				title="Home"
+				href="/"
+			/>
 			<TabBarItem
 				icon={<NewspaperIcon size={24} color="#fff" />}
 				title="Eventi"
@@ -67,11 +67,11 @@ export default function TabsBar() {
 				title="Map"
 				href="/(tabs)/map"
 			/>
-			<TabBarItem
+			{/* <TabBarItem
 				icon={<TestTube size={24} color="#fff" />}
 				title="test"
 				href="/(tabs)/test"
-			/>
+			/> */}
 		</View>
 	);
 }
