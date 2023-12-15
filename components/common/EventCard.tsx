@@ -52,9 +52,8 @@ export default (props: EventCardProps) => {
                 >
                     {text}
                 </Text>
-                <A href={url == "" ? "/" : url}>
-                    <ArrowRight color="black" size={24} />
-                </A>
+
+                <ArrowRight color="black" size={24} />
             </View>
         </View>
     );

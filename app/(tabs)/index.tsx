@@ -2,8 +2,9 @@ import { StyleSheet } from "react-native";
 
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
+import MapLocationModal from "@components/common/MapLocationModal";
 
-export default function TabOneScreen() {
+export default function HomeScreen() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Tab One</Text>
@@ -13,6 +14,17 @@ export default function TabOneScreen() {
                 darkColor="rgba(255,255,255,0.1)"
             />
             <EditScreenInfo path="app/(tabs)/index.tsx" />
+            <MapLocationModal
+                isVisible
+                locationName="Vittorio veneto"
+                mapsURL="https://google.com"
+                coords={{ longitude: 21312.232, latitude: 23432.123 }}
+                pollutionRate={21.08}
+                weatherURL="https://google.com"
+                togglePin={() => {
+                    console.log("handle toggle pin from modal");
+                }}
+            />
         </View>
     );
 }

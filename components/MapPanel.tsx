@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import { MarkerData } from './InteractiveMap';
 import { LatLng } from 'react-native-maps';
+import MapLocationModal from './common/MapLocationModal';
 //import MarkerDisplay from './MarkerDisplay';
 //import PanelHandle from './PanelHandle';
 
@@ -35,21 +36,10 @@ const MapPanel: React.FunctionComponent<IMapPanelProps> = ({ marker }) => {
   const [panelPositionVal] = useState(new Animated.Value(draggableRange.bottom));
 
   return (
-    <SlidingUpPanel
-      ref={panelRef}
-      animatedValue={panelPositionVal}
-      draggableRange={draggableRange}
-      snappingPoints={snappingPoints}
-      backdropOpacity={0}
-      showBackdrop={false}
-      height={deviceHeight}
-    >
-      <View style={styles.panelContent}>
-        <ScrollView scrollEnabled={false}>
-          <Text>Hello World</Text>
-        </ScrollView>
-      </View>
-    </SlidingUpPanel>
+    <View>
+     
+    </View>
+    
   );
 };
 
