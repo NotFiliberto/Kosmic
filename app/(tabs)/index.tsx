@@ -13,7 +13,8 @@ export default function HomeScreen() {
 				lightColor="#eee"
 				darkColor="rgba(255,255,255,0.1)"
 			/>
-			<EditScreenInfo path="app/(tabs)/index.tsx" />
+			<Text>Verrà sositutite dalla screen della mappa</Text>
+			{/* <EditScreenInfo path="app/(tabs)/index.tsx" />
 			<MapLocationModal
 				isVisible
 				locationName=" Nome cittàNome cittàNome cittàNome cittàNome città: "
@@ -24,7 +25,7 @@ export default function HomeScreen() {
 				togglePin={() => {
 					console.log("handle toggle pin from modal");
 				}}
-			/>
+			/> */}
 		</View>
 	);
 }
