@@ -7,7 +7,7 @@ import { A } from "@expo/html-elements";
 export type MapLocationModalProps = {
     isVisible: boolean;
     locationName: string;
-    pollutionRate: number;
+    pollutionRate: number | undefined;
     coords: LatLng;
     mapsURL: string;
     weatherURL: string;
