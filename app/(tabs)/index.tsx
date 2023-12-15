@@ -16,7 +16,7 @@ export default function HomeScreen() {
             <EditScreenInfo path="app/(tabs)/index.tsx" />
             <MapLocationModal
                 isVisible
-                locationName="Vittorio veneto"
+                locationName="Indice: "
                 mapsURL="https://google.com"
                 coords={{ longitude: 21312.232, latitude: 23432.123 }}
                 pollutionRate={21.08}
