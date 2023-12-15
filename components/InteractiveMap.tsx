@@ -41,8 +41,9 @@ interface InteractiveMapProps {
 	onLongPress: (event: LongPressEvent) => void;
 	mapRef: React.RefObject<MapView> | undefined;
 	region: Region;
-	pollRate: number | undefined;
+	pollRate: number;
 }
+
 
 const InteractiveMap: React.FC<InteractiveMapProps> = ({
 	initialRegion,
@@ -90,6 +91,36 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 		colorMapSize: 25,
 		gradientSmoothing: 0,
 	};
+
+    function getRating(score: number) : string {
+        var ret="Pessima";
+
+        if(score>23.5) return "Ottima"
+        if(score>22.5) return "Alta"
+        if(score>21.5) return "Buona"
+        if(score>20.5) return "Mediocre"
+        if(score>19.5) return "Bassa"
+        return ret;
+    }
+
+    function getColorFromRating(value: number) : string {
+        var colorValue=""
+        if (value < 20.5) {
+            colorValue = "red"; // '#f2003c'
+          } else if (value <= 21.5) {
+            colorValue = "#ffda00";
+          } else {
+            colorValue = "green"; // '#32cd32'
+          }
+
+        return colorValue;
+    }
+
+    const rating = getRating(pollRate)
+    //const prettyName = prettyLocationName(selectedMarker?.title)
+    const prettyScore = Number(pollRate.toFixed(1))
+    const ratingColor=getColorFromRating(pollRate)
+
 
 	//console.log("interactiveMap: ");
 	//console.log(initialRegion);
@@ -154,7 +185,9 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 					locationName={selectedMarker.title}
 					mapsURL="https://google.com"
 					coords={markers[markers.length - 1].coordinate}
-					pollutionRate={pollRate}
+					pollutionRate={prettyScore}
+                    comment={rating}
+                    commentColor={ratingColor}
 					weatherURL="https://3bmeteo.com"
 					togglePin={() => {
 						console.log("handle toggle pin from modal");

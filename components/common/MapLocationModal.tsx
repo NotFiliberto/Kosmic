@@ -8,6 +8,8 @@ export type MapLocationModalProps = {
 	isVisible: boolean;
 	locationName: string;
 	pollutionRate: number | undefined;
+	comment: string;
+	commentColor: string;
 	coords: LatLng;
 	mapsURL: string;
 	weatherURL: string;
@@ -20,12 +22,15 @@ export default function MapLocationModal({
 	coords,
 	locationName,
 	pollutionRate,
+	comment,
+	commentColor,
 	mapsURL,
 	weatherURL,
 	togglePin,
 }: MapLocationModalProps) {
 	if (!isVisible) return null;
-
+	
+	
 	return (
 		<View style={styles.container}>
 			<View
@@ -37,16 +42,16 @@ export default function MapLocationModal({
 				<View style={styles.locationInfo}>
 					<Text style={styles.locationName}>{locationName}</Text>
 					<View style={styles.locationCoordinates}>
-						<Text>{coords.latitude}</Text>
-						<Text>{coords.longitude}</Text>
+						<Text>{coords.latitude.toFixed(2)}</Text>
+						<Text>{coords.longitude.toFixed(2)}</Text>
 					</View>
 				</View>
 				<View style={styles.pollutionTextInfo}>
-					<Text style={styles.lightPollutionRate}>
+					<Text style={{...styles.lightPollutionRate, color: commentColor}}>
 						{pollutionRate}
 					</Text>
-					<Text style={styles.lightPollutionValue}>
-						{"<valutazione>"}
+					<Text style={{...styles.lightPollutionValue, color: commentColor}}>
+						{comment}
 					</Text>
 				</View>
 			</View>
