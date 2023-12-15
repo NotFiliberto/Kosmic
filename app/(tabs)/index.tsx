@@ -18,7 +18,7 @@ export default function HomeScreen() {
                 isVisible
                 locationName="Vittorio veneto"
                 mapsURL="https://google.com"
-                coords={{ x: 21312.232, y: 23432.123 }}
+                coords={{ longitude: 21312.232, latitude: 23432.123 }}
                 pollutionRate={21.08}
                 weatherURL="https://google.com"
                 togglePin={() => {

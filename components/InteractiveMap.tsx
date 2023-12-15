@@ -143,7 +143,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                     mapsURL="https://google.com"
                     coords={markers[0].coordinate}
                     pollutionRate={21.08}
-                    weatherURL="https://google.com"
+                    weatherURL="https://3bmeteo.com"
                     togglePin={() => {
                         console.log("handle toggle pin from modal");
                     }}

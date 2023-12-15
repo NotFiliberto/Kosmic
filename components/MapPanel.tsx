@@ -37,17 +37,7 @@ const MapPanel: React.FunctionComponent<IMapPanelProps> = ({ marker }) => {
 
   return (
     <View>
-      <MapLocationModal
-                    isVisible
-                    locationName="Vittorio veneto"
-                    mapsURL="https://google.com"
-                    coords={{ x: 21312.232, y: 23432.123 }}
-                    pollutionRate={21.08}
-                    weatherURL="https://google.com"
-                    togglePin={() => {
-                        console.log("handle toggle pin from modal");
-                    }}
-        />
+     
     </View>
     
   );
