@@ -39,7 +39,9 @@ interface InteractiveMapProps {
     onMapPress: (event: MapPressEvent) => void;
     onLongPress: (event: LongPressEvent) => void;
     mapRef: React.RefObject<MapView> | undefined;
-    region: Region
+    region: Region;
+    pollRate: number | undefined
+
 }
 
 const InteractiveMap: React.FC<InteractiveMapProps> = ({
@@ -49,7 +51,8 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     onMapPress,
     onLongPress,
     mapRef,
-    region
+    region,
+    pollRate,
 }) => {
     type WeightedLatLng = {
         latitude: number;
@@ -87,8 +90,10 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
         gradientSmoothing: 0,
     };
 
-    console.log("interactiveMap: ");
-    console.log(initialRegion);
+    //console.log("interactiveMap: ");
+    //console.log(initialRegion);
+
+    
     
     return (
         <View style={styles.container}>
@@ -142,7 +147,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                     locationName="Vittorio veneto"
                     mapsURL="https://google.com"
                     coords={markers[0].coordinate}
-                    pollutionRate={21.08}
+                    pollutionRate={pollRate}
                     weatherURL="https://3bmeteo.com"
                     togglePin={() => {
                         console.log("handle toggle pin from modal");

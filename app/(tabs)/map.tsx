@@ -2,6 +2,12 @@ import { StyleSheet } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
+import punti from "../../assets/data/valori_atlante_veneto.json";
+import { wPoint } from "../../assets/data/types";
+
+
+const points = punti as wPoint[];
+
 import MapView, {
     Marker,
     LatLng,
@@ -50,19 +56,38 @@ export default function MapScreen() {
     >([]);
 
 
-    const [selectedMarker, setSelectedMarker] = useState<LatLng | undefined>(
+    const [selectedMarker, setSelectedMarker] = useState<MapMarker | undefined>(
         undefined
     );
     
     const mapRef = useRef<MapView>(null);
 
+    const [pollutionRate, setPollutionRate] = useState<number>()
+
     /* useEffect(() => {
         console.log(selectedMarker);
     }, [selectedMarker]); */
 
+    function getWeight(pos: LatLng): number {
+        var ret = 0
+        console.log("pos:")
+        console.log(pos)
+        for (const point of points){
+            if(pos.latitude<= point.Y && pos.longitude>=point.X)
+                console.log("found:")
+                console.log(point.Y, point.X)
+                return point.Valore;
+        }
+        
+        
+        return ret;
+
+        
+
+    }
+
     function onMarkerPress(event: MarkerPressEvent): void {
-        setSelectedMarker(event.nativeEvent.coordinate);
-        //console.log(event.nativeEvent.coordinate)
+        console.log(event)   
     }
 
     function onMapPress(): void {
@@ -88,7 +113,7 @@ export default function MapScreen() {
                 title: "My Marker",
             },
         ]);
-        setSelectedMarker(event.nativeEvent.coordinate);
+        //setSelectedMarker(event.nativeEvent.coordinate);
 
         setRegion({
           latitude: lat,
@@ -96,15 +121,17 @@ export default function MapScreen() {
           latitudeDelta: 3,
           longitudeDelta: 1
         })
-        console.log(lat)
-        console.log(region);
+
+        setPollutionRate(getWeight({latitude: lat, longitude: lng}))
+
+        //console.log(pollutionRate);
 
         mapRef.current?.animateToRegion(region)
         mapRef.current?.render()
         //console.log(selectedMarker)
     }
 
-    console.log("map: ");
+    //console.log("map: ");
     //console.log(region);
 
     return (
@@ -117,6 +144,7 @@ export default function MapScreen() {
                 onLongPress={onLongPress}
                 mapRef={mapRef}
                 region={region}
+                pollRate = {pollutionRate}
             />
         </View>
     );
@@ -138,6 +166,4 @@ const styles = StyleSheet.create({
         width: "80%",
     },
 });
-function setSelectedMarker(marker: MarkerData) {
-    throw new Error("Function not implemented.");
-}
+
