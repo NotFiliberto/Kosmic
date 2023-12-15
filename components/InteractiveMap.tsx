@@ -148,10 +148,10 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                          heatmapMode={"POINTS_DENSITY"}*/
 				/>
 			</MapView>
-			{markers.length > 0 ? (
+			{selectedMarker && (
 				<MapLocationModal
 					isVisible
-					locationName="Indice: "
+					locationName={selectedMarker.title}
 					mapsURL="https://google.com"
 					coords={markers[markers.length - 1].coordinate}
 					pollutionRate={pollRate}
@@ -160,7 +160,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 						console.log("handle toggle pin from modal");
 					}}
 				/>
-			) : null}
+			)}
 		</View>
 	);
 };

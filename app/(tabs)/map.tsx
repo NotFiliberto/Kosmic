@@ -78,7 +78,7 @@ export default function MapScreen() {
 	}
 
 	function onMarkerPress(event: MarkerPressEvent): void {
-		console.log(event);
+		//console.log(event);
 	}
 
 	function onMapPress(): void {
@@ -87,7 +87,7 @@ export default function MapScreen() {
 		console.log("deselected");
 	}
 
-	function onLongPress(event: LongPressEvent): void {
+	async function onLongPress(event: LongPressEvent) {
 		var lat = event.nativeEvent.coordinate.latitude;
 		var lng = event.nativeEvent.coordinate.longitude;
 
@@ -98,10 +98,17 @@ export default function MapScreen() {
 			longitudeDelta: 1,
 		};
 
+		const dataFromMaps = await fetch(
+			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&language=it-IT&key=AIzaSyDe7OrltZ0dSji5xX0VwjdZcACpHEfeWFY`
+		);
+
+		const markerName = (await dataFromMaps.json()).plus_code.compound_code;
+		console.log({ markerName });
+
 		var newSelectedMarker: wMarker = {
 			id: markers.length,
 			coordinate: { latitude: lat, longitude: lng },
-			title: "test title",
+			title: markerName,
 		};
 		/* markers.pop();
         markers.push({
@@ -110,7 +117,7 @@ export default function MapScreen() {
             title: "My Marker",
         }); */
 
-		console.log("event: ", { event });
+		//console.log("event: ", { event });
 
 		setMarkers([...markers, newSelectedMarker]);
 		setSelectedMarker(newSelectedMarker);
