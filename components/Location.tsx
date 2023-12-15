@@ -10,17 +10,16 @@ type LocationProps = {
 	name: string;
 	pinned: boolean;
 	value: number;
-	onTogglePinned: ( id: string ) => void;
+	onTogglePinned: (id: string) => void;
 };
 
 function truncateNumber(num: number) {
 	return Math[num < 0 ? "ceil" : "floor"](num);
 }
 
-export default function Location ( props: LocationProps )
-{
+export default function Location(props: LocationProps) {
 	const { id, name, pinned, value, onTogglePinned } = props;
-	
+
 	var colorValue;
 	if (value < 16) {
 		colorValue = "red"; // '#f2003c'
@@ -31,32 +30,39 @@ export default function Location ( props: LocationProps )
 	}
 
 	return (
-		<View style={ styles.item } lightColor="#eee" darkColor="rgba(255,255,255,0.1)">
-			{/* Saved place name */ }
-			<Text style={ styles.place }>{ name }</Text>
-			{/* Pollution rate */ }
+		<View style={styles.item}>
+			{/* Saved place name */}
+			<Text style={styles.place}>{name}</Text>
+			{/* Pollution rate */}
 			<Text
-				style={ { // value style
+				style={{
+					// value style
 					flex: 1,
 					fontSize: 16,
 					fontWeight: "600",
 					color: colorValue,
 					marginHorizontal: 10,
-				} }
-			>{truncateNumber(value * 100) / 100}</Text>
+				}}
+			>
+				{truncateNumber(value * 100) / 100}
+			</Text>
 			{/* Pressable Icon, toggles places to make them pinned or unpinned */}
-			<Pressable onPress={ () => { onTogglePinned(id) }}>
-				{ pinned ? (
-					<PinIcon style={ styles.icon } size={ 24 } color={ "#f2003c" } />
+			<Pressable
+				onPress={() => {
+					onTogglePinned(id);
+				}}
+			>
+				{pinned ? (
+					<PinIcon style={styles.icon} size={24} color={"#f2003c"} />
 				) : (
-					<PinOff style={ styles.icon } size={ 24 } color={ "#f2003c" } />
-				) }
+					<PinOff style={styles.icon} size={24} color={"#f2003c"} />
+				)}
 			</Pressable>
 		</View>
 	);
 }
 
-const styles = StyleSheet.create( {
+const styles = StyleSheet.create({
 	item: {
 		flex: 1,
 		flexDirection: "row",
@@ -66,6 +72,7 @@ const styles = StyleSheet.create( {
 		justifyContent: "space-between",
 		padding: 20,
 		marginBottom: 20,
+		backgroundColor: "#fff",
 	},
 	place: {
 		flex: 2,
