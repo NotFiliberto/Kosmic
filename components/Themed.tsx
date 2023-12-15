@@ -7,6 +7,7 @@ import {
     Text as DefaultText,
     useColorScheme,
     View as DefaultView,
+    //TouchableOpacity as DefaultTouchableOpacity,
 } from "react-native";
 
 import Colors from "../constants/Colors";
@@ -18,6 +19,7 @@ type ThemeProps = {
 
 export type TextProps = ThemeProps & DefaultText["props"];
 export type ViewProps = ThemeProps & DefaultView["props"];
+//export type TouchableOpacityProps = ThemeProps & DefaultTouchableOpacity["props"]
 
 export function useThemeColor(
     props: { light?: string; dark?: string },
@@ -50,3 +52,19 @@ export function View(props: ViewProps) {
 
     return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
+
+/* export function TouchableOpacity(props: TouchableOpacityProps) {
+    const { style, lightColor, darkColor, ...otherProps } = props;
+    const backgroundColor = useThemeColor(
+        { light: lightColor, dark: darkColor },
+        "background",
+    );
+    const borderColor = useThemeColor(
+        { light: lightColor, dark: darkColor },
+        "text",
+    );
+
+    return <DefaultTouchableOpacity style={[{ backgroundColor }, { borderColor}, style]} {...otherProps} />;
+} */
+
+
