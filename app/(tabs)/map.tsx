@@ -71,12 +71,14 @@ export default function MapScreen() {
     function getWeight(pos: LatLng): number {
         var ret = 0
         console.log("pos:")
-        console.log(pos)
-        for (const point of points){
-            if(pos.latitude<= point.Y && pos.longitude>=point.X)
-                console.log("found:")
-                console.log(point.Y, point.X)
-                return point.Valore;
+        console.log(pos.latitude.toFixed(1), pos.longitude.toFixed(1))
+        for (var point of points){
+            if((pos.latitude.toFixed(1) == point.Y.toFixed(1)) &&
+                (pos.longitude.toFixed(1) == point.X.toFixed(1))){
+                 console.log("found:")
+                 console.log(point.Y.toFixed(1), point.X.toFixed(1))
+                 return point.Valore;
+             }
         }
         
         
