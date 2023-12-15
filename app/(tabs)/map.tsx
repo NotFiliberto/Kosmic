@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
 import punti from "../../assets/data/valori_atlante_veneto.json";
+import { prettyLocationName } from "@lib/utils";
+
 
 const points = punti as wPoint[];
 
@@ -53,7 +55,7 @@ export default function MapScreen() {
 
 	const mapRef = useRef<MapView>(null);
 
-	const [pollutionRate, setPollutionRate] = useState<number>();
+	const [pollutionRate, setPollutionRate] = useState<number>(0);
 
 	/* useEffect(() => {
         console.log(selectedMarker);
@@ -108,7 +110,7 @@ export default function MapScreen() {
 		var newSelectedMarker: wMarker = {
 			id: markers.length,
 			coordinate: { latitude: lat, longitude: lng },
-			title: markerName,
+			title: prettyLocationName(markerName),
 		};
 		/* markers.pop();
         markers.push({
