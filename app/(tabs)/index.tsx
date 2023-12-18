@@ -3,28 +3,20 @@ import React, { useEffect, useRef, useState } from "react";
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
 import punti from "../../assets/data/valori_atlante_veneto.json";
-import { prettyLocationName } from "@lib/utils";
-
-
 const points = punti as wPoint[];
-
+import { prettyLocationName } from "@lib/utils";
 import MapView, {
 	LatLng,
 	Region,
-	MapOverlay,
-	Overlay,
-	Heatmap,
-	MapMarker,
 	MarkerPressEvent,
-	Point,
 	LongPressEvent,
+	MapPressEvent,
 } from "react-native-maps";
-import InteractiveMap, { MarkerData } from "../../components/InteractiveMap";
-import MapPanel from "../../components/MapPanel";
-import { Key } from "lucide-react-native";
+import InteractiveMap from "../../components/InteractiveMap";
 import { wMarker, wPoint } from "@lib/types";
 
 export default function MapScreen() {
+	//TODO move to constants.ts
 	var initialRegion = {
 		latitude: 46,
 		longitude: 12,
@@ -38,16 +30,10 @@ export default function MapScreen() {
 		latitudeDelta: 3,
 		longitudeDelta: 1,
 	});
-	/* var markers = [
-        {
-            id: 1,
-            coordinate: { latitude: 45, longitude: 12 },
-            title: "Marker 1",
-        },
-        // Add more markers as needed
-    ]; */
 
 	const [markers, setMarkers] = useState<wMarker[]>([]);
+
+	const [showInfoModal, setShowInfoModal] = useState(false);
 
 	const [selectedMarker, setSelectedMarker] = useState<wMarker | undefined>(
 		undefined
@@ -56,10 +42,6 @@ export default function MapScreen() {
 	const mapRef = useRef<MapView>(null);
 
 	const [pollutionRate, setPollutionRate] = useState<number>(0);
-
-	/* useEffect(() => {
-        console.log(selectedMarker);
-    }, [selectedMarker]); */
 
 	function getWeight(pos: LatLng): number {
 		var ret = 0;
@@ -83,7 +65,7 @@ export default function MapScreen() {
 		//console.log(event);
 	}
 
-	function onMapPress(): void {
+	function onMapPress(event: MapPressEvent) {
 		setSelectedMarker(undefined);
 		setMarkers([]);
 		console.log("deselected");
@@ -119,8 +101,6 @@ export default function MapScreen() {
             title: "My Marker",
         }); */
 
-		//console.log("event: ", { event });
-
 		setMarkers([...markers, newSelectedMarker]);
 		setSelectedMarker(newSelectedMarker);
 
@@ -128,28 +108,33 @@ export default function MapScreen() {
 
 		setPollutionRate(getWeight({ latitude: lat, longitude: lng }));
 
-		//console.log(pollutionRate);
+		setShowInfoModal(true);
 
 		mapRef.current?.animateToRegion(newRegion);
 		mapRef.current?.render();
-		//console.log(selectedMarker)
 	}
-
-	//console.log("map: ");
-	//console.log(region);
 
 	return (
 		<View style={{ flex: 1 }}>
 			<InteractiveMap
 				initialRegion={initialRegion}
-				markers={markers}
 				selectedMarker={selectedMarker}
+				markers={markers}
 				onMarkerPress={onMarkerPress}
 				onMapPress={onMapPress}
 				onLongPress={onLongPress}
 				mapRef={mapRef}
 				region={region}
 				pollRate={pollutionRate}
+				modal={{
+					show: showInfoModal,
+					onClose: () => {
+						setShowInfoModal(false);
+
+						setSelectedMarker(undefined);
+						console.log("deselected");
+					},
+				}}
 			/>
 		</View>
 	);

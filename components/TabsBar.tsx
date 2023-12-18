@@ -67,11 +67,11 @@ export default function TabsBar() {
 				title="Map"
 				href="/(tabs)/map"
 			/> */}
-			{/* <TabBarItem
+			<TabBarItem
 				icon={<TestTube size={24} color="#fff" />}
 				title="test"
 				href="/(tabs)/test"
-			/> */}
+			/>
 		</View>
 	);
 }
