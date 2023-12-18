@@ -1,4 +1,4 @@
-import { Button, StyleSheet } from "react-native";
+import { Button, StatusBar, StyleSheet } from "react-native";
 import MapLocationModal from "@components/common/MapLocationModal";
 import { SafeAreaView, Text, View } from "react-native";
 import { useState } from "react";
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
+		paddingTop: StatusBar.currentHeight,
 	},
 	title: {
 		fontSize: 20,
