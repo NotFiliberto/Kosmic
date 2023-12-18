@@ -9,7 +9,8 @@ import {
 	PinIcon,
 	TestTube,
 } from "lucide-react-native";
-import { Text, View, StyleSheet } from "react-native";
+import { useState } from "react";
+import { Text, View, StyleSheet, Pressable } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,11 +18,19 @@ type TabBarItemProps = {
 	icon: React.ReactNode;
 	title: string;
 	href: Href<string>;
+	selected?: boolean;
+	onPress: (tabTitle: string) => void;
 };
 
-function TabBarItem({ icon, title, href }: TabBarItemProps) {
+function TabBarItem({
+	icon,
+	title,
+	href,
+	selected = false,
+	onPress,
+}: TabBarItemProps) {
 	return (
-		<Link replace href={href}>
+		<Link replace href={href} onPress={() => onPress(title)}>
 			<View
 				style={{
 					alignItems: "center",
@@ -33,6 +42,7 @@ function TabBarItem({ icon, title, href }: TabBarItemProps) {
 						color: styles.container.color,
 						fontSize: 14,
 						fontWeight: "bold",
+						textDecorationLine: selected ? "underline" : "none",
 					}}
 				>
 					{title}
@@ -42,36 +52,46 @@ function TabBarItem({ icon, title, href }: TabBarItemProps) {
 	);
 }
 
+type TabBarItem = Omit<TabBarItemProps, "onPress">;
+const tabs: TabBarItem[] = [
+	{
+		icon: <PinIcon size={24} color="#fff" />,
+		title: "Salvati",
+		href: "/(tabs)/saved",
+	},
+	{
+		icon: <HomeIcon size={24} color="#fff" />,
+		title: "Home",
+		href: "/(tabs)/",
+	},
+	{
+		icon: <NewspaperIcon size={24} color="#fff" />,
+		title: "Eventi",
+		href: "/(tabs)/events",
+	},
+	{
+		icon: <TestTube size={24} color="#fff" />,
+		title: "Test",
+		href: "/(tabs)/test",
+	},
+];
+
 export default function TabsBar() {
+	const [selectedTab, setSelectedTab] = useState<string>("");
+
 	return (
 		<View style={styles.container}>
-			<TabBarItem
-				icon={<PinIcon size={24} color="#fff" />}
-				title="Salvati"
-				href="/(tabs)/saved"
-			/>
-			{/* TODO: use map screen */}
-
-			<TabBarItem
-				icon={<HomeIcon size={24} color="#fff" />}
-				title="Home"
-				href="/(tabs)/"
-			/>
-			<TabBarItem
-				icon={<NewspaperIcon size={24} color="#fff" />}
-				title="Eventi"
-				href="/(tabs)/events"
-			/>
-			{/* <TabBarItem
-				icon={<MapIcon size={24} color="#fff" />}
-				title="Map"
-				href="/(tabs)/map"
-			/> */}
-			{/* <TabBarItem
-				icon={<TestTube size={24} color="#fff" />}
-				title="test"
-				href="/(tabs)/test"
-			/> */}
+			{tabs.map((tab, index) => (
+				<TabBarItem
+					{...tab}
+					selected={tab.title == selectedTab ? true : false}
+					onPress={() => {
+						setSelectedTab(tab.title);
+						console.log("ok");
+					}}
+					key={index}
+				/>
+			))}
 		</View>
 	);
 }
