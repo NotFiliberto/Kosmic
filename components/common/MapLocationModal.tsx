@@ -3,6 +3,7 @@ import { Text, View } from "../../components/Themed";
 import { CloudSunIcon, MapIcon, PinIcon } from "lucide-react-native";
 import { LatLng, Point } from "react-native-maps";
 import { A } from "@expo/html-elements";
+import ReactNativeModal from "react-native-modal";
 
 export type MapLocationModalProps = {
 	isVisible: boolean;
@@ -14,6 +15,7 @@ export type MapLocationModalProps = {
 	mapsURL: string;
 	weatherURL: string;
 	togglePin: (coords: LatLng) => void;
+	onClose: () => void;
 };
 
 //TODO add animation to this modal
@@ -27,67 +29,82 @@ export default function MapLocationModal({
 	mapsURL,
 	weatherURL,
 	togglePin,
+	onClose,
 }: MapLocationModalProps) {
 	if (!isVisible) return null;
 
 	return (
-		<View style={styles.container}>
-			<View
-				style={{
-					flexDirection: "row",
-					justifyContent: "space-between",
-				}}
-			>
-				<View style={styles.locationInfo}>
-					<Text style={styles.locationName}>{locationName}</Text>
-					<View style={styles.locationCoordinates}>
-						<Text>{coords.latitude.toFixed(2)}</Text>
-						<Text>{coords.longitude.toFixed(2)}</Text>
+		<ReactNativeModal
+			animationIn="slideInUp"
+			animationOut="slideOutDown"
+			isVisible={isVisible}
+			onBackdropPress={onClose}
+			backdropOpacity={0.5}
+			hideModalContentWhileAnimating={true}
+			style={styles.modalContainer}
+		>
+			<View style={styles.container}>
+				<View
+					style={{
+						flexDirection: "row",
+						justifyContent: "space-between",
+					}}
+				>
+					<View style={styles.locationInfo}>
+						<Text style={styles.locationName}>{locationName}</Text>
+						<View style={styles.locationCoordinates}>
+							<Text>{coords.latitude.toFixed(2)}</Text>
+							<Text>{coords.longitude.toFixed(2)}</Text>
+						</View>
+					</View>
+					<View style={styles.pollutionTextInfo}>
+						<Text
+							style={{
+								...styles.lightPollutionRate,
+								color: commentColor,
+							}}
+						>
+							{pollutionRate}
+						</Text>
+						<Text
+							style={{
+								...styles.lightPollutionValue,
+								color: commentColor,
+							}}
+						>
+							{comment}
+						</Text>
 					</View>
 				</View>
-				<View style={styles.pollutionTextInfo}>
-					<Text
-						style={{
-							...styles.lightPollutionRate,
-							color: commentColor,
-						}}
-					>
-						{pollutionRate}
-					</Text>
-					<Text
-						style={{
-							...styles.lightPollutionValue,
-							color: commentColor,
-						}}
-					>
-						{comment}
-					</Text>
-				</View>
-			</View>
-			<View style={styles.ctas}>
-				<A href={mapsURL}>
-					<MapIcon color="black" size={48} />
-				</A>
-				<View style={{ flexDirection: "row", gap: 24 }}>
-					<A href={weatherURL}>
-						<CloudSunIcon color="black" size={48} />
+				<View style={styles.ctas}>
+					<A href={mapsURL}>
+						<MapIcon color="black" size={48} />
 					</A>
-					<Pressable onPress={() => togglePin(coords)}>
-						<PinIcon color="black" size={48} />
-					</Pressable>
+					<View style={{ flexDirection: "row", gap: 24 }}>
+						<A href={weatherURL}>
+							<CloudSunIcon color="black" size={48} />
+						</A>
+						<Pressable onPress={() => togglePin(coords)}>
+							<PinIcon color="black" size={48} />
+						</Pressable>
+					</View>
 				</View>
 			</View>
-		</View>
+		</ReactNativeModal>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
-		display: "flex" /* 
-		borderColor: "red",
-		borderWidth: 2, */,
+	modalContainer: {
+		position: "relative",
 		width: "90%",
-		bottom: 116, // 20 from the buttom border + 76 (tabs's height) + 20 margin fro tabs
+		height: "100%",
+	},
+
+	container: {
+		display: "flex",
+		width: "100%",
+		bottom: 96, // 20 from the buttom border + 76 (tabs's height) + 20 margin fro tabs
 		position: "absolute",
 		borderRadius: 16,
 		padding: 20,

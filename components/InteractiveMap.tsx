@@ -42,6 +42,10 @@ interface InteractiveMapProps {
 	mapRef: React.RefObject<MapView> | undefined;
 	region: Region;
 	pollRate: number;
+	modal: {
+		show: boolean;
+		onClose: () => void;
+	};
 }
 
 const InteractiveMap: React.FC<InteractiveMapProps> = ({
@@ -54,6 +58,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 	region,
 	pollRate,
 	selectedMarker,
+	modal,
 }) => {
 	type WeightedLatLng = {
 		latitude: number;
@@ -73,8 +78,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 		longitude: p.X,
 		weight: (p.Brightness - minWeight) / (maxWeight - minWeight),
 	}));
-
-
 
 	const heatmapGradient = {
 		colors: [
@@ -164,7 +167,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 			</MapView>
 			{selectedMarker && (
 				<MapLocationModal
-					isVisible
+					isVisible={modal.show}
 					locationName={selectedMarker.title}
 					mapsURL={`https://maps.google.com/?q=${selectedMarker.coordinate.latitude}>,${selectedMarker.coordinate.longitude}`}
 					coords={markers[markers.length - 1].coordinate}
@@ -175,6 +178,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 					togglePin={() => {
 						console.log("handle toggle pin from modal");
 					}}
+					onClose={modal.onClose}
 				/>
 			)}
 		</View>
