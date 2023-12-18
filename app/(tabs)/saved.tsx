@@ -2,12 +2,16 @@ import {
     StyleSheet,
     ScrollView,
     SafeAreaView,
+    Pressable,
 } from "react-native";
 
-import { View } from "../../components/Themed";
+import { View, Text } from "../../components/Themed";
 import Location from "../../components/Location";
 
 import React, { useState } from "react";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 // List data: id's must be unic at the beginning
     const savedPlacesFromLocalDB = [
@@ -24,7 +28,7 @@ import React, { useState } from "react";
         { id: "11", name: "Villorba", value: 21.08, pinned: true },
     ] 
 
-export default function LocationScreen ()
+export default function LocationScreen (  )
 {
 
     // Data for ScrollView and State usage
@@ -59,37 +63,101 @@ export default function LocationScreen ()
         updateListItem( position, 'pinned', !currentPinned )
     };
     
+
+    // ASYNC STORAGE STUFF
+
+    const [ isLoading, setIsLoading ] = React.useState( false )
+    const [ counter, setCounter ] = React.useState( 0 )
+    const [ greeting, setGreeting ] = React.useState( "" )
+    const [ name, setName ] = React.useState( "" )
+    const [ greetingInfo, setGreetingInfo ] = React.useState()
+
+    const getData = async () =>
+    {
+        const value = await AsyncStorage.getItem( '@place' )
+        
+        if ( value != null)
+        {
+            const copy = places
+            const add = JSON.parse(value)
+            copy.push(add)
+            setPlaces([...copy])
+        }
+    }
+        
+        // for one key get:
+        //const countValue = await AsyncStorage.getItem( '@count' );
+        // const count = parseInt(countValue)
+        // setCount(isNaN(count) ? 0 : count)
+
+    React.useEffect(() => {
+        getData();
+    }, []);
+
+    const onSubmit = async () =>
+    {
+        console.log("cliccato")
+        const placeToSave = { id: '1', name: 'Naple', value: 300, pinned: true}
+
+        try{
+            await AsyncStorage.setItem( '@place', JSON.stringify( placeToSave ) )   
+            const copy = places
+            copy.push( placeToSave )
+            setPlaces([...copy])
+        } catch (err){
+            console.log(err)
+        }
+    }
+
+    
+    
     return (
         <SafeAreaView
             style={ styles.safe }
         >
-        <ScrollView style={ styles.container } >
-            {
-                places.map( ( place, index ) =>
+            <Pressable
+                style={ {
+                width: 200,
+                backgroundColor: 'red',
+                borderRadius: 5,
+                } }
+                onPress={ () =>{ onSubmit() } }
+            >
+                <Text style={ {
+                    textAlign: 'center',
+                    fontSize: 20,
+                    fontWeight: 'bold',
+                    padding: 5,
+                } }
+                >SAVE LOCAL</Text>
+            </Pressable>
+            <ScrollView style={ styles.container } >
                 {
-                    return (   place.pinned && 
-                        <View style={ styles.item }
-                            key={ index }>
-                            {
-                                (
-                                    <Location
-                                        id={ place.id }
-                                        name={ place.name }
-                                        pinned={ place.pinned }
-                                        value={ place.value }
-                                        onTogglePinned={ handleTogglePin }
-                                    />
-                                ) }
-                        </View>
-                    )
-                })
-            }
-            <View
-                style={{
-                    marginBottom: 120,
-                }}
-            />
-        </ScrollView>
+                    places.map( ( place, index ) =>
+                    {
+                        return (   place.pinned && 
+                            <View style={ styles.item }
+                                key={ index }>
+                                {
+                                    (
+                                        <Location
+                                            id={ place.id }
+                                            name={ place.name }
+                                            pinned={ place.pinned }
+                                            value={ place.value }
+                                            onTogglePinned={ handleTogglePin }
+                                        />
+                                    ) }
+                            </View>
+                        )
+                    })
+                }
+                <View
+                    style={{
+                        marginBottom: 120,
+                    }}
+                />
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -98,7 +166,7 @@ const styles = StyleSheet.create( {
     safe: {
         height: "100%",
         backgroundColor: "#fff",
-        paddingTop: 100
+        paddingTop: 100,
     },
     container: {
         flex: 1,
