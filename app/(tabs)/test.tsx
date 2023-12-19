@@ -1,10 +1,16 @@
-import { Button, StatusBar, StyleSheet } from "react-native";
-import MapLocationModal from "@components/common/MapLocationModal";
-import { SafeAreaView, Text, View } from "react-native";
-import { useState } from "react";
+import { Button, ScrollView, StatusBar, StyleSheet } from "react-native"
+import MapLocationModal from "@components/common/MapLocationModal"
+import { SafeAreaView, Text, View } from "react-native"
+import { useState } from "react"
+import { useLocationsStorage } from "@lib/hooks/useLocationStorage"
+import { SeparatorHorizontal } from "lucide-react-native"
+import Location from "@components/Location"
 
 export default function Page() {
-	const [locationModalVisible, setLocationModalVisible] = useState(true);
+	const [locationModalVisible, setLocationModalVisible] = useState(false)
+
+	const { locations, addLocation, removeLocation, removeAllLocations } =
+		useLocationsStorage()
 
 	return (
 		<View style={styles.container}>
@@ -27,28 +33,76 @@ export default function Page() {
 				commentColor={"green"}
 				weatherURL="https://3bmeteo.com"
 				togglePin={() => {
-					console.log("handle toggle pin from modal");
+					console.log("handle toggle pin from modal")
 				}}
 				onClose={() => setLocationModalVisible(false)}
 			/>
+
+			<SeparatorHorizontal />
+
+			<Button
+				title="add location"
+				onPress={() =>
+					addLocation({ name: "TESTING", pinned: true, value: 23.2 })
+				}
+			/>
+
+			<Button
+				title="remove all locations "
+				color={"red"}
+				onPress={() => removeAllLocations()}
+			/>
+
+			<ScrollView
+				style={{
+					flex: 1,
+					padding: 20,
+					gap: 20,
+					backgroundColor: "#fff",
+				}}
+			>
+				{locations.map((location, index) => {
+					return (
+						location.pinned && (
+							<View key={index} style={{ flex: 1 }}>
+								{
+									<Location
+										id={location.id}
+										name={location.name}
+										pinned={location.pinned}
+										value={location.value}
+										onTogglePinned={() =>
+											removeLocation(location)
+										}
+									/>
+								}
+							</View>
+						)
+					)
+				})}
+				<View
+					style={{
+						marginBottom: 120,
+					}}
+				/>
+			</ScrollView>
 		</View>
-	);
+	)
 }
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
+		paddingHorizontal: 20,
+		backgroundColor: "#fff",
 		paddingTop: StatusBar.currentHeight,
 	},
 	title: {
 		fontSize: 20,
 		fontWeight: "bold",
-		color: "#000",
 	},
 	separator: {
 		marginVertical: 30,
 		height: 1,
 		width: "80%",
 	},
-});
+})
