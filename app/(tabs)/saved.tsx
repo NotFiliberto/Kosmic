@@ -4,15 +4,15 @@ import {
     SafeAreaView,
     Pressable,
 } from "react-native";
-import { StatusBar } from "react-native";
 
 import { View, Text } from "../../components/Themed";
 import Location from "../../components/Location";
 
-import React, { useState } from "react";
-import ScreenHeader from "@components/common/ScreenHeader";
-
+import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
+
 
 
 // List data: id's must be unic at the beginning
@@ -39,7 +39,20 @@ export default function LocationScreen() {
 	// Data for ScrollView and State usage
 	const [places, setPlaces] = useState<typeof savedPlacesFromLocalDB>(
 		savedPlacesFromLocalDB
-	);
+    );
+
+    const [unic, setUnic] = React.useState(places.length + 1) 
+    
+    const addListItemRandom = () => {
+        setUnic( unic + 1 )
+        const id = unic.toString()
+        const num = Math.floor( Math.random() * 25  + 15 )
+        const s = 'Place ' + num.toString()
+        const item = { id: id, name: s, value: num, pinned: true }
+        const copy = places
+        copy.push(item)
+        setPlaces([...copy])
+    }
 
 	// Update any prop setting a specified value in a specified position in the List
 	const updateListItem = (
@@ -52,7 +65,16 @@ export default function LocationScreen() {
 		copy[index] = { ...copy[index], [nameProp]: value }; // Remember that props names are seen as a list here
 		// remember its'a list -> []
 		setPlaces([...copy]);
-	};
+    };
+    
+    // Delete item with specified id
+    const deleteListItem = ( index: number ) =>
+    {
+        const copy = places
+        copy.splice(index, 1)
+        setPlaces( [ ...copy ])  
+    }
+
 
 	// Finds the position in data of an item through its specified ID
 	const findPositionItem = (id: string | undefined) => {
@@ -69,82 +91,102 @@ export default function LocationScreen() {
 		// solution to handle pintoggle (use icon handler where there is the click handler)
 		const position = findPositionItem(id);
 		const currentPinned = getCurrentPinned(position);
-		updateListItem(position, "pinned", !currentPinned);
+        updateListItem( position, "pinned", !currentPinned );
+        deleteListItem(position)
 	};
     
 
     // ASYNC STORAGE STUFF
 
-    const [ isLoading, setIsLoading ] = React.useState( false )
-    const [ counter, setCounter ] = React.useState( 0 )
-    const [ greeting, setGreeting ] = React.useState( "" )
-    const [ name, setName ] = React.useState( "" )
-    const [ greetingInfo, setGreetingInfo ] = React.useState()
+    // To understand if app is first launched
+    const [ loading, setLoading ] = useState( true )
+    const [ viewedOnBoarding, setViewedOnBoarding ] = useState( false )
 
-    const getData = async () =>
-    {
-        const value = await AsyncStorage.getItem( '@place' )
-        
-        if ( value != null)
-        {
-            const copy = places
-            const add = JSON.parse(value)
-            copy.push(add)
-            setPlaces([...copy])
+    /* 
+        Converte l'array savedPlacesFromLocalDB in una stringa JSON e la salva con la 
+        chiave @savedPlaces in AsyncStorage. Se il salvataggio ha successo, viene 
+        visualizzato un messaggio di log.
+    */
+    const saveData = async () => {
+        try {
+            await AsyncStorage.setItem( '@savedPlaces', JSON.stringify( places ) );
+            console.log('Dati salvati correttamente.');
+        } catch (error) {
+            console.error('Errore nel salvataggio dei dati:', error);
+        }
+    };
+
+    /* 
+        Recupera i dati associati alla chiave @savedPlaces da AsyncStorage, li converte da stringa JSON e li utilizza. 
+        Se non ci sono dati, viene visualizzato un messaggio di log.
+    */
+    const getData = async () => {
+        try {
+        const data = await AsyncStorage.getItem('@savedPlaces');
+        if (data !== null) {
+            const parsedData = JSON.parse( data );
+            console.log( 'Dati recuperati con successo: ' + (parsedData.length == 0 ? 'Last session cleaned all local storage' : 'n elem in storage: ' + parsedData.length) )
+            // Quando faccio la get, la faccio al primo accesso e metto i dati precedenti
+            // quelli che avevo salvato in locale l'ultima volta
+            let copy = places
+            copy = parsedData
+            setPlaces( copy );
+        }
+        } catch (error) {
+        console.error('Errore nel recupero dei dati:', error);
+        }
+    };
+
+    const removeData = async () => {
+         try {
+            await AsyncStorage.removeItem( '@savedPlaces' );
+            setPlaces([])
+            console.log('Dati rimossi correttamente.');
+        } catch (error) {
+            console.error('Errore nel salvataggio dei dati:', error);
         }
     }
-        
-        // for one key get:
-        //const countValue = await AsyncStorage.getItem( '@count' );
-        // const count = parseInt(countValue)
-        // setCount(isNaN(count) ? 0 : count)
 
-    React.useEffect(() => {
+
+    // Esegui getData all'avvio dell'app
+    useEffect(() => {
         getData();
-    }, []);
+    }, []); // L'array vuoto assicura che useEffect venga eseguito solo una volta
 
-    const onSubmit = async () =>
-    {
-        console.log("cliccato")
-        const placeToSave = { id: '1', name: 'Naple', value: 300, pinned: true}
-
-        try{
-            await AsyncStorage.setItem( '@place', JSON.stringify( placeToSave ) )   
-            const copy = places
-            copy.push( placeToSave )
-            setPlaces([...copy])
-        } catch (err){
-            console.log(err)
-        }
-    }
-
-    
+        
     
     return (
         <SafeAreaView
             style={ styles.safe }
         >
-            <Pressable
-                style={ {
-                width: 200,
-                backgroundColor: 'red',
-                borderRadius: 5,
-                } }
-                onPress={ () =>{ onSubmit() } }
+            <View style={ styles.header }>
+                <Pressable
+                style={ [ styles.button_storage, { backgroundColor: 'red' } ]  }
+                onPress={ () =>{ saveData() } }
             >
-                <Text style={ {
-                    textAlign: 'center',
-                    fontSize: 20,
-                    fontWeight: 'bold',
-                    padding: 5,
-                } }
+                <Text style={ styles.text_button_storage }
                 >SAVE LOCAL</Text>
             </Pressable>
+            <Pressable
+                style={ [ styles.button_storage, { backgroundColor: 'lightgreen' }] }
+                onPress={ () => removeData() }
+            >
+                <Text style={ styles.text_button_storage }
+                >REMOVE ALL LOCAL</Text>
+            </Pressable>
+            <Pressable
+                style={ [ styles.button_storage, { backgroundColor: 'lightblue' } ] }
+                onPress={ () => addListItemRandom() }
+            >
+                <Text style={ styles.text_button_storage }
+                >ADD PLACE</Text>
+            </Pressable>
+            </View>
             <ScrollView style={ styles.container } >
                 {
                     places.map( ( place, index ) =>
                     {
-                        return (   place.pinned && 
+                        return ( place.pinned &&
                             <View style={ styles.item }
                                 key={ index }>
                                 {
@@ -159,13 +201,9 @@ export default function LocationScreen() {
                                     ) }
                             </View>
                         )
-                    })
+                    } )
+
                 }
-                <View
-                    style={{
-                        marginBottom: 120,
-                    }}
-                />
             </ScrollView>
         </SafeAreaView>
     );
@@ -173,17 +211,35 @@ export default function LocationScreen() {
 
 const styles = StyleSheet.create( {
     safe: {
-        height: "100%",
+        flex: 1,
         backgroundColor: "#fff",
-        paddingTop: 100,
+        paddingTop: 40,
+        borderWidth: 2,
+        borderColor: 'red',
+        paddingBottom: 100,
     },
     container: {
         flex: 1,
-        padding: 20,
+        paddingHorizontal: 20,
         gap: 20,
         backgroundColor: "#fff",
     },
     item: {
         flex: 1,
-    }
+    },
+    header: {
+        paddingHorizontal: 20,
+        gap: 10,
+        paddingBottom: 10,
+    },
+    button_storage: {
+        //width: 200,
+        borderRadius: 15,
+    },
+    text_button_storage: {
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: 'bold',
+        padding: 5,
+    },
 });
