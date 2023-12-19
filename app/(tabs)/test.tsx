@@ -1,10 +1,28 @@
-import { Button, ScrollView, StatusBar, StyleSheet } from "react-native"
+import {
+	Button,
+	LayoutAnimation,
+	ScrollView,
+	StatusBar,
+	StyleSheet,
+} from "react-native"
 import MapLocationModal from "@components/common/MapLocationModal"
 import { SafeAreaView, Text, View } from "react-native"
 import { useState } from "react"
 import { useLocationsStorage } from "@lib/hooks/useLocationStorage"
 import { SeparatorHorizontal } from "lucide-react-native"
 import Location from "@components/Location"
+
+const layoutAnimConfig = {
+	duration: 300,
+	update: {
+		type: LayoutAnimation.Types.easeInEaseOut,
+	},
+	delete: {
+		duration: 100,
+		type: LayoutAnimation.Types.easeInEaseOut,
+		property: LayoutAnimation.Properties.opacity,
+	},
+}
 
 export default function Page() {
 	const [locationModalVisible, setLocationModalVisible] = useState(false)
@@ -71,9 +89,13 @@ export default function Page() {
 										name={location.name}
 										pinned={location.pinned}
 										value={location.value}
-										onTogglePinned={() =>
+										onTogglePinned={() => {
 											removeLocation(location)
-										}
+											// after removing the item, we start animation
+											LayoutAnimation.configureNext(
+												layoutAnimConfig
+											)
+										}}
 									/>
 								}
 							</View>
