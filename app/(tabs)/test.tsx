@@ -31,7 +31,7 @@ export default function Page() {
 		useLocationsStorage()
 
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
 			<Text style={styles.title}>Test Tab</Text>
 
 			<Text>Vtesto a caso</Text>
@@ -108,7 +108,7 @@ export default function Page() {
 					}}
 				/>
 			</ScrollView>
-		</View>
+		</SafeAreaView>
 	)
 }
 const styles = StyleSheet.create({
