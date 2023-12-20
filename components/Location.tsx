@@ -1,32 +1,32 @@
-import { Pressable, StyleSheet, TouchableOpacity } from "react-native";
-import { Text, View } from "./Themed";
-import { useState } from "react";
-import { PinIcon, PinOff } from "lucide-react-native";
-import { RefreshControl } from "react-native-gesture-handler";
-import React from "react";
+import { Pressable, StyleSheet, TouchableOpacity } from "react-native"
+import { Text, View } from "./Themed"
+import { useState } from "react"
+import { PinIcon, PinOff } from "lucide-react-native"
+import { RefreshControl } from "react-native-gesture-handler"
+import React from "react"
 
-type LocationProps = {
-	id: string;
-	name: string;
-	pinned: boolean;
-	value: number;
-	onTogglePinned: (id: string) => void;
-};
+export type LocationProps = {
+	id: string
+	name: string
+	pinned: boolean
+	value: number
+	onTogglePinned: (id: string) => void
+}
 
 function truncateNumber(num: number) {
-	return Math[num < 0 ? "ceil" : "floor"](num);
+	return Math[num < 0 ? "ceil" : "floor"](num)
 }
 
 export default function Location(props: LocationProps) {
-	const { id, name, pinned, value, onTogglePinned } = props;
+	const { id, name, pinned, value, onTogglePinned } = props
 
-	var colorValue;
+	var colorValue
 	if (value < 16) {
-		colorValue = "red"; // '#f2003c'
+		colorValue = "red" // '#f2003c'
 	} else if (value <= 20) {
-		colorValue = "#ffda00";
+		colorValue = "#ffda00"
 	} else {
-		colorValue = "green"; // '#32cd32'
+		colorValue = "green" // '#32cd32'
 	}
 
 	return (
@@ -49,7 +49,7 @@ export default function Location(props: LocationProps) {
 			{/* Pressable Icon, toggles places to make them pinned or unpinned */}
 			<Pressable
 				onPress={() => {
-					onTogglePinned(id);
+					onTogglePinned(id)
 				}}
 			>
 				{pinned ? (
@@ -59,7 +59,7 @@ export default function Location(props: LocationProps) {
 				)}
 			</Pressable>
 		</View>
-	);
+	)
 }
 
 const styles = StyleSheet.create({
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: "600", // Semi-bold
 		marginHorizontal: 10,
+		color: "#000",
 		//padding: 2,
 	},
 	value: {
@@ -88,4 +89,4 @@ const styles = StyleSheet.create({
 		flex: 1,
 		marginHorizontal: 10,
 	},
-});
+})

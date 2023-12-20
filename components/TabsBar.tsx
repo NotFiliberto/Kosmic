@@ -1,6 +1,6 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import { Href, Link, LinkProps } from "expo-router";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { NavigationContainer } from "@react-navigation/native"
+import { Href, Link, LinkProps } from "expo-router"
 import {
 	HomeIcon,
 	LucideIcon,
@@ -8,19 +8,19 @@ import {
 	NewspaperIcon,
 	PinIcon,
 	TestTube,
-} from "lucide-react-native";
-import { useState } from "react";
-import { Text, View, StyleSheet, Pressable } from "react-native";
+} from "lucide-react-native"
+import { useState } from "react"
+import { Text, View, StyleSheet, Pressable } from "react-native"
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator()
 
 type TabBarItemProps = {
-	icon: React.ReactNode;
-	title: string;
-	href: Href<string>;
-	selected?: boolean;
-	onPress: (tabTitle: string) => void;
-};
+	icon: React.ReactNode
+	title: string
+	href: Href<string>
+	selected?: boolean
+	onPress: (tabTitle: string) => void
+}
 
 function TabBarItem({
 	icon,
@@ -49,10 +49,10 @@ function TabBarItem({
 				</Text>
 			</View>
 		</Link>
-	);
+	)
 }
 
-type TabBarItem = Omit<TabBarItemProps, "onPress">;
+type TabBarItem = Omit<TabBarItemProps, "onPress">
 const tabs: TabBarItem[] = [
 	{
 		icon: <PinIcon size={24} color="#fff" />,
@@ -74,10 +74,10 @@ const tabs: TabBarItem[] = [
 		title: "Test",
 		href: "/(tabs)/test",
 	},
-];
+]
 
 export default function TabsBar() {
-	const [selectedTab, setSelectedTab] = useState<string>("");
+	const [selectedTab, setSelectedTab] = useState<string>("")
 
 	return (
 		<View style={styles.container}>
@@ -86,14 +86,13 @@ export default function TabsBar() {
 					{...tab}
 					selected={tab.title == selectedTab ? true : false}
 					onPress={() => {
-						setSelectedTab(tab.title);
-						console.log("ok");
+						setSelectedTab(tab.title)
 					}}
 					key={index}
 				/>
 			))}
 		</View>
-	);
+	)
 }
 
 const styles = StyleSheet.create({
@@ -109,4 +108,4 @@ const styles = StyleSheet.create({
 		bottom: 20,
 		marginHorizontal: 20,
 	},
-});
+})
