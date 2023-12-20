@@ -22,6 +22,11 @@ const layoutAnimConfig = {
 		type: LayoutAnimation.Types.easeInEaseOut,
 		property: LayoutAnimation.Properties.opacity,
 	},
+	create: {
+		duration: 100,
+		type: LayoutAnimation.Types.easeInEaseOut,
+		property: LayoutAnimation.Properties.opacity,
+	},
 }
 
 export default function Page() {
@@ -60,9 +65,10 @@ export default function Page() {
 
 			<Button
 				title="add location"
-				onPress={() =>
+				onPress={() => {
 					addLocation({ name: "TESTING", pinned: true, value: 23.2 })
-				}
+					LayoutAnimation.configureNext(layoutAnimConfig)
+				}}
 			/>
 
 			<Button
