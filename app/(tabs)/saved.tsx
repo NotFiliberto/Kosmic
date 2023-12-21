@@ -68,9 +68,9 @@ export default function LocationScreen ()
                 console.log( 'Dati recuperati con successo: ' + (parsedData.length == 0 ? 'Last session cleaned all local storage' : 'n elem in storage: ' + parsedData.length) )
                 // Quando faccio la get, la faccio al primo accesso e metto i dati precedenti
                 // quelli che avevo salvato in locale l'ultima volta
-                /* let copy = places
+                let copy = places
                 copy = parsedData
-                setPlaces([...copy]) */
+                setPlaces([...copy])
             }
           
         } catch ( error )
@@ -90,6 +90,10 @@ export default function LocationScreen ()
         }
     }
 
+    useEffect( () =>
+    {
+        getData()
+    }, [])
 
 	// Data for ScrollView and State usage
     const [ places, setPlaces ] = useState<typeof savedPlacesFromLocalDB>(
@@ -234,8 +238,8 @@ const styles = StyleSheet.create( {
         flex: 1,
         backgroundColor: "#fff",
         paddingTop: 40,
-        borderWidth: 2,
-        borderColor: 'red',
+        /* borderWidth: 2,
+        borderColor: 'red', */
         paddingBottom: 100,
     },
     container: {
