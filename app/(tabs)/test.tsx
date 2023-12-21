@@ -11,6 +11,7 @@ import { useState } from "react"
 import { useLocationsStorage } from "@lib/hooks/useLocationStorage"
 import { SeparatorHorizontal } from "lucide-react-native"
 import Location from "@components/Location"
+import { GOOGLE_MAPS_API_KEY } from "@env"
 
 const layoutAnimConfig = {
 	duration: 300,
@@ -18,6 +19,11 @@ const layoutAnimConfig = {
 		type: LayoutAnimation.Types.easeInEaseOut,
 	},
 	delete: {
+		duration: 100,
+		type: LayoutAnimation.Types.easeInEaseOut,
+		property: LayoutAnimation.Properties.opacity,
+	},
+	create: {
 		duration: 100,
 		type: LayoutAnimation.Types.easeInEaseOut,
 		property: LayoutAnimation.Properties.opacity,
@@ -30,11 +36,13 @@ export default function Page() {
 	const { locations, addLocation, removeLocation, removeAllLocations } =
 		useLocationsStorage()
 
+	console.log("maps api: ", GOOGLE_MAPS_API_KEY)
+
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
 			<Text style={styles.title}>Test Tab</Text>
 
-			<Text>Vtesto a caso</Text>
+			<Text>GOOGLE API KEY: {GOOGLE_MAPS_API_KEY}</Text>
 
 			<Button
 				title="show modal"
@@ -60,9 +68,10 @@ export default function Page() {
 
 			<Button
 				title="add location"
-				onPress={() =>
+				onPress={() => {
 					addLocation({ name: "TESTING", pinned: true, value: 23.2 })
-				}
+					LayoutAnimation.configureNext(layoutAnimConfig)
+				}}
 			/>
 
 			<Button
@@ -108,7 +117,7 @@ export default function Page() {
 					}}
 				/>
 			</ScrollView>
-		</View>
+		</SafeAreaView>
 	)
 }
 const styles = StyleSheet.create({
