@@ -4,12 +4,14 @@ import { useState } from "react"
 import { PinIcon, PinOff } from "lucide-react-native"
 import { RefreshControl } from "react-native-gesture-handler"
 import React from "react"
+import { LatLng } from "react-native-maps"
 
 export type LocationProps = {
 	id: string
 	name: string
 	pinned: boolean
 	value: number
+	coords: LatLng
 	onTogglePinned: (id: string) => void
 }
 
@@ -18,7 +20,7 @@ function truncateNumber(num: number) {
 }
 
 export default function Location(props: LocationProps) {
-	const { id, name, pinned, value, onTogglePinned } = props
+	const { id, name, pinned, value, coords, onTogglePinned } = props
 
 	var colorValue
 	if (value < 16) {

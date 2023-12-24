@@ -58,8 +58,9 @@ export default function Page() {
 				comment={"Buono"}
 				commentColor={"green"}
 				weatherURL="https://3bmeteo.com"
-				togglePin={() => {
-					console.log("handle toggle pin from modal")
+				togglePin={( l ) => {
+					console.log( "handle toggle pin from modal" )
+					return true 
 				}}
 				onClose={() => setLocationModalVisible(false)}
 			/>
@@ -69,7 +70,7 @@ export default function Page() {
 			<Button
 				title="add location"
 				onPress={() => {
-					addLocation({ name: "TESTING", pinned: true, value: 23.2 })
+					addLocation({ name: "TESTING", pinned: true, value: 23.2, coords: { latitude: 0, longitude: 0} })
 					LayoutAnimation.configureNext(layoutAnimConfig)
 				}}
 			/>
@@ -104,7 +105,11 @@ export default function Page() {
 											LayoutAnimation.configureNext(
 												layoutAnimConfig
 											)
-										}}
+										} }
+										coords={ {
+                                                latitude: 0,
+                                                longitude: 0
+                                        } }  
 									/>
 								}
 							</View>

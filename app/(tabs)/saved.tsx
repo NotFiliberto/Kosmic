@@ -7,11 +7,12 @@ import {
 } from "react-native";
 
 import { View, Text } from "../../components/Themed";
-import Location from "../../components/Location";
 
 import React, { useEffect, useState } from "react";
 
+import Location from "@components/Location";
 import { useLocationsStorage } from "@lib/hooks/useLocationStorage";
+import ScreenHeader from "@components/common/ScreenHeader";
 
 
 const layoutAnimConfig = {
@@ -43,6 +44,7 @@ export default function LocationScreen ()
         <SafeAreaView
             style={ styles.safe }
         >
+            <ScreenHeader text="I miei luoghi"/>
             <View style={ styles.header }>
                 <Pressable
                     style={ [ styles.button_storage, { backgroundColor: 'lightgreen' }] }
@@ -54,7 +56,7 @@ export default function LocationScreen ()
                 <Pressable
                     style={ [ styles.button_storage, { backgroundColor: 'lightblue' } ] }
                     onPress={() => {
-                        addLocation({ name: "TESTING", pinned: true, value: 23.2 })
+                        //addLocation({ name: "TESTING", pinned: true, value: 23.2, coords })
                         LayoutAnimation.configureNext(layoutAnimConfig)
                     }}
                 >
@@ -76,14 +78,18 @@ export default function LocationScreen ()
                                             name={ location.name }
                                             pinned={ location.pinned }
                                             value={ location.value }
-                                            onTogglePinned={() => {
-                                                removeLocation(location)
+                                            onTogglePinned={ () =>
+                                            {
+                                                removeLocation( location );
                                                 // after removing the item, we start animation
                                                 LayoutAnimation.configureNext(
                                                     layoutAnimConfig
-                                                )
-                                            }}
-                                        />
+                                                );
+                                            } }
+                                            coords={ {
+                                                latitude: 0,
+                                                longitude: 0
+                                            } }                                        />
                                     ) }
                             </View>
                         )
@@ -102,7 +108,8 @@ const styles = StyleSheet.create( {
         paddingTop: 40,
         /* borderWidth: 2,
         borderColor: 'red', */
-        paddingBottom: 100,
+        paddingBottom: 0,
+        gap: 10,
     },
     container: {
         flex: 1,

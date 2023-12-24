@@ -25,6 +25,8 @@ import punti from "../assets/data/valori_atlante_veneto.json";
 import MapPanel from "../components/MapPanel";
 import MapLocationModal from "./common/MapLocationModal";
 import { wMarker, wPoint } from "@lib/types";
+import { useLocationsStorage } from "@lib/hooks/useLocationStorage";
+
 
 const points = punti as wPoint[];
 
@@ -120,10 +122,13 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 	const rating = getRating(pollRate);
 	//const prettyName = prettyLocationName(selectedMarker?.title)
 	const prettyScore = Number(pollRate.toFixed(1));
-	const ratingColor = getColorFromRating(pollRate);
+	const ratingColor = getColorFromRating( pollRate );
 
 	//console.log("interactiveMap: ");
 	//console.log(initialRegion);
+
+	const { locations, addLocation, removeLocation, removeAllLocations } =
+    useLocationsStorage()
 
 	return (
 		<View style={styles.container}>
@@ -175,8 +180,25 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 					comment={rating}
 					commentColor={ratingColor}
 					weatherURL="https://3bmeteo.com"
-					togglePin={() => {
-						console.log("handle toggle pin from modal");
+					togglePin={ ( loc ) =>
+					{
+						// controllare che le coordinate siano 
+						console.log("loc data: ", loc)
+						var check = locations.find( l =>
+							l.name === loc.name && l.coords === loc.coords
+						)
+						if ( check )
+						{
+							removeLocation( check )
+							console.log( "Location was already present in storage, removed now from pinned" );
+							loc.pinned = false
+							return false; // value was already stored so its now unpinned
+						} else {
+							addLocation( loc )
+							console.log( "Location was not stored, added now as pinned" );	
+							loc.pinned = true
+							return true;
+						}
 					}}
 					onClose={modal.onClose}
 				/>

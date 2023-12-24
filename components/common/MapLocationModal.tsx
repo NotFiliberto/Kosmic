@@ -1,20 +1,24 @@
 import { Pressable, StyleSheet } from "react-native";
 import { Text, View } from "../../components/Themed";
-import { CloudSunIcon, MapIcon, PinIcon } from "lucide-react-native";
+import { CloudSunIcon, MapIcon, PinIcon, PinOffIcon } from "lucide-react-native";
 import { LatLng, Point } from "react-native-maps";
 import { A } from "@expo/html-elements";
 import ReactNativeModal from "react-native-modal";
+import { useState } from "react";
+import { Location } from "@lib/types"
+import { useLocationsStorage } from "@lib/hooks/useLocationStorage";
+
 
 export type MapLocationModalProps = {
 	isVisible: boolean;
 	locationName: string;
-	pollutionRate: number | undefined;
+	pollutionRate: number;
 	comment: string;
 	commentColor: string;
 	coords: LatLng;
 	mapsURL: string;
 	weatherURL: string;
-	togglePin: (coords: LatLng) => void;
+	togglePin: ( location: Omit<Location, "id"> ) => boolean;
 	onClose: () => void;
 };
 
@@ -31,7 +35,15 @@ export default function MapLocationModal({
 	togglePin,
 	onClose,
 }: MapLocationModalProps) {
-	if (!isVisible) return null;
+	if ( !isVisible ) return null;
+	
+	const [ stored, setStored ] = useState( false )
+	//var stored = false
+
+	const { locations, addLocation, removeLocation, removeAllLocations } =
+		useLocationsStorage()
+	
+	const nextPlace = { name: locationName, pinned: true, value: pollutionRate, coords: coords }
 
 	return (
 		<ReactNativeModal
@@ -84,9 +96,17 @@ export default function MapLocationModal({
 						<A href={weatherURL}>
 							<CloudSunIcon color="black" size={48} />
 						</A>
-						<Pressable onPress={() => togglePin(coords)}>
-							<PinIcon color="black" size={48} />
+						<Pressable onPress={ () =>
+						{
+							togglePin( nextPlace )
+							setStored( nextPlace.pinned )
+						}}>
+							{
+								stored == false ? <PinIcon color="black" size={ 48 } /> : <PinOffIcon color="red" size={ 48 } />
+								//togglePin( coords ) == false ? <PinIcon color="black" size={ 48 } /> : <PinOffIcon color="red" size={ 48 } />
+							}
 						</Pressable>
+						
 					</View>
 				</View>
 			</View>
