@@ -86,10 +86,7 @@ export default function LocationScreen ()
                                                     layoutAnimConfig
                                                 );
                                             } }
-                                            coords={ {
-                                                latitude: 0,
-                                                longitude: 0
-                                            } }                                        />
+                                            coords={ location.coords }                                        />
                                     ) }
                             </View>
                         )
@@ -108,7 +105,7 @@ const styles = StyleSheet.create( {
         paddingTop: 40,
         /* borderWidth: 2,
         borderColor: 'red', */
-        paddingBottom: 0,
+        paddingBottom: 95,
         gap: 10,
     },
     container: {
