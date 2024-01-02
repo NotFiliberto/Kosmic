@@ -39,6 +39,6 @@ export const useLocationsStorage = create<LocationsState>()(
 		{
 			name: "locations-storage", // name of the item in the storage (must be unique)
 			storage: createJSONStorage(() => AsyncStorage), // (optional) by default, 'localStorage' is used
-		}
-	)
+		},
+	),
 )

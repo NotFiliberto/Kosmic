@@ -1,5 +1,5 @@
-import { Event } from "@lib/types";
-import { CrossIcon, XIcon } from "lucide-react-native";
+import { Event } from "@lib/types"
+import { CrossIcon, XIcon } from "lucide-react-native"
 import {
 	View,
 	Text,
@@ -7,21 +7,21 @@ import {
 	StyleSheet,
 	GestureResponderEvent,
 	ScrollView,
-} from "react-native";
-import ReactNativeModal from "react-native-modal";
+} from "react-native"
+import ReactNativeModal from "react-native-modal"
 
 export type EventModalProps = {
-	event: Event | undefined;
-	isVisible: boolean;
-	onClose: () => void;
-};
+	event: Event | undefined
+	isVisible: boolean
+	onClose: () => void
+}
 
 export default function EventModal(props: EventModalProps) {
-	const { isVisible, onClose, event } = props;
+	const { isVisible, onClose, event } = props
 
-	if (!event || event == undefined) return null;
+	if (!event || event == undefined) return null
 
-	event.date = new Date(event.date);
+	event.date = new Date(event.date)
 
 	return (
 		<ReactNativeModal
@@ -61,7 +61,7 @@ export default function EventModal(props: EventModalProps) {
 				</ScrollView>
 			</View>
 		</ReactNativeModal>
-	);
+	)
 }
 
 const styles = StyleSheet.create({
@@ -99,4 +99,4 @@ const styles = StyleSheet.create({
 		padding: 20,
 	},
 	eventText: {},
-});
+})

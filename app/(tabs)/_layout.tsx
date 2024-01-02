@@ -1,17 +1,17 @@
-import { Tabs } from "expo-router";
-import { Pressable, Text, useColorScheme } from "react-native";
+import { Tabs } from "expo-router"
+import { Pressable, Text, useColorScheme } from "react-native"
 
 export default function TabLayout() {
-    const colorScheme = useColorScheme();
+	const colorScheme = useColorScheme()
 
-    return (
-        <Tabs
-            screenOptions={{
-                tabBarStyle: {
-                    display: "none",
-                },
-                headerShown: false,
-            }}
-        ></Tabs>
-    );
+	return (
+		<Tabs
+			screenOptions={{
+				tabBarStyle: {
+					display: "none",
+				},
+				headerShown: false,
+			}}
+		></Tabs>
+	)
 }

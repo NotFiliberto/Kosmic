@@ -13,6 +13,7 @@ import { SeparatorHorizontal } from "lucide-react-native"
 import { GOOGLE_MAPS_API_KEY } from "@env"
 import { Location, Optional } from "@lib/types"
 import LocationCard from "@components/LocationCard"
+import { Link, useGlobalSearchParams, useLocalSearchParams } from "expo-router"
 
 const layoutAnimConfig = {
 	duration: 300,
@@ -44,6 +45,9 @@ export default function Page() {
 	const { locations, addLocation, removeLocation, removeAllLocations } =
 		useLocationsStorage()
 
+	const glob = useGlobalSearchParams()
+	const local = useLocalSearchParams()
+
 	console.log("maps api: ", GOOGLE_MAPS_API_KEY)
 
 	return (
@@ -52,6 +56,20 @@ export default function Page() {
 
 			<Text>GOOGLE API KEY: {GOOGLE_MAPS_API_KEY}</Text>
 
+			<Link
+				replace
+				href={{
+					pathname: "/(tabs)/test",
+					params: {
+						lat: TESTING_LOCATION.coords.latitude,
+						lon: TESTING_LOCATION.coords.longitude,
+					},
+				}}
+				style={{ color: "green", textDecorationLine: "underline" }}
+			>
+				url to the app with custom protocol
+			</Link>
+			<Text>URL: {}</Text>
 			<Button
 				title="show modal"
 				onPress={() => setLocationModalVisible(true)}
@@ -109,7 +127,7 @@ export default function Page() {
 											removeLocation(location)
 											// after removing the item, we start animation
 											LayoutAnimation.configureNext(
-												layoutAnimConfig
+												layoutAnimConfig,
 											)
 										}}
 									/>
