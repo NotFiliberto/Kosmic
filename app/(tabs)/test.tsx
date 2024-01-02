@@ -10,8 +10,9 @@ import { SafeAreaView, Text, View } from "react-native"
 import { useState } from "react"
 import { useLocationsStorage } from "@lib/hooks/useLocationStorage"
 import { SeparatorHorizontal } from "lucide-react-native"
-import Location from "@components/Location"
 import { GOOGLE_MAPS_API_KEY } from "@env"
+import { Location, Optional } from "@lib/types"
+import LocationCard from "@components/LocationCard"
 
 const layoutAnimConfig = {
 	duration: 300,
@@ -28,6 +29,13 @@ const layoutAnimConfig = {
 		type: LayoutAnimation.Types.easeInEaseOut,
 		property: LayoutAnimation.Properties.opacity,
 	},
+}
+
+const TESTING_LOCATION: Optional<Location, "_id"> = {
+	name: "TESTING",
+	pinned: true,
+	value: 23.2,
+	coords: { latitude: 23.2, longitude: 66.2 },
 }
 
 export default function Page() {
@@ -51,16 +59,14 @@ export default function Page() {
 
 			<MapLocationModal
 				isVisible={locationModalVisible}
-				locationName={"Vittorio veneto"}
 				mapsURL={`https://maps.google.com/?q=${234}>,${3242}`}
-				coords={{ latitude: 23.21, longitude: 23.23 }}
-				pollutionRate={23}
 				comment={"Buono"}
 				commentColor={"green"}
 				weatherURL="https://3bmeteo.com"
 				togglePin={() => {
 					console.log("handle toggle pin from modal")
 				}}
+				location={TESTING_LOCATION}
 				onClose={() => setLocationModalVisible(false)}
 			/>
 
@@ -69,7 +75,7 @@ export default function Page() {
 			<Button
 				title="add location"
 				onPress={() => {
-					addLocation({ name: "TESTING", pinned: true, value: 23.2 })
+					addLocation(TESTING_LOCATION)
 					LayoutAnimation.configureNext(layoutAnimConfig)
 				}}
 			/>
@@ -93,11 +99,12 @@ export default function Page() {
 						location.pinned && (
 							<View key={index} style={{ flex: 1 }}>
 								{
-									<Location
-										id={location.id}
+									<LocationCard
+										_id={location._id}
 										name={location.name}
 										pinned={location.pinned}
 										value={location.value}
+										coords={location.coords}
 										onTogglePinned={() => {
 											removeLocation(location)
 											// after removing the item, we start animation

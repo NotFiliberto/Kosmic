@@ -2,10 +2,11 @@ import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Location } from "@lib/types"
+import uuid from "react-native-uuid"
 
 interface LocationsState {
 	locations: Location[]
-	addLocation: (l: Omit<Location, "id">) => void
+	addLocation: (l: Omit<Location, "_id">) => void
 	removeLocation: (l: Location) => void
 	removeAllLocations: () => void
 }
@@ -15,17 +16,22 @@ export const useLocationsStorage = create<LocationsState>()(
 		(set, get) => ({
 			locations: [],
 			addLocation: (l) => {
+				const { pinned, ...rest } = l
 				return set({
 					locations: [
 						...get().locations,
-						{ id: String(get().locations.length), ...l },
+						{
+							_id: String(uuid.v4()),
+							pinned: true,
+							...rest,
+						},
 					],
 				})
 			},
 			removeLocation: (l) => {
 				const oldLocations = [...get().locations]
 				return set({
-					locations: oldLocations.filter((ll) => ll.id != l.id),
+					locations: oldLocations.filter((ll) => ll._id != l._id),
 				})
 			},
 			removeAllLocations: () => set({ locations: [] }),
