@@ -37,7 +37,7 @@ export default function MapScreen() {
 	const [showInfoModal, setShowInfoModal] = useState(false)
 
 	const [selectedMarker, setSelectedMarker] = useState<wMarker | undefined>(
-		undefined
+		undefined,
 	)
 
 	const mapRef = useRef<MapView>(null)
@@ -84,7 +84,7 @@ export default function MapScreen() {
 		}
 
 		const dataFromMaps = await fetch(
-			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&language=it-IT&key=${GOOGLE_MAPS_API_KEY}`
+			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&language=it-IT&key=${GOOGLE_MAPS_API_KEY}`,
 		)
 
 		const markerName = (await dataFromMaps.json()).plus_code.compound_code
