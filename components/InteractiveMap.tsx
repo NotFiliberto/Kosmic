@@ -126,8 +126,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 	const { locations, removeLocation, addLocation } = useLocationsStorage()
 
 	const handleTogglePin = (location: Optional<Location, "_id">) => {
-		console.log("handle", { location })
-
 		if (location._id !== undefined) {
 			// untoggle
 			removeLocation(location as Location)
