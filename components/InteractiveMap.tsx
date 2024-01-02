@@ -5,7 +5,7 @@ import {
 	Image,
 	ImageURISource,
 	ImageSourcePropType,
-} from "react-native";
+} from "react-native"
 import MapView, {
 	Marker,
 	LatLng,
@@ -17,37 +17,36 @@ import MapView, {
 	MarkerPressEvent,
 	MapPressEvent,
 	LongPressEvent,
-} from "react-native-maps";
-import { StyleSheet } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import { fetchAndParseCSV } from "./FetchParseCsv";
-import punti from "../assets/data/valori_atlante_veneto.json";
-import MapPanel from "../components/MapPanel";
-import MapLocationModal from "./common/MapLocationModal";
-import { wMarker, wPoint } from "@lib/types";
-import { useLocationsStorage } from "@lib/hooks/useLocationStorage";
+} from "react-native-maps"
+import { StyleSheet } from "react-native"
+import React, { useEffect, useRef, useState } from "react"
+import { fetchAndParseCSV } from "./FetchParseCsv"
+import punti from "../assets/data/valori_atlante_veneto.json"
+import MapPanel from "../components/MapPanel"
+import MapLocationModal from "./common/MapLocationModal"
+import { Location, Optional, wMarker, wPoint } from "@lib/types"
+import { useLocationsStorage } from "@lib/hooks/useLocationStorage"
 
-
-const points = punti as wPoint[];
+const points = punti as wPoint[]
 
 export type MarkerData = {
-	marker: MapMarker;
-};
+	marker: MapMarker
+}
 
 interface InteractiveMapProps {
-	initialRegion: Region;
-	markers: { id: number; coordinate: LatLng; title: string }[];
-	selectedMarker: wMarker | undefined;
-	onMarkerPress: (event: MarkerPressEvent) => void;
-	onMapPress: (event: MapPressEvent) => void;
-	onLongPress: (event: LongPressEvent) => void;
-	mapRef: React.RefObject<MapView> | undefined;
-	region: Region;
-	pollRate: number;
+	initialRegion: Region
+	markers: { id: number; coordinate: LatLng; title: string }[]
+	selectedMarker: wMarker | undefined
+	onMarkerPress: (event: MarkerPressEvent) => void
+	onMapPress: (event: MapPressEvent) => void
+	onLongPress: (event: LongPressEvent) => void
+	mapRef: React.RefObject<MapView> | undefined
+	region: Region
+	pollRate: number
 	modal: {
-		show: boolean;
-		onClose: () => void;
-	};
+		show: boolean
+		onClose: () => void
+	}
 }
 
 const InteractiveMap: React.FC<InteractiveMapProps> = ({
@@ -63,14 +62,14 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 	modal,
 }) => {
 	type WeightedLatLng = {
-		latitude: number;
-		longitude: number;
-		weight: number;
-	};
+		latitude: number
+		longitude: number
+		weight: number
+	}
 
-	const weights: number[] = points.map((point) => point.Brightness); // Assuming weight is at index 2
-	const minWeight: number = Math.min(...weights);
-	const maxWeight: number = Math.max(...weights);
+	const weights: number[] = points.map((point) => point.Brightness) // Assuming weight is at index 2
+	const minWeight: number = Math.min(...weights)
+	const maxWeight: number = Math.max(...weights)
 
 	//console.log('Minimum Weight:', minWeight);
 	//console.log('Maximum Weight:', maxWeight);
@@ -79,7 +78,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 		latitude: p.Y,
 		longitude: p.X,
 		weight: (p.Brightness - minWeight) / (maxWeight - minWeight),
-	}));
+	}))
 
 	const heatmapGradient = {
 		colors: [
@@ -93,42 +92,58 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 		startPoints: [0, 0.05, 0.15, 0.3, 0.6, 0.8],
 		colorMapSize: 25,
 		gradientSmoothing: 0,
-	};
+	}
 
 	function getRating(score: number): string {
-		var ret = "Pessima";
+		var ret = "Pessima"
 
-		if (score > 23.5) return "Ottima";
-		if (score > 22.5) return "Alta";
-		if (score > 21.5) return "Buona";
-		if (score > 20.5) return "Mediocre";
-		if (score > 19.5) return "Bassa";
-		return ret;
+		if (score > 23.5) return "Ottima"
+		if (score > 22.5) return "Alta"
+		if (score > 21.5) return "Buona"
+		if (score > 20.5) return "Mediocre"
+		if (score > 19.5) return "Bassa"
+		return ret
 	}
 
 	function getColorFromRating(value: number): string {
-		var colorValue = "";
+		var colorValue = ""
 		if (value < 20.5) {
-			colorValue = "red"; // '#f2003c'
+			colorValue = "red" // '#f2003c'
 		} else if (value <= 21.5) {
-			colorValue = "#ffda00";
+			colorValue = "#ffda00"
 		} else {
-			colorValue = "green"; // '#32cd32'
+			colorValue = "green" // '#32cd32'
 		}
 
-		return colorValue;
+		return colorValue
 	}
 
-	const rating = getRating(pollRate);
+	const rating = getRating(pollRate)
 	//const prettyName = prettyLocationName(selectedMarker?.title)
-	const prettyScore = Number(pollRate.toFixed(1));
-	const ratingColor = getColorFromRating( pollRate );
+	const prettyScore = Number(pollRate.toFixed(1))
+	const ratingColor = getColorFromRating(pollRate)
 
+	const { locations, removeLocation, addLocation } = useLocationsStorage()
+
+	const handleTogglePin = (location: Optional<Location, "_id">) => {
+		if (location._id !== undefined) {
+			// untoggle
+			removeLocation(location as Location)
+		} else {
+			addLocation(location)
+		}
+	}
+
+	const currentLocation = locations.find(
+		(l) =>
+			l.coords.latitude === selectedMarker?.coordinate.latitude &&
+			l.coords.longitude === selectedMarker?.coordinate.longitude
+	)
 	//console.log("interactiveMap: ");
 	//console.log(initialRegion);
 
-	const { locations, addLocation, removeLocation, removeAllLocations } =
-    useLocationsStorage()
+	//console.log(JSON.stringify(locations, null, 2))
+	//console.log({ currentLocation })
 
 	return (
 		<View style={styles.container}>
@@ -173,39 +188,24 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 			{selectedMarker && (
 				<MapLocationModal
 					isVisible={modal.show}
-					locationName={selectedMarker.title}
+					location={{
+						...(currentLocation && { _id: currentLocation._id }),
+						name: selectedMarker.title,
+						value: prettyScore,
+						coords: markers[markers.length - 1].coordinate,
+						pinned: currentLocation ? true : false,
+					}}
 					mapsURL={`https://maps.google.com/?q=${selectedMarker.coordinate.latitude}>,${selectedMarker.coordinate.longitude}`}
-					coords={markers[markers.length - 1].coordinate}
-					pollutionRate={prettyScore}
 					comment={rating}
 					commentColor={ratingColor}
 					weatherURL="https://3bmeteo.com"
-					togglePin={ ( loc ) =>
-					{
-						// controllare che le coordinate siano 
-						console.log("loc data: ", loc)
-						var check = locations.find( l =>
-							l.name === loc.name && l.coords === loc.coords
-						)
-						if ( check )
-						{
-							removeLocation( check )
-							console.log( "Location was already present in storage, removed now from pinned" );
-							loc.pinned = false
-							return false; // value was already stored so its now unpinned
-						} else {
-							addLocation( loc )
-							console.log( "Location was not stored, added now as pinned" );	
-							loc.pinned = true
-							return true;
-						}
-					}}
+					togglePin={handleTogglePin}
 					onClose={modal.onClose}
 				/>
 			)}
 		</View>
-	);
-};
+	)
+}
 
 const styles = StyleSheet.create({
 	container: {
@@ -217,6 +217,6 @@ const styles = StyleSheet.create({
 		width: Dimensions.get("window").width,
 		height: Dimensions.get("window").height,
 	},
-});
+})
 
-export default InteractiveMap;
+export default InteractiveMap
