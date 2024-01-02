@@ -1,4 +1,5 @@
-import { LocationProps } from "@components/Location"
+import { LocationProps } from "@components/LocationCard"
+import { LatLng } from "react-native-maps"
 
 export type Event = {
 	name: string
@@ -21,4 +22,14 @@ export type wMarker = {
 	title: string
 }
 
-export type Location = Omit<LocationProps, "onTogglePinned">
+export type Location = {
+	_id: string
+	name: string
+	coords: LatLng
+	value: number
+	pinned: boolean
+}
+
+// do not change these
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
