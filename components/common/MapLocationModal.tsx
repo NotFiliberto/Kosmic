@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet } from "react-native"
 import { Text, View } from "../../components/Themed"
-import { CloudSunIcon, MapIcon, PinIcon } from "lucide-react-native"
+import { CloudSunIcon, MapIcon, PinIcon, PinOffIcon } from "lucide-react-native"
 import { LatLng, Point } from "react-native-maps"
 import { A } from "@expo/html-elements"
 import ReactNativeModal from "react-native-modal"
@@ -83,7 +83,11 @@ export default function MapLocationModal({
 						</A>
 						<Pressable onPress={() => togglePin(location)}>
 							{location.pinned ? (
-								<PinIcon color="black" fill="black" size={48} />
+								<PinOffIcon
+									color="black"
+									fill="black"
+									size={48}
+								/>
 							) : (
 								<PinIcon color="black" size={48} />
 							)}
