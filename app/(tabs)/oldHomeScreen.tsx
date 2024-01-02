@@ -1,8 +1,8 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from "react-native"
 
-import EditScreenInfo from "../../components/EditScreenInfo";
-import { Text, View } from "../../components/Themed";
-import MapLocationModal from "@components/common/MapLocationModal";
+import EditScreenInfo from "../../components/EditScreenInfo"
+import { Text, View } from "../../components/Themed"
+import MapLocationModal from "@components/common/MapLocationModal"
 
 export default function HomeScreen() {
 	return (
@@ -27,7 +27,7 @@ export default function HomeScreen() {
 				}}
 			/> */}
 		</View>
-	);
+	)
 }
 
 const styles = StyleSheet.create({
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
 		height: 1,
 		width: "80%",
 	},
-});
+})

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState } from "react"
 import {
 	Text,
 	Platform,
@@ -8,40 +8,40 @@ import {
 	StyleSheet,
 	useWindowDimensions,
 	View,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import SlidingUpPanel from "rn-sliding-up-panel";
-import { MarkerData } from "./InteractiveMap";
-import { LatLng } from "react-native-maps";
+} from "react-native"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
+import SlidingUpPanel from "rn-sliding-up-panel"
+import { MarkerData } from "./InteractiveMap"
+import { LatLng } from "react-native-maps"
 //import MarkerDisplay from './MarkerDisplay';
 //import PanelHandle from './PanelHandle';
 
-const ios = Platform.OS === "ios";
+const ios = Platform.OS === "ios"
 
 interface IMapPanelProps {
-	marker: LatLng | undefined;
+	marker: LatLng | undefined
 }
 
 const MapPanel: React.FunctionComponent<IMapPanelProps> = ({ marker }) => {
-	const deviceHeight = useWindowDimensions().height;
-	const insets = useSafeAreaInsets();
+	const deviceHeight = useWindowDimensions().height
+	const insets = useSafeAreaInsets()
 	const statusBarHeight: number = ios
 		? insets.bottom
-		: (StatusBar.currentHeight as number);
+		: (StatusBar.currentHeight as number)
 	const draggableRange = {
 		top: deviceHeight - statusBarHeight,
 		bottom: deviceHeight / 2.8,
-	};
+	}
 
-	const snappingPoints = [draggableRange.top, draggableRange.bottom];
+	const snappingPoints = [draggableRange.top, draggableRange.bottom]
 
-	const panelRef = useRef<SlidingUpPanel | null>(null);
+	const panelRef = useRef<SlidingUpPanel | null>(null)
 	const [panelPositionVal] = useState(
-		new Animated.Value(draggableRange.bottom)
-	);
+		new Animated.Value(draggableRange.bottom),
+	)
 
-	return <View></View>;
-};
+	return <View></View>
+}
 
 const styles = StyleSheet.create({
 	panelContent: {
@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
 		height: "100%",
 		backgroundColor: "white",
 	},
-});
+})
 
-export default MapPanel;
+export default MapPanel

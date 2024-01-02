@@ -137,7 +137,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 	const currentLocation = locations.find(
 		(l) =>
 			l.coords.latitude === selectedMarker?.coordinate.latitude &&
-			l.coords.longitude === selectedMarker?.coordinate.longitude
+			l.coords.longitude === selectedMarker?.coordinate.longitude,
 	)
 	//console.log("interactiveMap: ");
 	//console.log(initialRegion);
