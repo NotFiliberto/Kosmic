@@ -28,3 +28,25 @@ export function getWeight(pos: LatLng): number {
 
 	return ret
 }
+
+export function getRating(score: number): string {
+	if (score > 23.5) return "Ottima"
+	if (score > 22.5) return "Alta"
+	if (score > 21.5) return "Buona"
+	if (score > 20.5) return "Mediocre"
+	if (score > 19.5) return "Bassa"
+	return "Pessima"
+}
+
+export function getColorFromRating(value: number): string {
+	var colorValue = ""
+	if (value < 20.5) {
+		colorValue = "red" // '#f2003c'
+	} else if (value <= 21.5) {
+		colorValue = "#ffda00"
+	} else {
+		colorValue = "green" // '#32cd32'
+	}
+
+	return colorValue
+}

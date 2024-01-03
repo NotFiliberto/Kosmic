@@ -1,11 +1,4 @@
-import {
-	Text,
-	View,
-	Dimensions,
-	Image,
-	ImageURISource,
-	ImageSourcePropType,
-} from "react-native"
+import { View, Dimensions } from "react-native"
 import MapView, {
 	Marker,
 	LatLng,
@@ -22,6 +15,8 @@ import punti from "../assets/data/valori_atlante_veneto.json"
 import MapLocationModal from "./common/MapLocationModal"
 import { Location, Optional, wMarker, wPoint } from "@lib/types"
 import { useLocationsStorage } from "@lib/hooks/useLocationStorage"
+import { HEATMAP_GRADIENT } from "@lib/constants"
+import { getColorFromRating, getRating } from "@lib/utils"
 
 const points = punti as wPoint[]
 
@@ -76,44 +71,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 		weight: (p.Brightness - minWeight) / (maxWeight - minWeight),
 	}))
 
-	const heatmapGradient = {
-		colors: [
-			"rgb(100, 0, 100)",
-			"rgb(0, 0, 200)",
-			"rgb(0, 100, 100)",
-			"rgb(0, 200, 0)",
-			"rgb(200, 0, 0)",
-			"rgb(200, 200, 200)",
-		], // Da trasparente a blu
-		startPoints: [0, 0.05, 0.15, 0.3, 0.6, 0.8],
-		colorMapSize: 25,
-		gradientSmoothing: 0,
-	}
-
-	function getRating(score: number): string {
-		var ret = "Pessima"
-
-		if (score > 23.5) return "Ottima"
-		if (score > 22.5) return "Alta"
-		if (score > 21.5) return "Buona"
-		if (score > 20.5) return "Mediocre"
-		if (score > 19.5) return "Bassa"
-		return ret
-	}
-
-	function getColorFromRating(value: number): string {
-		var colorValue = ""
-		if (value < 20.5) {
-			colorValue = "red" // '#f2003c'
-		} else if (value <= 21.5) {
-			colorValue = "#ffda00"
-		} else {
-			colorValue = "green" // '#32cd32'
-		}
-
-		return colorValue
-	}
-
 	const rating = getRating(pollRate)
 	//const prettyName = prettyLocationName(selectedMarker?.title)
 	const prettyScore = Number(pollRate.toFixed(1))
@@ -130,16 +87,12 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 		}
 	}
 
+	// get current location if modal is open
 	const currentLocation = locations.find(
 		(l) =>
 			l.coords.latitude === selectedMarker?.coordinate.latitude &&
 			l.coords.longitude === selectedMarker?.coordinate.longitude
 	)
-	//console.log("interactiveMap: ");
-	//console.log(initialRegion);
-
-	//console.log(JSON.stringify(locations, null, 2))
-	//console.log({ currentLocation })
 
 	return (
 		<View style={styles.container}>
@@ -175,7 +128,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 					points={adj_points}
 					opacity={0.5}
 					radius={20}
-					gradient={heatmapGradient}
+					gradient={HEATMAP_GRADIENT}
 					/*maxIntensity={}
                          gradientSmoothing={10}
                          heatmapMode={"POINTS_DENSITY"}*/
