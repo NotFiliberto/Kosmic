@@ -20,10 +20,6 @@ import { getColorFromRating, getRating } from "@lib/utils"
 
 const points = punti as wPoint[]
 
-export type MarkerData = {
-	marker: MapMarker
-}
-
 interface InteractiveMapProps {
 	initialRegion: Region
 	markers: { id: number; coordinate: LatLng; title: string }[]
