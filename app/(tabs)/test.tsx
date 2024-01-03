@@ -14,6 +14,7 @@ import { GOOGLE_MAPS_API_KEY } from "@env"
 import { Location, Optional } from "@lib/types"
 import LocationCard from "@components/common/LocationCard"
 import { Link, useGlobalSearchParams, useLocalSearchParams } from "expo-router"
+import { LatLng } from "react-native-maps"
 
 const layoutAnimConfig = {
 	duration: 300,
@@ -36,7 +37,7 @@ const TESTING_LOCATION: Optional<Location, "_id"> = {
 	name: "TESTING",
 	pinned: true,
 	value: 23.2,
-	coords: { latitude: 23.2, longitude: 66.2 },
+	coords: { latitude: 11.27214515, longitude:  44.91523906 },
 }
 
 export default function Page() {
@@ -59,10 +60,11 @@ export default function Page() {
 			<Link
 				replace
 				href={{
-					pathname: "/(tabs)/test",
+					pathname: "/(tabs)/",
 					params: {
-						lat: TESTING_LOCATION.coords.latitude,
-						lon: TESTING_LOCATION.coords.longitude,
+						latitude: TESTING_LOCATION.coords.latitude,
+						longitude: TESTING_LOCATION.coords.longitude,
+						name: "<location name>",
 					},
 				}}
 				style={{ color: "green", textDecorationLine: "underline" }}
