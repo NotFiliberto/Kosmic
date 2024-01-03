@@ -12,8 +12,9 @@ import { useLocationsStorage } from "@lib/hooks/useLocationStorage"
 import { SeparatorHorizontal } from "lucide-react-native"
 import { GOOGLE_MAPS_API_KEY } from "@env"
 import { Location, Optional } from "@lib/types"
-import LocationCard from "@components/LocationCard"
+import LocationCard from "@components/common/LocationCard"
 import { Link, useGlobalSearchParams, useLocalSearchParams } from "expo-router"
+import { LatLng } from "react-native-maps"
 
 const layoutAnimConfig = {
 	duration: 300,
@@ -36,7 +37,7 @@ const TESTING_LOCATION: Optional<Location, "_id"> = {
 	name: "TESTING",
 	pinned: true,
 	value: 23.2,
-	coords: { latitude: 23.2, longitude: 66.2 },
+	coords: { latitude: 11.27214515, longitude:  44.91523906 },
 }
 
 export default function Page() {
@@ -54,15 +55,16 @@ export default function Page() {
 		<SafeAreaView style={styles.container}>
 			<Text style={styles.title}>Test Tab</Text>
 
-			<Text>GOOGLE API KEY: {GOOGLE_MAPS_API_KEY} </Text>
+			<Text>GOOGLE API KEY: {GOOGLE_MAPS_API_KEY}</Text>
 
 			<Link
 				replace
 				href={{
-					pathname: "/(tabs)/test",
+					pathname: "/(tabs)/",
 					params: {
-						lat: TESTING_LOCATION.coords.latitude,
-						lon: TESTING_LOCATION.coords.longitude,
+						latitude: TESTING_LOCATION.coords.latitude,
+						longitude: TESTING_LOCATION.coords.longitude,
+						name: "<location name>",
 					},
 				}}
 				style={{ color: "green", textDecorationLine: "underline" }}
@@ -81,9 +83,8 @@ export default function Page() {
 				comment={"Buono"}
 				commentColor={"green"}
 				weatherURL="https://3bmeteo.com"
-				togglePin={( l ) => {
-					console.log( "handle toggle pin from modal" )
-					return true 
+				togglePin={() => {
+					console.log("handle toggle pin from modal")
 				}}
 				location={TESTING_LOCATION}
 				onClose={() => setLocationModalVisible(false)}
@@ -128,13 +129,9 @@ export default function Page() {
 											removeLocation(location)
 											// after removing the item, we start animation
 											LayoutAnimation.configureNext(
-												layoutAnimConfig,
+												layoutAnimConfig
 											)
-										} }
-										coords={ {
-                                                latitude: 0,
-                                                longitude: 0
-                                        } }  
+										}}
 									/>
 								}
 							</View>
