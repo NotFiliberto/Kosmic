@@ -127,7 +127,7 @@ export default function Page() {
 											removeLocation(location)
 											// after removing the item, we start animation
 											LayoutAnimation.configureNext(
-												layoutAnimConfig,
+												layoutAnimConfig
 											)
 										}}
 									/>

@@ -92,6 +92,7 @@ export default function MapLocationModal({
 								<PinIcon color="black" size={48} />
 							)}
 						</Pressable>
+						
 					</View>
 				</View>
 			</View>

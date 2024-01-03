@@ -11,6 +11,8 @@ export type Event = {
 export type EventCardProps = Event
 
 export type wPoint = {
+	FID: string
+	the_geom: string
 	X: number
 	Y: number
 	Brightness: number
