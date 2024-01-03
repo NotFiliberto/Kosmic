@@ -56,6 +56,7 @@ export default function MapScreen() {
 			longitudeDelta: 1,
 		}
 
+        //TODO: ADD function to select an existing location from 
 		const dataFromMaps = await fetch(
 			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&language=it-IT&key=${GOOGLE_MAPS_API_KEY}`
 		)
