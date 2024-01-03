@@ -10,8 +10,6 @@ import MapView, {
 	Marker,
 	LatLng,
 	Region,
-	MapOverlay,
-	Overlay,
 	Heatmap,
 	MapMarker,
 	MarkerPressEvent,
@@ -19,10 +17,8 @@ import MapView, {
 	LongPressEvent,
 } from "react-native-maps"
 import { StyleSheet } from "react-native"
-import React, { useEffect, useRef, useState } from "react"
-import { fetchAndParseCSV } from "./FetchParseCsv"
+import React from "react"
 import punti from "../assets/data/valori_atlante_veneto.json"
-import MapPanel from "../components/MapPanel"
 import MapLocationModal from "./common/MapLocationModal"
 import { Location, Optional, wMarker, wPoint } from "@lib/types"
 import { useLocationsStorage } from "@lib/hooks/useLocationStorage"
@@ -137,7 +133,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 	const currentLocation = locations.find(
 		(l) =>
 			l.coords.latitude === selectedMarker?.coordinate.latitude &&
-			l.coords.longitude === selectedMarker?.coordinate.longitude,
+			l.coords.longitude === selectedMarker?.coordinate.longitude
 	)
 	//console.log("interactiveMap: ");
 	//console.log(initialRegion);

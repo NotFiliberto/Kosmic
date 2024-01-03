@@ -10,7 +10,7 @@ import { View, Text } from "../../components/Themed"
 
 import React, { useEffect, useState } from "react"
 
-import LocationCard from "@components/LocationCard"
+import LocationCard from "@components/common/LocationCard"
 import { useLocationsStorage } from "@lib/hooks/useLocationStorage"
 import ScreenHeader from "@components/common/ScreenHeader"
 
@@ -79,7 +79,7 @@ export default function LocationScreen() {
 												removeLocation(location)
 												// after removing the item, we start animation
 												LayoutAnimation.configureNext(
-													layoutAnimConfig,
+													layoutAnimConfig
 												)
 											}}
 											coords={location.coords}

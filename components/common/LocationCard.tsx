@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, TouchableOpacity } from "react-native"
-import { Text, View } from "./Themed"
+import { Text, View } from "../Themed"
 import { useState } from "react"
 import { PinIcon, PinOff } from "lucide-react-native"
 import { RefreshControl } from "react-native-gesture-handler"

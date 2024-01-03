@@ -12,7 +12,7 @@ import { useLocationsStorage } from "@lib/hooks/useLocationStorage"
 import { SeparatorHorizontal } from "lucide-react-native"
 import { GOOGLE_MAPS_API_KEY } from "@env"
 import { Location, Optional } from "@lib/types"
-import LocationCard from "@components/LocationCard"
+import LocationCard from "@components/common/LocationCard"
 import { Link, useGlobalSearchParams, useLocalSearchParams } from "expo-router"
 
 const layoutAnimConfig = {

@@ -1,4 +1,4 @@
-import { LocationProps } from "@components/LocationCard"
+import { LocationProps } from "@components/common/LocationCard"
 import { LatLng } from "react-native-maps"
 
 export type Event = {
