@@ -54,7 +54,7 @@ export default function Page() {
 		<SafeAreaView style={styles.container}>
 			<Text style={styles.title}>Test Tab</Text>
 
-			<Text>GOOGLE API KEY: {GOOGLE_MAPS_API_KEY}</Text>
+			<Text>GOOGLE API KEY: {GOOGLE_MAPS_API_KEY} </Text>
 
 			<Link
 				replace
@@ -81,8 +81,9 @@ export default function Page() {
 				comment={"Buono"}
 				commentColor={"green"}
 				weatherURL="https://3bmeteo.com"
-				togglePin={() => {
-					console.log("handle toggle pin from modal")
+				togglePin={( l ) => {
+					console.log( "handle toggle pin from modal" )
+					return true 
 				}}
 				location={TESTING_LOCATION}
 				onClose={() => setLocationModalVisible(false)}
@@ -129,7 +130,11 @@ export default function Page() {
 											LayoutAnimation.configureNext(
 												layoutAnimConfig,
 											)
-										}}
+										} }
+										coords={ {
+                                                latitude: 0,
+                                                longitude: 0
+                                        } }  
 									/>
 								}
 							</View>
