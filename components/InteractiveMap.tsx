@@ -22,7 +22,6 @@ const points = punti as wPoint[]
 
 interface InteractiveMapProps {
 	initialRegion: Region
-	markers: { id: number; coordinate: LatLng; title: string }[]
 	selectedMarker: wMarker | undefined
 	onMarkerPress: (event: MarkerPressEvent) => void
 	onMapPress: (event: MapPressEvent) => void
@@ -38,7 +37,6 @@ interface InteractiveMapProps {
 
 const InteractiveMap: React.FC<InteractiveMapProps> = ({
 	initialRegion,
-	markers,
 	onMarkerPress,
 	onMapPress,
 	onLongPress,
@@ -57,9 +55,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 	const weights: number[] = points.map((point) => point.Brightness) // Assuming weight is at index 2
 	const minWeight: number = Math.min(...weights)
 	const maxWeight: number = Math.max(...weights)
-
-	//console.log('Minimum Weight:', minWeight);
-	//console.log('Maximum Weight:', maxWeight);
 
 	const adj_points: WeightedLatLng[] = points.map((p) => ({
 		latitude: p.Y,
@@ -104,17 +99,8 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 				onLongPress={onLongPress}
 				provider="google"
 			>
-				{/* {markers.map((marker) => (
-					<Marker
-						key={marker.id}
-						coordinate={marker.coordinate}
-						title={marker.title}
-					/>
-				))} */}
-
 				{selectedMarker && (
 					<Marker
-						key={selectedMarker.id}
 						coordinate={selectedMarker.coordinate}
 						title={selectedMarker.title}
 					/>
@@ -137,7 +123,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 						...(currentLocation && { _id: currentLocation._id }),
 						name: selectedMarker.title,
 						value: prettyScore,
-						coords: markers[markers.length - 1].coordinate,
+						coords: selectedMarker.coordinate,
 						pinned: currentLocation ? true : false,
 					}}
 					mapsURL={`https://maps.google.com/?q=${selectedMarker.coordinate.latitude}>,${selectedMarker.coordinate.longitude}`}

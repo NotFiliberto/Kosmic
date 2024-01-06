@@ -19,7 +19,7 @@ export type wPoint = {
 	Valore: number
 }
 export type wMarker = {
-	id: number
+	//id: number
 	coordinate: { latitude: number; longitude: number }
 	title: string
 }

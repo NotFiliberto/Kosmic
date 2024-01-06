@@ -11,11 +11,11 @@ import InteractiveMap from "../../components/InteractiveMap"
 import { wMarker, wPoint } from "@lib/types"
 import { GOOGLE_MAPS_API_KEY } from "@env"
 import { INITIAL_REGION } from "@lib/constants"
-import { View } from "react-native"
+import { Text, View } from "react-native"
+import * as Linking from "expo-linking"
 
 type MapStateT = {
 	region: Region
-	markers: wMarker[]
 	selectedMarker: wMarker | undefined
 	showInfoModal: boolean
 	pullutionRate: number
@@ -26,22 +26,20 @@ export default function MapScreen() {
 
 	const [mapState, setMapState] = useState<MapStateT>({
 		region: INITIAL_REGION,
-		markers: [],
 		selectedMarker: undefined,
 		pullutionRate: 0,
 		showInfoModal: false,
 	})
 
-	const { region, markers, selectedMarker, pullutionRate, showInfoModal } =
-		mapState
+	const { region, selectedMarker, pullutionRate, showInfoModal } = mapState
 
 	function onMarkerPress(event: MarkerPressEvent): void {
 		//console.log(event);
 	}
 
 	function onMapPress(event: MapPressEvent) {
-		const { selectedMarker, markers, ...rest } = mapState
-		setMapState({ selectedMarker: undefined, markers: [], ...rest })
+		const { selectedMarker, ...rest } = mapState
+		setMapState({ selectedMarker: undefined, ...rest })
 		console.log("deselected")
 	}
 
@@ -56,7 +54,7 @@ export default function MapScreen() {
 			longitudeDelta: 1,
 		}
 
-        //TODO: ADD function to select an existing location from 
+		//TODO: ADD function to select an existing location from
 		const dataFromMaps = await fetch(
 			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&language=it-IT&key=${GOOGLE_MAPS_API_KEY}`
 		)
@@ -65,14 +63,12 @@ export default function MapScreen() {
 		console.log({ markerName })
 
 		const newSelectedMarker: wMarker = {
-			id: markers.length,
 			coordinate: { latitude: lat, longitude: lng },
 			title: prettyLocationName(markerName),
 		}
 
 		// update the state
 		setMapState({
-			markers: [...markers, newSelectedMarker],
 			selectedMarker: newSelectedMarker,
 			pullutionRate: getWeight({ latitude: lat, longitude: lng }),
 			showInfoModal: true,
@@ -83,12 +79,32 @@ export default function MapScreen() {
 		mapRef.current?.render()
 	}
 
+	/* const url = Linking.useURL()
+	console.log({ url })
+
+	if (url) {
+		const { queryParams } = Linking.parse(url)
+
+		if (queryParams) {
+			const lat = Number(queryParams.latitude)
+			const lng = Number(queryParams.longitude)
+			const newSelectedMarker: wMarker = {
+				coordinate: {
+					latitude: lat,
+					longitude: lng,
+				},
+				title: "<from another screen>",
+			}
+
+			//console.log(url)
+		}
+	} */
+
 	return (
 		<View style={{ flex: 1 }}>
 			<InteractiveMap
 				initialRegion={INITIAL_REGION}
 				selectedMarker={selectedMarker}
-				markers={markers}
 				onMarkerPress={onMarkerPress}
 				onMapPress={onMapPress}
 				onLongPress={onLongPress}
