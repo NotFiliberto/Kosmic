@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
 		//marginTop: StatusBar.currentHeight,
 		position: "relative",
 		width: "100%",
-		backgroundColor: "red",
+		backgroundColor: "white",
 		/* borderColor: "red",
         borderWidth: 2, */
 	},
