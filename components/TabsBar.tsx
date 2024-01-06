@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { NavigationContainer } from "@react-navigation/native"
-import { Href, Link, LinkProps } from "expo-router"
+import { Href, Link, LinkProps, usePathname } from "expo-router"
 import {
 	HomeIcon,
 	LucideIcon,
@@ -19,18 +19,11 @@ type TabBarItemProps = {
 	title: string
 	href: Href<string>
 	selected?: boolean
-	onPress: (tabTitle: string) => void
 }
 
-function TabBarItem({
-	icon,
-	title,
-	href,
-	selected = false,
-	onPress,
-}: TabBarItemProps) {
+function TabBarItem({ icon, title, href, selected = false }: TabBarItemProps) {
 	return (
-		<Link replace href={href} onPress={() => onPress(title)}>
+		<Link replace href={href}>
 			<View
 				style={{
 					alignItems: "center",
@@ -77,17 +70,14 @@ const tabs: TabBarItem[] = [
 ]
 
 export default function TabsBar() {
-	const [selectedTab, setSelectedTab] = useState<string>("")
+	const pathname = usePathname()
 
 	return (
 		<View style={styles.container}>
 			{tabs.map((tab, index) => (
 				<TabBarItem
 					{...tab}
-					selected={tab.title == selectedTab ? true : false}
-					onPress={() => {
-						setSelectedTab(tab.title)
-					}}
+					selected={tab.href.endsWith(pathname)}
 					key={index}
 				/>
 			))}
