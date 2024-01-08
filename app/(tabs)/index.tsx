@@ -1,173 +1,115 @@
-import { StyleSheet } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import EditScreenInfo from "../../components/EditScreenInfo";
-import { Text, View } from "../../components/Themed";
-import punti from "../../assets/data/valori_atlante_veneto.json";
-import { prettyLocationName } from "@lib/utils";
-
-
-const points = punti as wPoint[];
-
+import React, { useRef, useState } from "react"
+import { getWeight, prettyLocationName } from "@lib/utils"
 import MapView, {
 	LatLng,
 	Region,
-	MapOverlay,
-	Overlay,
-	Heatmap,
-	MapMarker,
 	MarkerPressEvent,
-	Point,
 	LongPressEvent,
-} from "react-native-maps";
-import InteractiveMap, { MarkerData } from "../../components/InteractiveMap";
-import MapPanel from "../../components/MapPanel";
-import { Key } from "lucide-react-native";
-import { wMarker, wPoint } from "@lib/types";
+	MapPressEvent,
+} from "react-native-maps"
+import InteractiveMap from "../../components/InteractiveMap"
+import { wMarker, wPoint } from "@lib/types"
+import { GOOGLE_MAPS_API_KEY } from "@env"
+import { INITIAL_REGION } from "@lib/constants"
+import { View } from "react-native"
+
+type MapStateT = {
+	region: Region
+	markers: wMarker[]
+	selectedMarker: wMarker | undefined
+	showInfoModal: boolean
+	pullutionRate: number
+}
 
 export default function MapScreen() {
-	var initialRegion = {
-		latitude: 46,
-		longitude: 12,
-		latitudeDelta: 3,
-		longitudeDelta: 1,
-	};
+	const mapRef = useRef<MapView>(null)
 
-	const [region, setRegion] = useState<Region>({
-		latitude: 46,
-		longitude: 12,
-		latitudeDelta: 3,
-		longitudeDelta: 1,
-	});
-	/* var markers = [
-        {
-            id: 1,
-            coordinate: { latitude: 45, longitude: 12 },
-            title: "Marker 1",
-        },
-        // Add more markers as needed
-    ]; */
+	const [mapState, setMapState] = useState<MapStateT>({
+		region: INITIAL_REGION,
+		markers: [],
+		selectedMarker: undefined,
+		pullutionRate: 0,
+		showInfoModal: false,
+	})
 
-	const [markers, setMarkers] = useState<wMarker[]>([]);
-
-	const [selectedMarker, setSelectedMarker] = useState<wMarker | undefined>(
-		undefined
-	);
-
-	const mapRef = useRef<MapView>(null);
-
-	const [pollutionRate, setPollutionRate] = useState<number>(0);
-
-	/* useEffect(() => {
-        console.log(selectedMarker);
-    }, [selectedMarker]); */
-
-	function getWeight(pos: LatLng): number {
-		var ret = 0;
-		console.log("pos:");
-		console.log(pos.latitude.toFixed(1), pos.longitude.toFixed(1));
-		for (var point of points) {
-			if (
-				pos.latitude.toFixed(1) == point.Y.toFixed(1) &&
-				pos.longitude.toFixed(1) == point.X.toFixed(1)
-			) {
-				console.log("found:");
-				console.log(point.Y.toFixed(1), point.X.toFixed(1));
-				return point.Valore;
-			}
-		}
-
-		return ret;
-	}
+	const { region, markers, selectedMarker, pullutionRate, showInfoModal } =
+		mapState
 
 	function onMarkerPress(event: MarkerPressEvent): void {
 		//console.log(event);
 	}
 
-	function onMapPress(): void {
-		setSelectedMarker(undefined);
-		setMarkers([]);
-		console.log("deselected");
+	function onMapPress(event: MapPressEvent) {
+		const { selectedMarker, markers, ...rest } = mapState
+		setMapState({ selectedMarker: undefined, markers: [], ...rest })
+		console.log("deselected")
 	}
 
 	async function onLongPress(event: LongPressEvent) {
-		var lat = event.nativeEvent.coordinate.latitude;
-		var lng = event.nativeEvent.coordinate.longitude;
+		const lat = event.nativeEvent.coordinate.latitude
+		const lng = event.nativeEvent.coordinate.longitude
 
-		var newRegion = {
+		const newRegion: Region = {
 			latitude: lat,
 			longitude: lng,
 			latitudeDelta: 3,
 			longitudeDelta: 1,
-		};
+		}
 
+        //TODO: ADD function to select an existing location from 
 		const dataFromMaps = await fetch(
-			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&language=it-IT&key=AIzaSyDe7OrltZ0dSji5xX0VwjdZcACpHEfeWFY`
-		);
+			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&language=it-IT&key=${GOOGLE_MAPS_API_KEY}`
+		)
 
-		const markerName = (await dataFromMaps.json()).plus_code.compound_code;
-		console.log({ markerName });
+		const markerName = (await dataFromMaps.json()).plus_code.compound_code
+		console.log({ markerName })
 
-		var newSelectedMarker: wMarker = {
+		const newSelectedMarker: wMarker = {
 			id: markers.length,
 			coordinate: { latitude: lat, longitude: lng },
 			title: prettyLocationName(markerName),
-		};
-		/* markers.pop();
-        markers.push({
-            id: 1,
-            coordinate: { latitude: lat, longitude: lng },
-            title: "My Marker",
-        }); */
+		}
 
-		//console.log("event: ", { event });
+		// update the state
+		setMapState({
+			markers: [...markers, newSelectedMarker],
+			selectedMarker: newSelectedMarker,
+			pullutionRate: getWeight({ latitude: lat, longitude: lng }),
+			showInfoModal: true,
+			region: mapState.region,
+		})
 
-		setMarkers([...markers, newSelectedMarker]);
-		setSelectedMarker(newSelectedMarker);
-
-		setRegion(newRegion);
-
-		setPollutionRate(getWeight({ latitude: lat, longitude: lng }));
-
-		//console.log(pollutionRate);
-
-		mapRef.current?.animateToRegion(newRegion);
-		mapRef.current?.render();
-		//console.log(selectedMarker)
+		mapRef.current?.animateToRegion(newRegion)
+		mapRef.current?.render()
 	}
-
-	//console.log("map: ");
-	//console.log(region);
 
 	return (
 		<View style={{ flex: 1 }}>
 			<InteractiveMap
-				initialRegion={initialRegion}
-				markers={markers}
+				initialRegion={INITIAL_REGION}
 				selectedMarker={selectedMarker}
+				markers={markers}
 				onMarkerPress={onMarkerPress}
 				onMapPress={onMapPress}
 				onLongPress={onLongPress}
 				mapRef={mapRef}
 				region={region}
-				pollRate={pollutionRate}
+				pollRate={pullutionRate}
+				modal={{
+					show: showInfoModal,
+					onClose: () => {
+						const { selectedMarker, showInfoModal, ...rest } =
+							mapState
+
+						setMapState({
+							showInfoModal: true,
+							selectedMarker: undefined,
+							...rest,
+						})
+						console.log("deselected")
+					},
+				}}
 			/>
 		</View>
-	);
+	)
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	title: {
-		fontSize: 200,
-		fontWeight: "bold",
-	},
-	separator: {
-		marginVertical: 30,
-		height: 1,
-		width: "80%",
-	},
-});
