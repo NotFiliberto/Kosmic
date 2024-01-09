@@ -59,7 +59,7 @@ export default function MapScreen() {
 					title: params.title,
 			  } as wMarker)
 
-	console.log(selectedMarker)
+	console.log({ selectedMarker })
 
 	return (
 		<View style={{ flex: 1 }}>
