@@ -87,10 +87,6 @@ export default function Page() {
 
 			<MapLocationModal
 				isVisible={locationModalVisible}
-				mapsURL={`https://maps.google.com/?q=${234}>,${3242}`}
-				comment={"Buono"}
-				commentColor={"green"}
-				weatherURL="https://3bmeteo.com"
 				togglePin={() => {
 					console.log("handle toggle pin from modal")
 				}}

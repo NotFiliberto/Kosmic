@@ -5,14 +5,11 @@ import { LatLng, Point } from "react-native-maps"
 import { A } from "@expo/html-elements"
 import ReactNativeModal from "react-native-modal"
 import { Location, Optional } from "@lib/types"
+import { getColorFromRating, getRating } from "@lib/utils"
 
 export type MapLocationModalProps = {
 	isVisible: boolean
 	location: Optional<Location, "_id">
-	comment: string
-	commentColor: string
-	mapsURL: string
-	weatherURL: string
 	togglePin: (location: Optional<Location, "_id">) => void
 	onClose: () => void
 }
@@ -21,14 +18,16 @@ export type MapLocationModalProps = {
 export default function MapLocationModal({
 	isVisible,
 	location,
-	comment,
-	commentColor,
-	mapsURL,
-	weatherURL,
 	togglePin,
 	onClose,
 }: MapLocationModalProps) {
 	if (!isVisible) return null
+
+	const weatherURL = "https://3bmeteo.com"
+	const mapsURL = `https://maps.google.com/?q=${location.coords.latitude}>,${location.coords.longitude}`
+
+	const ratingComment = getRating(location.pollutionRate)
+	const ratingCommentColor = getColorFromRating(location.pollutionRate)
 
 	return (
 		<ReactNativeModal
@@ -58,7 +57,7 @@ export default function MapLocationModal({
 						<Text
 							style={{
 								...styles.lightPollutionRate,
-								color: commentColor,
+								color: ratingCommentColor,
 							}}
 						>
 							{location.pollutionRate}
@@ -66,10 +65,10 @@ export default function MapLocationModal({
 						<Text
 							style={{
 								...styles.lightPollutionValue,
-								color: commentColor,
+								color: ratingCommentColor,
 							}}
 						>
-							{comment}
+							{ratingComment}
 						</Text>
 					</View>
 				</View>

@@ -91,8 +91,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 				longitude: selectedMarker.coordinate.longitude,
 			}).toFixed(1)
 		)
-	const rating = pollutionRate ? getRating(pollutionRate) : undefined
-	const ratingColor = selectedMarker && getColorFromRating(pollutionRate!)
 
 	return (
 		<View style={styles.container}>
@@ -131,10 +129,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 						coords: selectedMarker.coordinate,
 						pinned: currentLocation ? true : false,
 					}}
-					mapsURL={`https://maps.google.com/?q=${selectedMarker.coordinate.latitude}>,${selectedMarker.coordinate.longitude}`}
-					comment={rating!}
-					commentColor={ratingColor!}
-					weatherURL="https://3bmeteo.com"
 					togglePin={handleTogglePin}
 					onClose={modal.onClose}
 				/>
