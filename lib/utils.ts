@@ -12,8 +12,8 @@ export function getLocationByCoords ( X: number | string, Y: number | string )
     const y = Number( Y )
 
     const points = punti as gPoint[]
-    let minDistance = -1;
-    let nearestPlace = points[0]
+	let nearestPlace = points[ 0 ]
+	let minDistance = Math.sqrt( Math.pow( x - nearestPlace.X, 2 ) + Math.pow( y - nearestPlace.Y, 2 ) )
     for ( const p of points )
     {
         // p.X and p.Y are already Number type since gPoints is such
