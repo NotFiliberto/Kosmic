@@ -11,10 +11,10 @@ import { useState } from "react"
 import { useLocationsStorage } from "@lib/hooks/useLocationStorage"
 import { SeparatorHorizontal } from "lucide-react-native"
 import { GOOGLE_MAPS_API_KEY } from "@env"
-import { Location, Optional } from "@lib/types"
+import { Location, MapUrlParams, Optional } from "@lib/types"
 import LocationCard from "@components/common/LocationCard"
-import { Link, useGlobalSearchParams, useLocalSearchParams } from "expo-router"
-import { LatLng } from "react-native-maps"
+import * as Linking from "expo-linking"
+import { Link } from "expo-router"
 
 const layoutAnimConfig = {
 	duration: 300,
@@ -36,8 +36,8 @@ const layoutAnimConfig = {
 const TESTING_LOCATION: Optional<Location, "_id"> = {
 	name: "TESTING",
 	pinned: true,
-	value: 23.2,
-	coords: { latitude: 11.27214515, longitude:  44.91523906 },
+	pollutionRate: 23.2,
+	coords: { latitude: 11.27214515, longitude: 44.91523906 },
 }
 
 export default function Page() {
@@ -46,8 +46,14 @@ export default function Page() {
 	const { locations, addLocation, removeLocation, removeAllLocations } =
 		useLocationsStorage()
 
-	const glob = useGlobalSearchParams()
-	const local = useLocalSearchParams()
+	const url = Linking.useURL()
+	const createdUrl = Linking.createURL("/details", {
+		queryParams: {
+			latitude: String(TESTING_LOCATION.coords.latitude),
+			longitude: String(TESTING_LOCATION.coords.longitude),
+			name: String(Date.now()),
+		},
+	})
 
 	console.log("maps api: ", GOOGLE_MAPS_API_KEY)
 
@@ -57,21 +63,23 @@ export default function Page() {
 
 			<Text>GOOGLE API KEY: {GOOGLE_MAPS_API_KEY}</Text>
 
+			<Text>current URL: {url}</Text>
+			<Text>CREATED URL: {createdUrl}</Text>
+
 			<Link
-				replace
 				href={{
 					pathname: "/(tabs)/",
 					params: {
-						latitude: TESTING_LOCATION.coords.latitude,
-						longitude: TESTING_LOCATION.coords.longitude,
-						name: "<location name>",
-					},
+						latitude: String(45.89173106522956),
+						longitude: String(11.879997923970222),
+						title: "<from another screen>", // TESTING
+					} as MapUrlParams,
 				}}
-				style={{ color: "green", textDecorationLine: "underline" }}
+				style={{ color: "blue" }}
 			>
-				url to the app with custom protocol
+				link to the map with coords
 			</Link>
-			<Text>URL: {}</Text>
+
 			<Button
 				title="show modal"
 				onPress={() => setLocationModalVisible(true)}
@@ -79,10 +87,6 @@ export default function Page() {
 
 			<MapLocationModal
 				isVisible={locationModalVisible}
-				mapsURL={`https://maps.google.com/?q=${234}>,${3242}`}
-				comment={"Buono"}
-				commentColor={"green"}
-				weatherURL="https://3bmeteo.com"
 				togglePin={() => {
 					console.log("handle toggle pin from modal")
 				}}
@@ -123,7 +127,7 @@ export default function Page() {
 										_id={location._id}
 										name={location.name}
 										pinned={location.pinned}
-										value={location.value}
+										pollutionRate={location.pollutionRate}
 										coords={location.coords}
 										onTogglePinned={() => {
 											removeLocation(location)
