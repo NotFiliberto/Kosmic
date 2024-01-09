@@ -18,15 +18,13 @@ export function getLocationByCoords ( X: number | string, Y: number | string )
     {
         // p.X and p.Y are already Number type since gPoints is such
         const distance = Math.sqrt( Math.pow( x - p.X, 2 ) + Math.pow( y - p.Y, 2 ) )
-        if ( minDistance == -1 || distance < minDistance )
+        if ( distance < minDistance )
         {
             minDistance = distance
             nearestPlace = p
         }
 	}
-	// esempi di X e Y:
-	// X:45.11 - Y:12.10  <-> X:12.10 - Y:45.11
-    console.log("\n\nLOGNAME: ", nearestPlace, "\n\n")
+	
     return nearestPlace as gPoint
 }
 
