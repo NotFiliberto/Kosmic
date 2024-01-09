@@ -5,6 +5,7 @@ import { PinIcon, PinOff } from "lucide-react-native"
 import { RefreshControl } from "react-native-gesture-handler"
 import React from "react"
 import { Location } from "@lib/types"
+import { getColorFromRating } from "@lib/utils"
 
 export type LocationProps = Location & {
 	onTogglePinned: (id: string) => void
@@ -15,16 +16,9 @@ function truncateNumber(num: number) {
 }
 
 export default function LocationCard(props: LocationProps) {
-	const { _id, name, pinned, value, onTogglePinned } = props
+	const { _id, name, pinned, pollutionRate, onTogglePinned } = props
 
-	var colorValue
-	if (value < 16) {
-		colorValue = "red" // '#f2003c'
-	} else if (value <= 20) {
-		colorValue = "#ffda00"
-	} else {
-		colorValue = "green" // '#32cd32'
-	}
+	const colorValue = getColorFromRating(pollutionRate)
 
 	return (
 		<View style={styles.item}>
@@ -41,7 +35,7 @@ export default function LocationCard(props: LocationProps) {
 					marginHorizontal: 10,
 				}}
 			>
-				{truncateNumber(value * 100) / 100}
+				{truncateNumber(pollutionRate * 100) / 100}
 			</Text>
 			{/* Pressable Icon, toggles places to make them pinned or unpinned */}
 			<Pressable

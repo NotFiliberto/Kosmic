@@ -1,4 +1,3 @@
-import { LocationProps } from "@components/common/LocationCard"
 import { LatLng } from "react-native-maps"
 
 export type Event = {
@@ -19,7 +18,7 @@ export type wPoint = {
 	Valore: number
 }
 export type wMarker = {
-	id: number
+	//id: number
 	coordinate: { latitude: number; longitude: number }
 	title: string
 }
@@ -28,10 +27,15 @@ export type Location = {
 	_id: string
 	name: string
 	coords: LatLng
-	value: number
+	pollutionRate: number
 	pinned: boolean
 }
 
+export type MapUrlParams = {
+	latitude: string
+	longitude: string
+	title: string
+}
 // do not change these
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>

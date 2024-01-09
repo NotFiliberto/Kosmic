@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { NavigationContainer } from "@react-navigation/native"
-import { Href, Link, LinkProps } from "expo-router"
+import { Href, Link, LinkProps, usePathname } from "expo-router"
 import {
 	HomeIcon,
 	LucideIcon,
@@ -17,20 +17,26 @@ const Tab = createBottomTabNavigator()
 type TabBarItemProps = {
 	icon: React.ReactNode
 	title: string
-	href: Href<string>
+	pathname: Href<string>
+	params?: { [key: string]: string }
 	selected?: boolean
-	onPress: (tabTitle: string) => void
 }
 
 function TabBarItem({
 	icon,
 	title,
-	href,
+	pathname,
 	selected = false,
-	onPress,
+	params,
 }: TabBarItemProps) {
 	return (
-		<Link replace href={href} onPress={() => onPress(title)}>
+		<Link
+			replace
+			href={{
+				pathname,
+				params,
+			}}
+		>
 			<View
 				style={{
 					alignItems: "center",
@@ -57,37 +63,34 @@ const tabs: TabBarItem[] = [
 	{
 		icon: <PinIcon size={24} color="#fff" />,
 		title: "Salvati",
-		href: "/(tabs)/saved",
+		pathname: "/(tabs)/saved",
 	},
 	{
 		icon: <HomeIcon size={24} color="#fff" />,
 		title: "Home",
-		href: "/(tabs)/",
+		pathname: "/(tabs)/",
 	},
 	{
 		icon: <NewspaperIcon size={24} color="#fff" />,
 		title: "Eventi",
-		href: "/(tabs)/events",
+		pathname: "/(tabs)/events",
 	},
 	{
 		icon: <TestTube size={24} color="#fff" />,
 		title: "Test",
-		href: "/(tabs)/test",
+		pathname: "/(tabs)/test",
 	},
 ]
 
 export default function TabsBar() {
-	const [selectedTab, setSelectedTab] = useState<string>("")
+	const pathname = usePathname()
 
 	return (
 		<View style={styles.container}>
 			{tabs.map((tab, index) => (
 				<TabBarItem
 					{...tab}
-					selected={tab.title == selectedTab ? true : false}
-					onPress={() => {
-						setSelectedTab(tab.title)
-					}}
+					selected={tab.pathname.endsWith(pathname)}
 					key={index}
 				/>
 			))}
