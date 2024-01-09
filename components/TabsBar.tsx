@@ -17,13 +17,26 @@ const Tab = createBottomTabNavigator()
 type TabBarItemProps = {
 	icon: React.ReactNode
 	title: string
-	href: Href<string>
+	pathname: Href<string>
+	params?: { [key: string]: string }
 	selected?: boolean
 }
 
-function TabBarItem({ icon, title, href, selected = false }: TabBarItemProps) {
+function TabBarItem({
+	icon,
+	title,
+	pathname,
+	selected = false,
+	params,
+}: TabBarItemProps) {
 	return (
-		<Link replace href={href}>
+		<Link
+			replace
+			href={{
+				pathname,
+				params,
+			}}
+		>
 			<View
 				style={{
 					alignItems: "center",
@@ -50,22 +63,22 @@ const tabs: TabBarItem[] = [
 	{
 		icon: <PinIcon size={24} color="#fff" />,
 		title: "Salvati",
-		href: "/(tabs)/saved",
+		pathname: "/(tabs)/saved",
 	},
 	{
 		icon: <HomeIcon size={24} color="#fff" />,
 		title: "Home",
-		href: "/(tabs)/",
+		pathname: "/(tabs)/",
 	},
 	{
 		icon: <NewspaperIcon size={24} color="#fff" />,
 		title: "Eventi",
-		href: "/(tabs)/events",
+		pathname: "/(tabs)/events",
 	},
 	{
 		icon: <TestTube size={24} color="#fff" />,
 		title: "Test",
-		href: "/(tabs)/test",
+		pathname: "/(tabs)/test",
 	},
 ]
 
@@ -77,7 +90,7 @@ export default function TabsBar() {
 			{tabs.map((tab, index) => (
 				<TabBarItem
 					{...tab}
-					selected={tab.href.endsWith(pathname)}
+					selected={tab.pathname.endsWith(pathname)}
 					key={index}
 				/>
 			))}
