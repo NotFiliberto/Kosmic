@@ -6,6 +6,8 @@ import { wPoint, gPoint } from "@lib/types"
 import punti from "../assets/data/valori_atlante_veneto.json"
 import { prettyLocationName } from "@lib/utils"
 
+// run with:  npx tsx .\scripts\fetchAllPlaces.ts
+
 const GOOGLE_MAPS_API_KEY = "AIzaSyDe7OrltZ0dSji5xX0VwjdZcACpHEfeWFY";
 ( async () => {
 	const points = punti as wPoint[]

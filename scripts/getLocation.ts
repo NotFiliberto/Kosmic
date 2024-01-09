@@ -2,6 +2,9 @@ import * as fs from "fs"
 import punti from "../assets/data/valori_atlante_veneto.json"
 import { gPoint } from "@lib/types"
 
+// run with: npx tsx .\scripts\getLocation.ts
+
+
 export function getLocationByCoords ( X: number | string, Y: number | string )
 {
     const x = Number( X )
@@ -20,5 +23,10 @@ export function getLocationByCoords ( X: number | string, Y: number | string )
             nearestPlace = p
         }
     }
+    console.log(nearestPlace?.name)
     return nearestPlace as gPoint
 }
+
+// esempi di X e Y:
+// X:45.11 - Y:12.10  <-> X:12.10 - Y:45.11
+//getLocationByCoords(12.10, 45.11)
