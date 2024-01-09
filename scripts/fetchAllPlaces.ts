@@ -2,18 +2,17 @@
 //https://maps.googleapis.com/maps/api/geocode/json?latlng=45.30,11.95&sensor=true&language=it-IT&key=AIzaSyDe7OrltZ0dSji5xX0VwjdZcACpHEfeWFY
 
 import * as fs from "fs"
-import { wPoint } from "@lib/types"
+import { wPoint, gPoint } from "@lib/types"
 import punti from "../assets/data/valori_atlante_veneto.json"
 import { prettyLocationName } from "@lib/utils"
+
+// run with:  npx tsx .\scripts\fetchAllPlaces.ts
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyDe7OrltZ0dSji5xX0VwjdZcACpHEfeWFY";
 ( async () => {
 	const points = punti as wPoint[]
 
-	//var ps = [] as ( )
-	type gPoint = (wPoint & { name: string })[] // nuovo tipo come wPoijnt con anche name: string
-
-	const gPoints: gPoint = []
+	const gPoints: gPoint[] = []
 
 	for ( const p of points )
 	{
@@ -35,28 +34,6 @@ const GOOGLE_MAPS_API_KEY = "AIzaSyDe7OrltZ0dSji5xX0VwjdZcACpHEfeWFY";
 			name: prettyName,
 		})
 	}
-
-	/* const promises = points.map( ( p ) =>
-		{
-		var lat = p.Y
-		var lng = p.X
-		var req = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&language=it-IT&key=${GOOGLE_MAPS_API_KEY}`
-
-		var dataPoint = fetch(req)
-		var pointJson = dataPoint.then(d => d.json())
-		console.log(prettyLocationName(pointJson))
-		var prettyName = prettyLocationName( pointJson.plus_code.compound_code )
-
-		gPoints.push({
-			FID: p.FID,
-			the_geom: p.the_geom,
-			X: p.X,
-			Y: p.Y,
-			Brightness: p.Brightness,
-			Valore: p.Valore,
-			name: prettyName,
-		})
-	})*/
 	
 	const filePath = "./scripts/valori_atlante_veneto.json"
 

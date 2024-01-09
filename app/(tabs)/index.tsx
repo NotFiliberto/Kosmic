@@ -5,6 +5,7 @@ import { MapUrlParams, wMarker } from "@lib/types"
 import { INITIAL_REGION } from "@lib/constants"
 import { View } from "react-native"
 import { useLocalSearchParams, useRouter } from "expo-router"
+import { getLocationByCoords } from "@lib/utils"
 
 export default function MapScreen() {
 	const router = useRouter()
@@ -21,11 +22,12 @@ export default function MapScreen() {
 		const lng = event.nativeEvent.coordinate.longitude
 
 		//TODO: ADD function to select an existing location from
+		const location = getLocationByCoords(lng, lat)
 
 		router.setParams({
 			latitude: String(lat),
 			longitude: String(lng),
-			title: "<test>", //TODO getLocationByCoords
+			title: location.name, //TODO getLocationByCoords
 		})
 	}
 

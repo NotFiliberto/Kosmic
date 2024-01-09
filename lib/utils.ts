@@ -1,8 +1,32 @@
 import { LatLng } from "react-native-maps"
-import { wPoint } from "./types"
+import { wPoint, gPoint } from "./types"
 
 import punti from "@assets/data/valori_atlante_veneto.json"
-const points = punti as wPoint[]
+
+// run with: npx tsx .\scripts\getLocation.ts
+
+// X: lng  Y: lat 
+export function getLocationByCoords ( X: number | string, Y: number | string )
+{
+    const x = Number( X )
+    const y = Number( Y )
+
+    const points = punti as gPoint[]
+	let nearestPlace = points[ 0 ]
+	let minDistance = Math.sqrt( Math.pow( x - nearestPlace.X, 2 ) + Math.pow( y - nearestPlace.Y, 2 ) )
+    for ( const p of points )
+    {
+        // p.X and p.Y are already Number type since gPoints is such
+        const distance = Math.sqrt( Math.pow( x - p.X, 2 ) + Math.pow( y - p.Y, 2 ) )
+        if ( distance < minDistance )
+        {
+            minDistance = distance
+            nearestPlace = p
+        }
+	}
+	
+    return nearestPlace as gPoint
+}
 
 export function prettyLocationName(unformattedString: string | undefined) {
 	if (unformattedString == undefined) return "Undefined"
@@ -13,6 +37,7 @@ export function prettyLocationName(unformattedString: string | undefined) {
 
 export function getWeight(pos: LatLng): number {
 	var ret = 0
+	const points = punti as wPoint[]
 	//console.log("pos:")
 	//console.log(pos.latitude.toFixed(1), pos.longitude.toFixed(1))
 	for (var point of points) {
