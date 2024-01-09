@@ -8,7 +8,7 @@ import MapView, {
 	MapPressEvent,
 } from "react-native-maps"
 import InteractiveMap from "../../components/InteractiveMap"
-import { wMarker, wPoint } from "@lib/types"
+import { MapUrlParams, wMarker, wPoint } from "@lib/types"
 import { GOOGLE_MAPS_API_KEY } from "@env"
 import { INITIAL_REGION } from "@lib/constants"
 import { Text, View } from "react-native"
@@ -21,11 +21,7 @@ import {
 
 export default function MapScreen() {
 	const router = useRouter()
-	const params = useLocalSearchParams<{
-		latitude: string
-		longitude: string
-		title: string
-	}>()
+	const params = useLocalSearchParams<MapUrlParams>()
 
 	const mapRef = useRef<MapView>(null)
 

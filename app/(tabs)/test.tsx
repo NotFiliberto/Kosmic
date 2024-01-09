@@ -11,12 +11,10 @@ import { useState } from "react"
 import { useLocationsStorage } from "@lib/hooks/useLocationStorage"
 import { SeparatorHorizontal } from "lucide-react-native"
 import { GOOGLE_MAPS_API_KEY } from "@env"
-import { Location, Optional } from "@lib/types"
+import { Location, MapUrlParams, Optional } from "@lib/types"
 import LocationCard from "@components/common/LocationCard"
 import * as Linking from "expo-linking"
-import { LatLng } from "react-native-maps"
-import { Link, usePathname } from "expo-router"
-import { A } from "@expo/html-elements"
+import { Link } from "expo-router"
 
 const layoutAnimConfig = {
 	duration: 300,
@@ -75,7 +73,7 @@ export default function Page() {
 						latitude: String(45.89173106522956),
 						longitude: String(11.879997923970222),
 						title: "<from another screen>", // TESTING
-					},
+					} as MapUrlParams,
 				}}
 				style={{ color: "blue" }}
 			>
