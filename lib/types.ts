@@ -17,6 +17,9 @@ export type wPoint = {
 	Brightness: number
 	Valore: number
 }
+
+export type gPoint = (wPoint & { name: string })
+
 export type wMarker = {
 	//id: number
 	coordinate: { latitude: number; longitude: number }
