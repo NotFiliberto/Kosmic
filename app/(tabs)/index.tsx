@@ -13,92 +13,59 @@ import { GOOGLE_MAPS_API_KEY } from "@env"
 import { INITIAL_REGION } from "@lib/constants"
 import { Text, View } from "react-native"
 import * as Linking from "expo-linking"
-
-type MapStateT = {
-	region: Region
-	selectedMarker: wMarker | undefined
-	showInfoModal: boolean
-	pullutionRate: number
-}
+import {
+	useGlobalSearchParams,
+	useLocalSearchParams,
+	useRouter,
+} from "expo-router"
 
 export default function MapScreen() {
+	const router = useRouter()
+	const params = useLocalSearchParams<{
+		latitude: string
+		longitude: string
+		title: string
+	}>()
+
 	const mapRef = useRef<MapView>(null)
-
-	const [mapState, setMapState] = useState<MapStateT>({
-		region: INITIAL_REGION,
-		selectedMarker: undefined,
-		pullutionRate: 0,
-		showInfoModal: false,
-	})
-
-	const { region, selectedMarker, pullutionRate, showInfoModal } = mapState
 
 	function onMarkerPress(event: MarkerPressEvent): void {
 		//console.log(event);
 	}
 
 	function onMapPress(event: MapPressEvent) {
-		const { selectedMarker, ...rest } = mapState
-		setMapState({ selectedMarker: undefined, ...rest })
-		console.log("deselected")
+		//const { selectedMarker, ...rest } = mapState
+		//setMapState({ selectedMarker: undefined, ...rest })
+		/* router.setParams({}) // reset
+		console.log("deselected map press") */
 	}
 
 	async function onLongPress(event: LongPressEvent) {
 		const lat = event.nativeEvent.coordinate.latitude
 		const lng = event.nativeEvent.coordinate.longitude
 
-		const newRegion: Region = {
-			latitude: lat,
-			longitude: lng,
-			latitudeDelta: 3,
-			longitudeDelta: 1,
-		}
-
 		//TODO: ADD function to select an existing location from
-		const dataFromMaps = await fetch(
-			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&language=it-IT&key=${GOOGLE_MAPS_API_KEY}`
-		)
 
-		const markerName = (await dataFromMaps.json()).plus_code.compound_code
-		console.log({ markerName })
-
-		const newSelectedMarker: wMarker = {
-			coordinate: { latitude: lat, longitude: lng },
-			title: prettyLocationName(markerName),
-		}
-
-		// update the state
-		setMapState({
-			selectedMarker: newSelectedMarker,
-			pullutionRate: getWeight({ latitude: lat, longitude: lng }),
-			showInfoModal: true,
-			region: mapState.region,
+		router.setParams({
+			latitude: String(lat),
+			longitude: String(lng),
+			title: "<test>", //TODO getLocationByCoords
 		})
-
-		mapRef.current?.animateToRegion(newRegion)
-		mapRef.current?.render()
 	}
+	console.log({ params })
 
-	/* const url = Linking.useURL()
-	console.log({ url })
+	const selectedMarker =
+		params.title == undefined || params.title == ""
+			? undefined
+			: ({
+					coordinate: {
+						latitude: Number(params.latitude),
+						longitude: Number(params.longitude),
+					},
+					title: params.title,
+			  } as wMarker)
 
-	if (url) {
-		const { queryParams } = Linking.parse(url)
-
-		if (queryParams) {
-			const lat = Number(queryParams.latitude)
-			const lng = Number(queryParams.longitude)
-			const newSelectedMarker: wMarker = {
-				coordinate: {
-					latitude: lat,
-					longitude: lng,
-				},
-				title: "<from another screen>",
-			}
-
-			//console.log(url)
-		}
-	} */
+	console.log(selectedMarker)
 
 	return (
 		<View style={{ flex: 1 }}>
@@ -109,20 +76,17 @@ export default function MapScreen() {
 				onMapPress={onMapPress}
 				onLongPress={onLongPress}
 				mapRef={mapRef}
-				region={region}
-				pollRate={pullutionRate}
+				pollRate={20}
 				modal={{
-					show: showInfoModal,
+					show: Object.keys(params).length === 0 ? false : true,
 					onClose: () => {
-						const { selectedMarker, showInfoModal, ...rest } =
-							mapState
+						router.setParams({
+							latitude: "",
+							longitude: "",
+							title: "",
+						}) // reset
 
-						setMapState({
-							showInfoModal: true,
-							selectedMarker: undefined,
-							...rest,
-						})
-						console.log("deselected")
+						console.log("deselected", params)
 					},
 				}}
 			/>
