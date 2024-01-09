@@ -27,7 +27,7 @@ export function getLocationByCoords ( X: number | string, Y: number | string )
 	// esempi di X e Y:
 	// X:45.11 - Y:12.10  <-> X:12.10 - Y:45.11
     console.log("\n\nLOGNAME: ", nearestPlace, "\n\n")
-    return nearestPlace == undefined ? undefined : nearestPlace as gPoint
+    return nearestPlace as gPoint
 }
 
 export function prettyLocationName(unformattedString: string | undefined) {

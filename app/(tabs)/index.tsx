@@ -27,7 +27,7 @@ export default function MapScreen() {
 		router.setParams({
 			latitude: String(lat),
 			longitude: String(lng),
-			title: location?.name == undefined ? "" : location.name, //TODO getLocationByCoords
+			title: location.name, //TODO getLocationByCoords
 		})
 	}
 
