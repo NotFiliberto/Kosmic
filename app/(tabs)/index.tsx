@@ -34,13 +34,6 @@ export default function MapScreen() {
 	}
 
 	function onMapPress(event: MapPressEvent) {
-		//const { selectedMarker, ...rest } = mapState
-		//setMapState({ selectedMarker: undefined, ...rest })
-		/* router.setParams({}) // reset
-		console.log("deselected map press") */
-	}
-
-	async function onLongPress(event: LongPressEvent) {
 		const lat = event.nativeEvent.coordinate.latitude
 		const lng = event.nativeEvent.coordinate.longitude
 
@@ -52,6 +45,7 @@ export default function MapScreen() {
 			title: "<test>", //TODO getLocationByCoords
 		})
 	}
+
 	console.log({ params })
 
 	const selectedMarker =
@@ -74,7 +68,6 @@ export default function MapScreen() {
 				selectedMarker={selectedMarker}
 				onMarkerPress={onMarkerPress}
 				onMapPress={onMapPress}
-				onLongPress={onLongPress}
 				mapRef={mapRef}
 				pollRate={20}
 				modal={{

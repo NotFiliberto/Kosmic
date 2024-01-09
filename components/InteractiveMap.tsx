@@ -42,7 +42,7 @@ interface InteractiveMapProps {
 	selectedMarker: wMarker | undefined
 	onMarkerPress: (event: MarkerPressEvent) => void
 	onMapPress: (event: MapPressEvent) => void
-	onLongPress: (event: LongPressEvent) => void
+	//	onLongPress: (event: LongPressEvent) => void
 	mapRef: React.RefObject<MapView> | undefined
 	pollRate: number
 	modal: {
@@ -55,7 +55,6 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 	initialRegion,
 	onMarkerPress,
 	onMapPress,
-	onLongPress,
 	mapRef,
 	selectedMarker,
 	modal,
@@ -107,7 +106,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 				showsUserLocation={true}
 				onMarkerPress={onMarkerPress}
 				onPress={onMapPress}
-				onLongPress={onLongPress}
+				//onLongPress={onLongPress}
 				provider="google"
 				region={region}
 			>
