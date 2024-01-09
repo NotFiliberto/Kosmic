@@ -1,23 +1,10 @@
-import React, { useRef, useState } from "react"
-import { getWeight, prettyLocationName } from "@lib/utils"
-import MapView, {
-	LatLng,
-	Region,
-	MarkerPressEvent,
-	LongPressEvent,
-	MapPressEvent,
-} from "react-native-maps"
+import React, { useRef } from "react"
+import MapView, { MarkerPressEvent, MapPressEvent } from "react-native-maps"
 import InteractiveMap from "../../components/InteractiveMap"
-import { MapUrlParams, wMarker, wPoint } from "@lib/types"
-import { GOOGLE_MAPS_API_KEY } from "@env"
+import { MapUrlParams, wMarker } from "@lib/types"
 import { INITIAL_REGION } from "@lib/constants"
-import { Text, View } from "react-native"
-import * as Linking from "expo-linking"
-import {
-	useGlobalSearchParams,
-	useLocalSearchParams,
-	useRouter,
-} from "expo-router"
+import { View } from "react-native"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 export default function MapScreen() {
 	const router = useRouter()

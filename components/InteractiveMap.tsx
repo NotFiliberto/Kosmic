@@ -1,16 +1,13 @@
 import { View, Dimensions } from "react-native"
 import MapView, {
 	Marker,
-	LatLng,
 	Region,
 	Heatmap,
-	MapMarker,
 	MarkerPressEvent,
 	MapPressEvent,
-	LongPressEvent,
 } from "react-native-maps"
 import { StyleSheet } from "react-native"
-import React, { useRef } from "react"
+import React from "react"
 import punti from "../assets/data/valori_atlante_veneto.json"
 import MapLocationModal from "./common/MapLocationModal"
 import { Location, Optional, wMarker, wPoint } from "@lib/types"
