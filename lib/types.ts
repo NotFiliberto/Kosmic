@@ -27,7 +27,7 @@ export type Location = {
 	_id: string
 	name: string
 	coords: LatLng
-	value: number
+	pollutionRate: number
 	pinned: boolean
 }
 

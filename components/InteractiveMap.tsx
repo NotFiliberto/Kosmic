@@ -127,7 +127,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 					location={{
 						...(currentLocation && { _id: currentLocation._id }),
 						name: selectedMarker.title,
-						value: pollutionRate!,
+						pollutionRate: pollutionRate!,
 						coords: selectedMarker.coordinate,
 						pinned: currentLocation ? true : false,
 					}}

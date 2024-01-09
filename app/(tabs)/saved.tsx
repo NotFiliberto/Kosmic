@@ -74,7 +74,9 @@ export default function LocationScreen() {
 											_id={location._id}
 											name={location.name}
 											pinned={location.pinned}
-											value={location.value}
+											pollutionRate={
+												location.pollutionRate
+											}
 											onTogglePinned={() => {
 												removeLocation(location)
 												// after removing the item, we start animation

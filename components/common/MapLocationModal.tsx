@@ -61,7 +61,7 @@ export default function MapLocationModal({
 								color: commentColor,
 							}}
 						>
-							{location.value}
+							{location.pollutionRate}
 						</Text>
 						<Text
 							style={{
@@ -92,7 +92,6 @@ export default function MapLocationModal({
 								<PinIcon color="black" size={48} />
 							)}
 						</Pressable>
-						
 					</View>
 				</View>
 			</View>

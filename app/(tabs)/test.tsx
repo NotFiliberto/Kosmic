@@ -36,7 +36,7 @@ const layoutAnimConfig = {
 const TESTING_LOCATION: Optional<Location, "_id"> = {
 	name: "TESTING",
 	pinned: true,
-	value: 23.2,
+	pollutionRate: 23.2,
 	coords: { latitude: 11.27214515, longitude: 44.91523906 },
 }
 
@@ -131,7 +131,7 @@ export default function Page() {
 										_id={location._id}
 										name={location.name}
 										pinned={location.pinned}
-										value={location.value}
+										pollutionRate={location.pollutionRate}
 										coords={location.coords}
 										onTogglePinned={() => {
 											removeLocation(location)
