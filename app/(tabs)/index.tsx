@@ -1,158 +1,73 @@
-import { StyleSheet } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import EditScreenInfo from "../../components/EditScreenInfo";
-import { Text, View } from "../../components/Themed";
-import punti from "../../assets/data/valori_atlante_veneto.json";
-const points = punti as wPoint[];
-import { prettyLocationName } from "@lib/utils";
-import MapView, {
-	LatLng,
-	Region,
-	MarkerPressEvent,
-	LongPressEvent,
-	MapPressEvent,
-} from "react-native-maps";
-import InteractiveMap from "../../components/InteractiveMap";
-import { wMarker, wPoint } from "@lib/types";
+import React, { useRef } from "react"
+import MapView, { MarkerPressEvent, MapPressEvent } from "react-native-maps"
+import InteractiveMap from "../../components/InteractiveMap"
+import { MapUrlParams, wMarker } from "@lib/types"
+import { INITIAL_REGION } from "@lib/constants"
+import { View } from "react-native"
+import { useLocalSearchParams, useRouter } from "expo-router"
+import { getLocationByCoords } from "@lib/utils"
 
 export default function MapScreen() {
-	//TODO move to constants.ts
-	var initialRegion = {
-		latitude: 46,
-		longitude: 12,
-		latitudeDelta: 3,
-		longitudeDelta: 1,
-	};
+	const router = useRouter()
+	const params = useLocalSearchParams<MapUrlParams>()
 
-	const [region, setRegion] = useState<Region>({
-		latitude: 46,
-		longitude: 12,
-		latitudeDelta: 3,
-		longitudeDelta: 1,
-	});
-
-	const [markers, setMarkers] = useState<wMarker[]>([]);
-
-	const [showInfoModal, setShowInfoModal] = useState(false);
-
-	const [selectedMarker, setSelectedMarker] = useState<wMarker | undefined>(
-		undefined
-	);
-
-	const mapRef = useRef<MapView>(null);
-
-	const [pollutionRate, setPollutionRate] = useState<number>(0);
-
-	function getWeight(pos: LatLng): number {
-		var ret = 0;
-		console.log("pos:");
-		console.log(pos.latitude.toFixed(1), pos.longitude.toFixed(1));
-		for (var point of points) {
-			if (
-				pos.latitude.toFixed(1) == point.Y.toFixed(1) &&
-				pos.longitude.toFixed(1) == point.X.toFixed(1)
-			) {
-				console.log("found:");
-				console.log(point.Y.toFixed(1), point.X.toFixed(1));
-				return point.Valore;
-			}
-		}
-
-		return ret;
-	}
+	const mapRef = useRef<MapView>(null)
 
 	function onMarkerPress(event: MarkerPressEvent): void {
 		//console.log(event);
 	}
 
 	function onMapPress(event: MapPressEvent) {
-		setSelectedMarker(undefined);
-		setMarkers([]);
-		console.log("deselected");
+		const lat = event.nativeEvent.coordinate.latitude
+		const lng = event.nativeEvent.coordinate.longitude
+
+		//TODO: ADD function to select an existing location from
+		const location = getLocationByCoords(lng, lat)
+
+		router.setParams({
+			latitude: String(lat),
+			longitude: String(lng),
+			title: location.name, //TODO getLocationByCoords
+		})
 	}
 
-	async function onLongPress(event: LongPressEvent) {
-		var lat = event.nativeEvent.coordinate.latitude;
-		var lng = event.nativeEvent.coordinate.longitude;
+	console.log({ params })
 
-		var newRegion = {
-			latitude: lat,
-			longitude: lng,
-			latitudeDelta: 3,
-			longitudeDelta: 1,
-		};
+	const selectedMarker =
+		params.title == undefined || params.title == ""
+			? undefined
+			: ({
+					coordinate: {
+						latitude: Number(params.latitude),
+						longitude: Number(params.longitude),
+					},
+					title: params.title,
+			  } as wMarker)
 
-		const dataFromMaps = await fetch(
-			`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&language=it-IT&key=AIzaSyDe7OrltZ0dSji5xX0VwjdZcACpHEfeWFY`
-		);
-
-		const markerName = (await dataFromMaps.json()).plus_code.compound_code;
-		console.log({ markerName });
-
-		var newSelectedMarker: wMarker = {
-			id: markers.length,
-			coordinate: { latitude: lat, longitude: lng },
-			title: prettyLocationName(markerName),
-		};
-		/* markers.pop();
-        markers.push({
-            id: 1,
-            coordinate: { latitude: lat, longitude: lng },
-            title: "My Marker",
-        }); */
-
-		setMarkers([...markers, newSelectedMarker]);
-		setSelectedMarker(newSelectedMarker);
-
-		setRegion(newRegion);
-
-		setPollutionRate(getWeight({ latitude: lat, longitude: lng }));
-
-		setShowInfoModal(true);
-
-		mapRef.current?.animateToRegion(newRegion);
-		mapRef.current?.render();
-	}
+	console.log({ selectedMarker })
 
 	return (
 		<View style={{ flex: 1 }}>
 			<InteractiveMap
-				initialRegion={initialRegion}
+				initialRegion={INITIAL_REGION}
 				selectedMarker={selectedMarker}
-				markers={markers}
 				onMarkerPress={onMarkerPress}
 				onMapPress={onMapPress}
-				onLongPress={onLongPress}
 				mapRef={mapRef}
-				region={region}
-				pollRate={pollutionRate}
+				pollRate={20}
 				modal={{
-					show: showInfoModal,
+					show: Object.keys(params).length === 0 ? false : true,
 					onClose: () => {
-						setShowInfoModal(false);
+						router.setParams({
+							latitude: "",
+							longitude: "",
+							title: "",
+						}) // reset
 
-						setSelectedMarker(undefined);
-						console.log("deselected");
+						console.log("deselected", params)
 					},
 				}}
 			/>
 		</View>
-	);
+	)
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	title: {
-		fontSize: 200,
-		fontWeight: "bold",
-	},
-	separator: {
-		marginVertical: 30,
-		height: 1,
-		width: "80%",
-	},
-});

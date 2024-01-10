@@ -1,37 +1,33 @@
-import { Pressable, StyleSheet } from "react-native";
-import { Text, View } from "../../components/Themed";
-import { CloudSunIcon, MapIcon, PinIcon } from "lucide-react-native";
-import { LatLng, Point } from "react-native-maps";
-import { A } from "@expo/html-elements";
-import ReactNativeModal from "react-native-modal";
+import { Pressable, StyleSheet } from "react-native"
+import { Text, View } from "../../components/Themed"
+import { CloudSunIcon, MapIcon, PinIcon, PinOffIcon } from "lucide-react-native"
+import { LatLng, Point } from "react-native-maps"
+import { A } from "@expo/html-elements"
+import ReactNativeModal from "react-native-modal"
+import { Location, Optional } from "@lib/types"
+import { getColorFromRating, getRating } from "@lib/utils"
 
 export type MapLocationModalProps = {
-	isVisible: boolean;
-	locationName: string;
-	pollutionRate: number | undefined;
-	comment: string;
-	commentColor: string;
-	coords: LatLng;
-	mapsURL: string;
-	weatherURL: string;
-	togglePin: (coords: LatLng) => void;
-	onClose: () => void;
-};
+	isVisible: boolean
+	location: Optional<Location, "_id">
+	togglePin: (location: Optional<Location, "_id">) => void
+	onClose: () => void
+}
 
 //TODO add animation to this modal
 export default function MapLocationModal({
 	isVisible,
-	coords,
-	locationName,
-	pollutionRate,
-	comment,
-	commentColor,
-	mapsURL,
-	weatherURL,
+	location,
 	togglePin,
 	onClose,
 }: MapLocationModalProps) {
-	if (!isVisible) return null;
+	if (!isVisible) return null
+
+	const weatherURL = "https://3bmeteo.com"
+	const mapsURL = `https://maps.google.com/?q=${location.coords.latitude}>,${location.coords.longitude}`
+
+	const ratingComment = getRating(location.pollutionRate)
+	const ratingCommentColor = getColorFromRating(location.pollutionRate)
 
 	return (
 		<ReactNativeModal
@@ -51,28 +47,28 @@ export default function MapLocationModal({
 					}}
 				>
 					<View style={styles.locationInfo}>
-						<Text style={styles.locationName}>{locationName}</Text>
+						<Text style={styles.locationName}>{location.name}</Text>
 						<View style={styles.locationCoordinates}>
-							<Text>{coords.latitude.toFixed(2)}</Text>
-							<Text>{coords.longitude.toFixed(2)}</Text>
+							<Text>{location.coords.latitude.toFixed(2)}</Text>
+							<Text>{location.coords.longitude.toFixed(2)}</Text>
 						</View>
 					</View>
 					<View style={styles.pollutionTextInfo}>
 						<Text
 							style={{
 								...styles.lightPollutionRate,
-								color: commentColor,
+								color: ratingCommentColor,
 							}}
 						>
-							{pollutionRate}
+							{location.pollutionRate}
 						</Text>
 						<Text
 							style={{
 								...styles.lightPollutionValue,
-								color: commentColor,
+								color: ratingCommentColor,
 							}}
 						>
-							{comment}
+							{ratingComment}
 						</Text>
 					</View>
 				</View>
@@ -84,14 +80,22 @@ export default function MapLocationModal({
 						<A href={weatherURL}>
 							<CloudSunIcon color="black" size={48} />
 						</A>
-						<Pressable onPress={() => togglePin(coords)}>
-							<PinIcon color="black" size={48} />
+						<Pressable onPress={() => togglePin(location)}>
+							{location.pinned ? (
+								<PinOffIcon
+									color="black"
+									fill="black"
+									size={48}
+								/>
+							) : (
+								<PinIcon color="black" size={48} />
+							)}
 						</Pressable>
 					</View>
 				</View>
 			</View>
 		</ReactNativeModal>
-	);
+	)
 }
 
 const styles = StyleSheet.create({
@@ -141,4 +145,4 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		paddingTop: 12,
 	},
-});
+})

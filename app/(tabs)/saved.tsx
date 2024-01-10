@@ -1,113 +1,133 @@
-import { StyleSheet, ScrollView, SafeAreaView, StatusBar } from "react-native";
+import {
+	StyleSheet,
+	ScrollView,
+	SafeAreaView,
+	Pressable,
+	LayoutAnimation,
+} from "react-native"
 
-import { View } from "../../components/Themed";
-import Location from "../../components/Location";
+import { View, Text } from "../../components/Themed"
 
-import React, { useState } from "react";
-import ScreenHeader from "@components/common/ScreenHeader";
+import React, { useEffect, useState } from "react"
 
-// List data: id's must be unic at the beginning
-const savedPlacesFromLocalDB = [
-	{
-		id: "1",
-		name: "NomeMoltoLungoNomeMoltoLungoNomeMoltoLungoNomeMoltoLungoNomeMoltoLungoNomeMoltoLungoNomeMoltoLungoNomeMoltoLungoNomeMoltoLungo",
-		value: 30.0898392892839238292,
-		pinned: true,
+import LocationCard from "@components/common/LocationCard"
+import { useLocationsStorage } from "@lib/hooks/useLocationStorage"
+import ScreenHeader from "@components/common/ScreenHeader"
+
+const layoutAnimConfig = {
+	duration: 300,
+	update: {
+		type: LayoutAnimation.Types.easeInEaseOut,
 	},
-	{ id: "2", name: "Vittorio Veneto", value: 19.71, pinned: true },
-	{ id: "3", name: "Padova", value: 15.18, pinned: true },
-	{ id: "4", name: "Silea", value: 21.08, pinned: true },
-	{ id: "5", name: "Treviso", value: 19.71, pinned: true },
-	{ id: "6", name: "Asseggiano", value: 15.18, pinned: true },
-	{ id: "7", name: "Belluno", value: 21.08, pinned: true },
-	{ id: "8", name: "Pieve di Soligo", value: 19.71, pinned: true },
-	{ id: "9", name: "Mestre", value: 15.18, pinned: true },
-	{ id: "10", name: "Montebelluna", value: 15.18, pinned: true },
-	{ id: "11", name: "Villorba", value: 21.08, pinned: true },
-];
+	delete: {
+		duration: 100,
+		type: LayoutAnimation.Types.easeInEaseOut,
+		property: LayoutAnimation.Properties.opacity,
+	},
+	create: {
+		duration: 100,
+		type: LayoutAnimation.Types.easeInEaseOut,
+		property: LayoutAnimation.Properties.opacity,
+	},
+}
 
 export default function LocationScreen() {
-	// Data for ScrollView and State usage
-	const [places, setPlaces] = useState<typeof savedPlacesFromLocalDB>(
-		savedPlacesFromLocalDB
-	);
-
-	// Update any prop setting a specified value in a specified position in the List
-	const updateListItem = (
-		index: number,
-		nameProp: string,
-		value: any | undefined
-	) => {
-		// strategy: copy -> make changes: [index].prop = newValye -> set([...copy])
-		const copy = places;
-		copy[index] = { ...copy[index], [nameProp]: value }; // Remember that props names are seen as a list here
-		// remember its'a list -> []
-		setPlaces([...copy]);
-	};
-
-	// Finds the position in data of an item through its specified ID
-	const findPositionItem = (id: string | undefined) => {
-		return places.findIndex((place) => place.id == id);
-	};
-
-	const getCurrentPinned = (index: number) => {
-		const copy = places;
-		return copy[index].pinned;
-	};
-
-	// handles when Pin icon gets toggled
-	const handleTogglePin = (id: string) => {
-		// solution to handle pintoggle (use icon handler where there is the click handler)
-		const position = findPositionItem(id);
-		const currentPinned = getCurrentPinned(position);
-		updateListItem(position, "pinned", !currentPinned);
-	};
+	const { locations, addLocation, removeLocation, removeAllLocations } =
+		useLocationsStorage()
 
 	return (
 		<SafeAreaView style={styles.safe}>
 			<ScreenHeader text="I miei luoghi" />
-
-			<ScrollView style={styles.container}>
-				{places.map((place, index) => {
-					return (
-						place.pinned && (
-							<View style={styles.item} key={index}>
-								{
-									<Location
-										id={place.id}
-										name={place.name}
-										pinned={place.pinned}
-										value={place.value}
-										onTogglePinned={handleTogglePin}
-									/>
-								}
-							</View>
-						)
-					);
-				})}
-				<View
-					style={{
-						marginBottom: 120,
+			<View style={styles.header}>
+				<Pressable
+					style={[
+						styles.button_storage,
+						{ backgroundColor: "lightgreen" },
+					]}
+					onPress={() => removeAllLocations()}
+				>
+					<Text style={styles.text_button_storage}>
+						REMOVE ALL LOCAL
+					</Text>
+				</Pressable>
+				<Pressable
+					style={[
+						styles.button_storage,
+						{ backgroundColor: "lightblue" },
+					]}
+					onPress={() => {
+						//addLocation({ name: "TESTING", pinned: true, value: 23.2, coords })
+						LayoutAnimation.configureNext(layoutAnimConfig)
 					}}
-				/>
+				>
+					<Text style={styles.text_button_storage}>ADD PLACE</Text>
+				</Pressable>
+			</View>
+			<ScrollView style={styles.container}>
+				{locations &&
+					locations.map((location, index) => {
+						return (
+							location.pinned && (
+								<View style={styles.item} key={index}>
+									{
+										<LocationCard
+											_id={location._id}
+											name={location.name}
+											pinned={location.pinned}
+											pollutionRate={
+												location.pollutionRate
+											}
+											onTogglePinned={() => {
+												removeLocation(location)
+												// after removing the item, we start animation
+												LayoutAnimation.configureNext(
+													layoutAnimConfig
+												)
+											}}
+											coords={location.coords}
+										/>
+									}
+								</View>
+							)
+						)
+					})}
 			</ScrollView>
 		</SafeAreaView>
-	);
+	)
 }
 
 const styles = StyleSheet.create({
 	safe: {
-		height: "100%",
+		flex: 1,
 		backgroundColor: "#fff",
-		paddingTop: StatusBar.currentHeight,
+		paddingTop: 40,
+		/* borderWidth: 2,
+        borderColor: 'red', */
+		paddingBottom: 95,
+		gap: 10,
 	},
 	container: {
 		flex: 1,
-		padding: 20,
+		paddingHorizontal: 20,
 		gap: 20,
 		backgroundColor: "#fff",
 	},
 	item: {
 		flex: 1,
 	},
-});
+	header: {
+		paddingHorizontal: 20,
+		gap: 10,
+		paddingBottom: 10,
+	},
+	button_storage: {
+		//width: 200,
+		borderRadius: 15,
+	},
+	text_button_storage: {
+		textAlign: "center",
+		fontSize: 20,
+		fontWeight: "bold",
+		padding: 5,
+	},
+})
