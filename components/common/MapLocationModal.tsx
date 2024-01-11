@@ -23,7 +23,11 @@ export default function MapLocationModal({
 }: MapLocationModalProps) {
 	if (!isVisible) return null
 
-	const weatherURL = "https://3bmeteo.com"
+	var town = location.name.split(",")[0]
+	town.replace(" ", "+")
+	town = town.substring(0,town.length-2)
+	const weatherURL = "https://3bmeteo.com/meteo/"+town
+	
 	const mapsURL = `https://maps.google.com/?q=${location.coords.latitude}>,${location.coords.longitude}`
 
 	const ratingComment = getRating(location.pollutionRate)
