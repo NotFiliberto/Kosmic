@@ -28,6 +28,24 @@ export function getLocationByCoords ( X: number | string, Y: number | string )
     return nearestPlace as gPoint
 }
 
+//TODO: Simulate search results: need a function which gets a certain input string
+// and returns name of the places in atlante_veneto.json ;  So for example: a list of names [4-5 results]
+// which each starts with the input string or it contains the input string as well ;
+export function getSimilarLocationsBySearch ( search_input: string )
+{
+	const points = punti as gPoint[]
+	const names = [] as string[]
+	for ( const p of points )
+	{
+		const namePlace = p.name.toString()
+		if ( namePlace.startsWith( search_input ) )
+		{
+			names.push(namePlace)
+		}
+	}
+	return names // 
+}
+
 export function prettyLocationName(unformattedString: string | undefined) {
 	if (unformattedString == undefined) return "Undefined"
 	const splitted = unformattedString.split(" ")
