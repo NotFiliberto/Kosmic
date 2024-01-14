@@ -1,4 +1,4 @@
-![alt text](https://github.com/NotFiliberto/Kosmic/Kosmic_(2).png?raw=true)
+![alt text](https://github.com/NotFiliberto/Kosmic/blob/Kosmic_(2).png?raw=true)
 
 ## Testing
 
