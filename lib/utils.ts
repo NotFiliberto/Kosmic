@@ -38,11 +38,15 @@ export function getSimilarLocationsBySearch ( search_input: string )
 	for ( const p of points )
 	{
 		const namePlace = p.name.toString()
-		if ( namePlace.startsWith( search_input ) )
+		if ( namePlace.includes( search_input ) )
 		{
 			names.push(namePlace)
 		}
 	}
+	names.forEach( ( n ) =>
+	{
+		console.log(n)
+	})
 	return names // 
 }
 
@@ -93,3 +97,5 @@ export function getColorFromRating(value: number): string {
 
 	return colorValue
 }
+
+getSimilarLocationsBySearch( "ara" )
