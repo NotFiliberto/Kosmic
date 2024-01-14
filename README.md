@@ -14,6 +14,21 @@ Nota: Se vuoi testare l'applicazione direttamente sul tuo dispositivo, installa 
 
 ## Features
 
+```html
+<h2>Example of code</h2>
+
+<pre>
+    <div class="container">
+        <div class="block two first">
+            <h2>Your title</h2>
+            <div class="wrap">
+            //Your content
+            </div>
+        </div>
+    </div>
+</pre>
+```
+
 1. View map through Google API  ```html <i class="fa-solid fa-map-location-dot" style="color: #00ff6e;"></i>```
 2. View light-pollution stats 
 3. Search places in Veneto area
