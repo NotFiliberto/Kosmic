@@ -1,4 +1,4 @@
-[Screenshot](Kosmic.png)
+![plot](./assets/images/Kosmic.png)
 
 ## Testing
 
