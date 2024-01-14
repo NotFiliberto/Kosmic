@@ -4,7 +4,7 @@
 
 Tramite emulatore e/o expo app direttamente sul proprio dispositivo android.
 
-||
+| Commands |
 | :--------------------------------- |
 | 1. `git clone NotFiliberto/Kosmic` |
 | 2. `npm run install` |
