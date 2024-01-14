@@ -1,4 +1,4 @@
-![alt text](https://github.com/NotFiliberto/Kosmic/blob/vin/Kosmic.png?raw=true)
+[Screenshot](Kosmic.png)
 
 ## Testing
 
