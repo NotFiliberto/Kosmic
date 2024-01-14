@@ -4,11 +4,11 @@
 
 Tramite emulatore e/o expo app direttamente sul proprio dispositivo android.
 
-| Commands |
+| **Commands** |
 | :--------------------------------- |
-| "1." `git clone NotFiliberto/Kosmic` |
-| "2." `npm run install` |
-| "3." `npm run android` |
+| **1.** `git clone NotFiliberto/Kosmic` |
+| **2.** `npm run install` |
+| **3.** `npm run android` |
 
 Crea un file `.env` nella root principale del progetto e inserisci l' API_KEY di google maps per far funzionare la mappa. (Puoi modificare il file .env.example, e poi rinominarlo in: ".env")
 
