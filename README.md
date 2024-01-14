@@ -14,7 +14,7 @@ Nota: Se vuoi testare l'applicazione direttamente sul tuo dispositivo, installa 
 
 ## Features
 
-1. View map through Google API [html]<i class="fa-solid fa-map-location-dot" style="color: #00ff6e;"></i>
+1. View map through Google API  ```html <i class="fa-solid fa-map-location-dot" style="color: #00ff6e;"></i>```
 2. View light-pollution stats 
 3. Search places in Veneto area
 4. Add places as favourite in local device storage 
