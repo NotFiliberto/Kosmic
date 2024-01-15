@@ -4,11 +4,10 @@
 
 Tramite emulatore e/o expo app direttamente sul proprio dispositivo android.
 
-| **Commands** |
-| :--------------------------------- |
-| **1.** `git clone NotFiliberto/Kosmic` |
-| **2.** `npm run install` |
-| **3.** `npm run android` |
+**Commands**
+  1. `git clone NotFiliberto/Kosmic`
+  2. `npm run install`
+  3. `npm run android`
 
 Crea un file `.env` nella root principale del progetto e inserisci l' API_KEY di google maps per far funzionare la mappa. (Puoi modificare il file .env.example, e poi rinominarlo in: ".env")
 
@@ -18,7 +17,7 @@ Nota: Se vuoi testare l'applicazione direttamente sul tuo dispositivo, installa 
 
 | Feature | Description |
 | :-------| :---------- |
-| View map through Google API 🗺️ | -- |
+| View map through Google API 🗺️ | description here |
 | View light-pollution stats 🏙️ | -- |
 | Search places in Veneto area 🔍 | -- |
 | Add places as favourite in local device storage ❤️ | -- |
