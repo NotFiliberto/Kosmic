@@ -16,9 +16,11 @@ Nota: Se vuoi testare l'applicazione direttamente sul tuo dispositivo, installa 
 
 ## Features
 
-  - View map through Google API 🗺️
-  - View light-pollution stats 🏙️
-  - Search places in Veneto area 🔍
-  - Add places as favourite in local device storage ❤️
-  - Astronomic events section 🌠 🌑 🌓 🌔 🌕
-  - Astronomic Event notifier 📱
+| Feature | Description |
+| :-------| :---------- |
+| View map through Google API 🗺️ | -- |
+| View light-pollution stats 🏙️ | -- |
+| Search places in Veneto area 🔍 | -- |
+| Add places as favourite in local device storage ❤️ | -- |
+| Astronomic events section 🌠 🌑 🌓 🌔 🌕 | -- |
+| Astronomic Event notifier 📱 | -- |
