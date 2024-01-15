@@ -1,7 +1,7 @@
 <h1 align="center">Kosmic</h1>
 
 <p align="center">
-  <img alt="Logo dell'App" src="url-del-tuo-logo.png" width="150" />
+  <img alt="Logo dell'App" src="assets/images/banner.jpg" width="300" />
 </p>
 
 <p align="center">
@@ -23,7 +23,7 @@
 
 Prima di iniziare, assicurati di avere installato quanto segue:
 
--   [Node.js](https://nodejs.org/) (versione consigliata: 14.x LTS)
+-   [Node.js](https://nodejs.org/) (versione consigliata: 20.x LTS)
 -   [npm](https://www.npmjs.com/) (viene installato con Node.js)
 -   [ExpoGo](https://expo.dev/client) (per testare l'app sul proprio dispositivo)
 
