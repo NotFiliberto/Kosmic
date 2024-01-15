@@ -1,6 +1,6 @@
 <h1 align="center">Kosmic</h1>
 
-  <img alt="Logo dell'App" src="assets/images/banner2.jpg" width="800" />
+  <img alt="Logo dell'App" src="assets/images/banner2.jpg" width="600" />
 
 <p align="center">
   Benvenuto in Kosmic, l'app che ti guiderà attraverso il misterioso e affascinante mondo della notte, rivelando i luoghi dove le stelle brillano più intensamente. Affronta l'inquinamento luminoso esplorando le regioni a basso impatto luminoso sulla nostra mappa interattiva, progettata per connetterti con la bellezza del cielo notturno.
