@@ -1,6 +1,6 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import { Href, Link, LinkProps } from "expo-router";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { NavigationContainer } from "@react-navigation/native"
+import { Href, Link, LinkProps, usePathname } from "expo-router"
 import {
 	HomeIcon,
 	LucideIcon,
@@ -8,20 +8,35 @@ import {
 	NewspaperIcon,
 	PinIcon,
 	TestTube,
-} from "lucide-react-native";
-import { Text, View, StyleSheet } from "react-native";
+} from "lucide-react-native"
+import { useState } from "react"
+import { Text, View, StyleSheet, Pressable } from "react-native"
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator()
 
 type TabBarItemProps = {
-	icon: React.ReactNode;
-	title: string;
-	href: Href<string>;
-};
+	icon: React.ReactNode
+	title: string
+	pathname: Href<string>
+	params?: { [key: string]: string }
+	selected?: boolean
+}
 
-function TabBarItem({ icon, title, href }: TabBarItemProps) {
+function TabBarItem({
+	icon,
+	title,
+	pathname,
+	selected = false,
+	params,
+}: TabBarItemProps) {
 	return (
-		<Link replace href={href}>
+		<Link
+			replace
+			href={{
+				pathname,
+				params,
+			}}
+		>
 			<View
 				style={{
 					alignItems: "center",
@@ -33,47 +48,54 @@ function TabBarItem({ icon, title, href }: TabBarItemProps) {
 						color: styles.container.color,
 						fontSize: 14,
 						fontWeight: "bold",
+						textDecorationLine: selected ? "underline" : "none",
 					}}
 				>
 					{title}
 				</Text>
 			</View>
 		</Link>
-	);
+	)
 }
 
+type TabBarItem = Omit<TabBarItemProps, "onPress">
+const tabs: TabBarItem[] = [
+	{
+		icon: <PinIcon size={24} color="#fff" />,
+		title: "Salvati",
+		pathname: "/(tabs)/saved",
+	},
+	{
+		icon: <HomeIcon size={24} color="#fff" />,
+		title: "Home",
+		pathname: "/(tabs)/",
+	},
+	{
+		icon: <NewspaperIcon size={24} color="#fff" />,
+		title: "Eventi",
+		pathname: "/(tabs)/events",
+	},
+	{
+		icon: <TestTube size={24} color="#fff" />,
+		title: "Test",
+		pathname: "/(tabs)/test",
+	},
+]
+
 export default function TabsBar() {
+	const pathname = usePathname()
+
 	return (
 		<View style={styles.container}>
-			<TabBarItem
-				icon={<PinIcon size={24} color="#fff" />}
-				title="Salvati"
-				href="/(tabs)/saved"
-			/>
-			{/* TODO: use map screen */}
-
-			<TabBarItem
-				icon={<HomeIcon size={24} color="#fff" />}
-				title="Home"
-				href="/(tabs)/"
-			/>
-			<TabBarItem
-				icon={<NewspaperIcon size={24} color="#fff" />}
-				title="Eventi"
-				href="/(tabs)/events"
-			/>
-			{/* <TabBarItem
-				icon={<MapIcon size={24} color="#fff" />}
-				title="Map"
-				href="/(tabs)/map"
-			/> */}
-			{/* <TabBarItem
-				icon={<TestTube size={24} color="#fff" />}
-				title="test"
-				href="/(tabs)/test"
-			/> */}
+			{tabs.map((tab, index) => (
+				<TabBarItem
+					{...tab}
+					selected={tab.pathname.endsWith(pathname)}
+					key={index}
+				/>
+			))}
 		</View>
-	);
+	)
 }
 
 const styles = StyleSheet.create({
@@ -89,4 +111,4 @@ const styles = StyleSheet.create({
 		bottom: 20,
 		marginHorizontal: 20,
 	},
-});
+})
