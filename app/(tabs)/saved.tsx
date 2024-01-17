@@ -38,7 +38,7 @@ export default function LocationScreen() {
 	return (
 		<SafeAreaView style={styles.safe}>
 			<ScreenHeader text="I miei luoghi" />
-			<View style={styles.header}>
+			{/* <View style={styles.header}>
 				<Pressable
 					style={[
 						styles.buttonStorage,
@@ -62,7 +62,7 @@ export default function LocationScreen() {
 				>
 					<Text style={styles.textButtonStorage}>ADD PLACE</Text>
 				</Pressable>
-			</View>
+			</View> */}
 			<ScrollView style={styles.container}>
 				{locations &&
 					locations.map((location, index) => {
