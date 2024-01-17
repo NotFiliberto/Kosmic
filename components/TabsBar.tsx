@@ -1,16 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { NavigationContainer } from "@react-navigation/native"
-import { Href, Link, LinkProps, usePathname } from "expo-router"
-import {
-	HomeIcon,
-	LucideIcon,
-	MapIcon,
-	NewspaperIcon,
-	PinIcon,
-	TestTube,
-} from "lucide-react-native"
-import { useState } from "react"
-import { Text, View, StyleSheet, Pressable } from "react-native"
+import { Href, Link, usePathname } from "expo-router"
+import { HomeIcon, NewspaperIcon, PinIcon, TestTube } from "lucide-react-native"
+import { Text, View, StyleSheet } from "react-native"
 
 const Tab = createBottomTabNavigator()
 
