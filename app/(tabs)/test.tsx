@@ -15,6 +15,7 @@ import { Location, MapUrlParams, Optional } from "@lib/types"
 import LocationCard from "@components/common/LocationCard"
 import * as Linking from "expo-linking"
 import { Link } from "expo-router"
+import SearchBar from "@components/SearchBox"
 
 const layoutAnimConfig = {
 	duration: 300,
@@ -59,6 +60,8 @@ export default function Page() {
 
 	return (
 		<SafeAreaView style={styles.container}>
+			<SearchBar />
+			{/* <View style={{ paddingBottom: 200 }} /> */}
 			<Text style={styles.title}>Test Tab</Text>
 
 			<Text>GOOGLE API KEY: {GOOGLE_MAPS_API_KEY}</Text>
@@ -115,7 +118,7 @@ export default function Page() {
 					flex: 1,
 					padding: 20,
 					gap: 20,
-					backgroundColor: "#fff",
+					backgroundColor: styles.container.backgroundColor,
 				}}
 			>
 				{locations.map((location, index) => {
@@ -155,7 +158,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingHorizontal: 20,
-		backgroundColor: "#fff",
+		backgroundColor: "#c7d2fe",
 		paddingTop: StatusBar.currentHeight,
 	},
 	title: {
