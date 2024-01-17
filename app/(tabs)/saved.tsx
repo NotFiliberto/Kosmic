@@ -63,31 +63,31 @@ export default function LocationScreen() {
 					<Text style={styles.textButtonStorage}>ADD PLACE</Text>
 				</Pressable>
 			</View> */}
-			<ScrollView style={styles.container}>
+			<ScrollView
+				style={styles.container}
+				contentContainerStyle={{
+					gap: 20,
+				}}
+			>
 				{locations &&
 					locations.map((location, index) => {
 						return (
 							location.pinned && (
-								<View style={styles.item} key={index}>
-									{
-										<LocationCard
-											_id={location._id}
-											name={location.name}
-											pinned={location.pinned}
-											pollutionRate={
-												location.pollutionRate
-											}
-											onTogglePinned={() => {
-												removeLocation(location)
-												// after removing the item, we start animation
-												LayoutAnimation.configureNext(
-													layoutAnimConfig
-												)
-											}}
-											coords={location.coords}
-										/>
-									}
-								</View>
+								<LocationCard
+									_id={location._id}
+									name={location.name}
+									pinned={location.pinned}
+									pollutionRate={location.pollutionRate}
+									onTogglePinned={() => {
+										removeLocation(location)
+										// after removing the item, we start animation
+										LayoutAnimation.configureNext(
+											layoutAnimConfig
+										)
+									}}
+									coords={location.coords}
+									key={index}
+								/>
 							)
 						)
 					})}
@@ -109,11 +109,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingHorizontal: 20,
-		gap: 20,
 		backgroundColor: "#fff",
-	},
-	item: {
-		flex: 1,
 	},
 	header: {
 		paddingHorizontal: 20,
@@ -121,7 +117,6 @@ const styles = StyleSheet.create({
 		paddingBottom: 10,
 	},
 	buttonStorage: {
-		//width: 200,
 		borderRadius: 15,
 	},
 	textButtonStorage: {
