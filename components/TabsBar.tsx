@@ -1,3 +1,4 @@
+import { useKeyboard } from "@react-native-community/hooks"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { Href, Link, usePathname } from "expo-router"
 import { HomeIcon, NewspaperIcon, PinIcon, TestTube } from "lucide-react-native"
@@ -75,6 +76,9 @@ const tabs: TabBarItem[] = [
 
 export default function TabsBar() {
 	const pathname = usePathname()
+	const keyboard = useKeyboard()
+
+	if (keyboard.keyboardShown) return null
 
 	return (
 		<View style={styles.container}>
