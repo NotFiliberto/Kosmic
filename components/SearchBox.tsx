@@ -90,6 +90,7 @@ function SearchBar() {
 					value={searchInput}
 					onChangeText={handleOnChange}
 					returnKeyType="search"
+					onTouchCancel={() => console.log("out")}
 					//onSubmitEditing={() => onSearch(searchInput)}
 				/>
 			</View>
@@ -186,9 +187,9 @@ const searchBoxStyles = StyleSheet.create({
 	container: {
 		position: "absolute",
 		width: "100%",
-		zIndex: 1,
+		zIndex: 10,
 		top: 40,
-		marginHorizontal: 20,
+		paddingHorizontal: 20,
 		color: "#0f172a",
 		gap: 20,
 	},
