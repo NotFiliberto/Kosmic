@@ -41,18 +41,18 @@ export default function LocationScreen() {
 			<View style={styles.header}>
 				<Pressable
 					style={[
-						styles.button_storage,
+						styles.buttonStorage,
 						{ backgroundColor: "lightgreen" },
 					]}
 					onPress={() => removeAllLocations()}
 				>
-					<Text style={styles.text_button_storage}>
+					<Text style={styles.textButtonStorage}>
 						REMOVE ALL LOCAL
 					</Text>
 				</Pressable>
 				<Pressable
 					style={[
-						styles.button_storage,
+						styles.buttonStorage,
 						{ backgroundColor: "lightblue" },
 					]}
 					onPress={() => {
@@ -60,7 +60,7 @@ export default function LocationScreen() {
 						LayoutAnimation.configureNext(layoutAnimConfig)
 					}}
 				>
-					<Text style={styles.text_button_storage}>ADD PLACE</Text>
+					<Text style={styles.textButtonStorage}>ADD PLACE</Text>
 				</Pressable>
 			</View>
 			<ScrollView style={styles.container}>
@@ -120,11 +120,11 @@ const styles = StyleSheet.create({
 		gap: 10,
 		paddingBottom: 10,
 	},
-	button_storage: {
+	buttonStorage: {
 		//width: 200,
 		borderRadius: 15,
 	},
-	text_button_storage: {
+	textButtonStorage: {
 		textAlign: "center",
 		fontSize: 20,
 		fontWeight: "bold",
