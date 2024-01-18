@@ -8,6 +8,8 @@
   Benvenuto in Kosmic, l'app che ti guiderà attraverso il misterioso e affascinante mondo della notte, rivelando i luoghi dove le stelle brillano più intensamente. Affronta l'inquinamento luminoso esplorando le regioni a basso impatto luminoso sulla nostra mappa interattiva, progettata per connetterti con la bellezza del cielo notturno.
 </p>
 
+=======
+
 ## ✨ Features
 
 | Feature                                       | Descrizione                                                                                                                                                                                                                                                   |
@@ -23,6 +25,7 @@
 
 Prima di iniziare, assicurati di avere installato quanto segue:
 
+-   [Git](https://git-scm.com/)
 -   [Node.js](https://nodejs.org/) (versione consigliata: 20.x LTS)
 -   [npm](https://www.npmjs.com/) (viene installato con Node.js)
 -   [ExpoGo](https://expo.dev/client) (per testare l'app sul proprio dispositivo)
@@ -45,6 +48,14 @@ Prima di iniziare, assicurati di avere installato quanto segue:
 
     ```bash
     npm install
+    ```
+
+4. **API Google Maps**
+
+    Imposta la chiave per le richieste API a google MAPS in questo modo. (Devi inserire il valore della tua chiave nel comando qua sotto).
+
+    ```bash
+    echo GOOGLE_MAPS_API_KEY="INSERISCI_LA_TUA_CHIAVE_QUI" > .env
     ```
 
 <!-- ## ⚙️ Configurazione

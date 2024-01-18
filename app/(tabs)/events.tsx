@@ -43,7 +43,12 @@ export default function EventsScreen() {
 			}}
 		>
 			<ScreenHeader text="Eventi" />
-			<ScrollView style={styles.container}>
+			<ScrollView
+				style={styles.container}
+				contentContainerStyle={{
+					gap: 20,
+				}}
+			>
 				<EventModal
 					isVisible={eventModal.show}
 					event={eventModal.event}
@@ -52,7 +57,6 @@ export default function EventsScreen() {
 
 				{events.map((event, index) => (
 					<Pressable
-						style={{ marginBottom: 20 }}
 						key={index}
 						onPress={() => handleEventOnPress(event)}
 					>
@@ -79,7 +83,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 20,
-		gap: 20,
 		backgroundColor: "#fff",
 	},
 })
