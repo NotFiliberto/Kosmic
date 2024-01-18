@@ -1,7 +1,6 @@
 import {
 	Pressable,
 	StyleSheet,
-	Keyboard,
 	TextInput,
 	View,
 	ScrollView,
@@ -156,12 +155,6 @@ function ResultLocationsList() {
 
 	return (
 		<ScrollView
-			style={
-				{
-					/* borderColor: "red",
-				borderWidth: 2, */
-				}
-			}
 			contentContainerStyle={{
 				gap: 20,
 				maxHeight: 380,
