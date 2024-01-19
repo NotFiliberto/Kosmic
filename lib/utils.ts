@@ -29,7 +29,7 @@ type SearchLocationResult = {
 }
 
 export async function findLocationsByName(name: string) {
-	const req = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${name}&radius=50000&key=${GOOGLE_MAPS_API_KEY}`
+	const req = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${name}&radius=50000&sensor=true&language=it-IT&key=${GOOGLE_MAPS_API_KEY}`
 	var response = await fetch(req)
 	var locations = (await response.json()).results as SearchLocationResult[]
 	return locations.map((l) => {
