@@ -1,11 +1,9 @@
 import { LatLng } from "react-native-maps"
-import { wPoint, gPoint } from "./types"
-
+import { wPoint, gPoint, Location } from "./types"
 import punti from "@assets/data/valori_atlante_veneto.json"
+import { GOOGLE_MAPS_API_KEY } from "@env"
 
-// run with: npx tsx .\scripts\getLocation.ts
 
-// X: lng  Y: lat 
 export function getLocationByCoords ( X: number | string, Y: number | string )
 {
     const x = Number( X )
@@ -27,6 +25,25 @@ export function getLocationByCoords ( X: number | string, Y: number | string )
 	
     return nearestPlace as gPoint
 }
+type SearchLocationResult = { name: string, geometry: { location: { lat: number, lng: number } } }
+
+async function findByName ( name: string )
+{
+    const req = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${ name }&radius=50000&key=${GOOGLE_MAPS_API_KEY}`
+    var response = await fetch(req)
+    var locations = ( await response.json() ).results as SearchLocationResult[]
+    return locations.map( (l) =>
+    {
+        return { name: l.name, coords: { latitude: l.geometry.location.lat, longitude: l.geometry.location.lng } } as Omit<Location, '_id' | 'pinned' | 'pollutionRate'>
+    })
+   
+}
+
+
+; ( async () =>{
+    const result = await findByName( " Pad " )
+    console.log(result)
+} )()
 
 export function prettyLocationName(unformattedString: string | undefined) {
 	if (unformattedString == undefined) return "Undefined"
@@ -75,3 +92,4 @@ export function getColorFromRating(value: number): string {
 
 	return colorValue
 }
+
