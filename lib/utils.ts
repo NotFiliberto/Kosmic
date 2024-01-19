@@ -3,47 +3,50 @@ import { wPoint, gPoint, Location } from "./types"
 import punti from "@assets/data/valori_atlante_veneto.json"
 import { GOOGLE_MAPS_API_KEY } from "@env"
 
+export function getLocationByCoords(X: number | string, Y: number | string) {
+	const x = Number(X)
+	const y = Number(Y)
 
-export function getLocationByCoords ( X: number | string, Y: number | string )
-{
-    const x = Number( X )
-    const y = Number( Y )
-
-    const points = punti as gPoint[]
-	let nearestPlace = points[ 0 ]
-	let minDistance = Math.sqrt( Math.pow( x - nearestPlace.X, 2 ) + Math.pow( y - nearestPlace.Y, 2 ) )
-    for ( const p of points )
-    {
-        // p.X and p.Y are already Number type since gPoints is such
-        const distance = Math.sqrt( Math.pow( x - p.X, 2 ) + Math.pow( y - p.Y, 2 ) )
-        if ( distance < minDistance )
-        {
-            minDistance = distance
-            nearestPlace = p
-        }
+	const points = punti as gPoint[]
+	let nearestPlace = points[0]
+	let minDistance = Math.sqrt(
+		Math.pow(x - nearestPlace.X, 2) + Math.pow(y - nearestPlace.Y, 2)
+	)
+	for (const p of points) {
+		// p.X and p.Y are already Number type since gPoints is such
+		const distance = Math.sqrt(Math.pow(x - p.X, 2) + Math.pow(y - p.Y, 2))
+		if (distance < minDistance) {
+			minDistance = distance
+			nearestPlace = p
+		}
 	}
-	
-    return nearestPlace as gPoint
-}
-type SearchLocationResult = { name: string, geometry: { location: { lat: number, lng: number } } }
 
-async function findByName ( name: string )
-{
-    const req = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${ name }&radius=50000&key=${GOOGLE_MAPS_API_KEY}`
-    var response = await fetch(req)
-    var locations = ( await response.json() ).results as SearchLocationResult[]
-    return locations.map( (l) =>
-    {
-        return { name: l.name, coords: { latitude: l.geometry.location.lat, longitude: l.geometry.location.lng } } as Omit<Location, '_id' | 'pinned' | 'pollutionRate'>
-    })
-   
+	return nearestPlace as gPoint
+}
+type SearchLocationResult = {
+	name: string
+	geometry: { location: { lat: number; lng: number } }
 }
 
+async function findByName(name: string) {
+	const req = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${name}&radius=50000&key=${GOOGLE_MAPS_API_KEY}`
+	var response = await fetch(req)
+	var locations = (await response.json()).results as SearchLocationResult[]
+	return locations.map((l) => {
+		return {
+			name: l.name,
+			coords: {
+				latitude: l.geometry.location.lat,
+				longitude: l.geometry.location.lng,
+			},
+		} as Omit<Location, "_id" | "pinned" | "pollutionRate">
+	})
+}
 
-; ( async () =>{
-    const result = await findByName( " Pad " )
-    console.log(result)
-} )()
+;(async () => {
+	const result = await findByName(" Pad ")
+	console.log(result)
+})()
 
 export function prettyLocationName(unformattedString: string | undefined) {
 	if (unformattedString == undefined) return "Undefined"
@@ -92,4 +95,3 @@ export function getColorFromRating(value: number): string {
 
 	return colorValue
 }
-
