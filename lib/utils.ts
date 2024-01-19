@@ -28,7 +28,7 @@ type SearchLocationResult = {
 	geometry: { location: { lat: number; lng: number } }
 }
 
-async function findByName(name: string) {
+export async function findLocationsByName(name: string) {
 	const req = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${name}&radius=50000&key=${GOOGLE_MAPS_API_KEY}`
 	var response = await fetch(req)
 	var locations = (await response.json()).results as SearchLocationResult[]
@@ -42,11 +42,6 @@ async function findByName(name: string) {
 		} as Omit<Location, "_id" | "pinned" | "pollutionRate">
 	})
 }
-
-;(async () => {
-	const result = await findByName(" Pad ")
-	console.log(result)
-})()
 
 export function prettyLocationName(unformattedString: string | undefined) {
 	if (unformattedString == undefined) return "Undefined"
