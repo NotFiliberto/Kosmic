@@ -67,11 +67,11 @@ const tabs: TabBarItem[] = [
 		title: "Eventi",
 		pathname: "/(tabs)/events",
 	},
-	{
+	/* {
 		icon: <TestTube size={24} color="#fff" />,
 		title: "Test",
 		pathname: "/(tabs)/test",
-	},
+	}, */
 ]
 
 export default function TabsBar() {

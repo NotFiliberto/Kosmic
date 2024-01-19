@@ -11,6 +11,7 @@ import { ArrowRight, MapPinIcon, SearchIcon, XIcon } from "lucide-react-native"
 import { Location } from "@lib/types"
 import MapLink from "./common/MapLink"
 import { useSearchStore } from "@lib/hooks/useSearchStore"
+import { findLocationsByName } from "@lib/utils"
 
 const locations = [
 	{
@@ -61,15 +62,13 @@ function SearchBar() {
 	const { searchInput, setSearchInput, setPlacesFound, reset } =
 		useSearchStore()
 
-	const handleOnChange = (input: string) => {
+	const handleOnChange = async (input: string) => {
 		if (input === "") reset()
 		else {
 			setSearchInput(input)
 
-			const filterd = locations.filter((l) =>
-				l.name.toLocaleLowerCase().includes(input.toLocaleLowerCase())
-			)
-			setPlacesFound(filterd)
+			const searchedLocations = await findLocationsByName(input)
+			setPlacesFound(searchedLocations)
 		}
 	}
 

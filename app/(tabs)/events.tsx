@@ -34,6 +34,8 @@ export default function EventsScreen() {
 		setEventModal({ ...rest, show: false })
 	}
 
+	const now = Date.now()
+
 	return (
 		<SafeAreaView
 			style={{
@@ -55,19 +57,26 @@ export default function EventsScreen() {
 					onClose={handleModalOnClose}
 				/>
 
-				{events.map((event, index) => (
-					<Pressable
-						key={index}
-						onPress={() => handleEventOnPress(event)}
-					>
-						<EventCard
-							name={event.name}
-							text={event.text}
-							date={new Date(event.date)}
-							url=""
-						/>
-					</Pressable>
-				))}
+				{events
+					.filter((e) => new Date(e.date).getTime() >= now)
+					.sort(
+						(a, b) =>
+							new Date(a.date).getTime() -
+							new Date(b.date).getTime()
+					)
+					.map((event, index) => (
+						<Pressable
+							key={index}
+							onPress={() => handleEventOnPress(event)}
+						>
+							<EventCard
+								name={event.name}
+								text={event.text}
+								date={new Date(event.date)}
+								url=""
+							/>
+						</Pressable>
+					))}
 
 				<View
 					style={{
