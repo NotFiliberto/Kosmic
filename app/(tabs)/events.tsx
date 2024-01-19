@@ -34,6 +34,8 @@ export default function EventsScreen() {
 		setEventModal({ ...rest, show: false })
 	}
 
+	const now = Date.now()
+
 	return (
 		<SafeAreaView
 			style={{
@@ -56,6 +58,7 @@ export default function EventsScreen() {
 				/>
 
 				{events
+					.filter((e) => new Date(e.date).getTime() >= now)
 					.sort(
 						(a, b) =>
 							new Date(a.date).getTime() -
