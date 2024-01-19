@@ -1,15 +1,12 @@
 //https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&language=it-IT&key=${GOOGLE_MAPS_API_KEY}
-//https://maps.googleapis.com/maps/api/geocode/json?latlng=45.30,11.95&sensor=true&language=it-IT&key=AIzaSyDe7OrltZ0dSji5xX0VwjdZcACpHEfeWFY
-
 import * as fs from "fs"
 import { wPoint, gPoint } from "@lib/types"
 import punti from "../assets/data/valori_atlante_veneto.json"
 import { prettyLocationName } from "@lib/utils"
 
-// run with:  npx tsx .\scripts\fetchAllPlaces.ts
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyDe7OrltZ0dSji5xX0VwjdZcACpHEfeWFY";
-( async () => {
+( async () =>
+{
 	const points = punti as wPoint[]
 
 	const gPoints: gPoint[] = []

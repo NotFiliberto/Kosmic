@@ -41,18 +41,18 @@ export default function LocationScreen() {
 			{/* <View style={styles.header}>
 				<Pressable
 					style={[
-						styles.button_storage,
+						styles.buttonStorage,
 						{ backgroundColor: "lightgreen" },
 					]}
 					onPress={() => removeAllLocations()}
 				>
-					<Text style={styles.text_button_storage}>
+					<Text style={styles.textButtonStorage}>
 						REMOVE ALL LOCAL
 					</Text>
 				</Pressable>
 				<Pressable
 					style={[
-						styles.button_storage,
+						styles.buttonStorage,
 						{ backgroundColor: "lightblue" },
 					]}
 					onPress={() => {
@@ -60,34 +60,34 @@ export default function LocationScreen() {
 						LayoutAnimation.configureNext(layoutAnimConfig)
 					}}
 				>
-					<Text style={styles.text_button_storage}>ADD PLACE</Text>
+					<Text style={styles.textButtonStorage}>ADD PLACE</Text>
 				</Pressable>
 			</View> */}
-			<ScrollView style={styles.container}>
+			<ScrollView
+				style={styles.container}
+				contentContainerStyle={{
+					gap: 20,
+				}}
+			>
 				{locations &&
 					locations.map((location, index) => {
 						return (
 							location.pinned && (
-								<View style={styles.item} key={index}>
-									{
-										<LocationCard
-											_id={location._id}
-											name={location.name}
-											pinned={location.pinned}
-											pollutionRate={
-												location.pollutionRate
-											}
-											onTogglePinned={() => {
-												removeLocation(location)
-												// after removing the item, we start animation
-												LayoutAnimation.configureNext(
-													layoutAnimConfig
-												)
-											}}
-											coords={location.coords}
-										/>
-									}
-								</View>
+								<LocationCard
+									_id={location._id}
+									name={location.name}
+									pinned={location.pinned}
+									pollutionRate={location.pollutionRate}
+									onTogglePinned={() => {
+										removeLocation(location)
+										// after removing the item, we start animation
+										LayoutAnimation.configureNext(
+											layoutAnimConfig
+										)
+									}}
+									coords={location.coords}
+									key={index}
+								/>
 							)
 						)
 					})}
@@ -109,22 +109,17 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingHorizontal: 20,
-		gap: 20,
 		backgroundColor: "#fff",
-	},
-	item: {
-		flex: 1,
 	},
 	header: {
 		paddingHorizontal: 20,
 		gap: 10,
 		paddingBottom: 10,
 	},
-	button_storage: {
-		//width: 200,
+	buttonStorage: {
 		borderRadius: 15,
 	},
-	text_button_storage: {
+	textButtonStorage: {
 		textAlign: "center",
 		fontSize: 20,
 		fontWeight: "bold",

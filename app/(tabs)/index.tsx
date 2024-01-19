@@ -3,12 +3,17 @@ import MapView, { MarkerPressEvent, MapPressEvent } from "react-native-maps"
 import InteractiveMap from "../../components/InteractiveMap"
 import { MapUrlParams, wMarker } from "@lib/types"
 import { INITIAL_REGION } from "@lib/constants"
-import { View } from "react-native"
+import { Keyboard, TouchableWithoutFeedback, View } from "react-native"
 import { useLocalSearchParams, useRouter } from "expo-router"
 import { getLocationByCoords } from "@lib/utils"
+import SearchBox from "@components/SearchBox"
+import { useKeyboard } from "@react-native-community/hooks"
+import { useSearchStore } from "@lib/hooks/useSearchStore"
 
 export default function MapScreen() {
+	const { reset } = useSearchStore()
 	const router = useRouter()
+	const keyboard = useKeyboard()
 	const params = useLocalSearchParams<MapUrlParams>()
 
 	const mapRef = useRef<MapView>(null)
@@ -18,16 +23,21 @@ export default function MapScreen() {
 	}
 
 	function onMapPress(event: MapPressEvent) {
+		Keyboard.dismiss()
+		if (keyboard.keyboardShown) {
+			reset()
+			return
+		}
+
 		const lat = event.nativeEvent.coordinate.latitude
 		const lng = event.nativeEvent.coordinate.longitude
 
-		//TODO: ADD function to select an existing location from
 		const location = getLocationByCoords(lng, lat)
 
 		router.setParams({
 			latitude: String(lat),
 			longitude: String(lng),
-			title: location.name, //TODO getLocationByCoords
+			title: location.name,
 		})
 	}
 
@@ -48,6 +58,7 @@ export default function MapScreen() {
 
 	return (
 		<View style={{ flex: 1 }}>
+			<SearchBox />
 			<InteractiveMap
 				initialRegion={INITIAL_REGION}
 				selectedMarker={selectedMarker}
